@@ -1,0 +1,54 @@
+/*
+Describe the required features you have implemented, and which you have not.
+if you have missing features, be sure to explain how much you accomplished.
+You should detail anything you think we need to know to understand your code.
+
+Author: Jing Xiao
+AndrewID: jingxiao
+*/
+
+Implemented Features:
+
+Camera 
+    Projection Transformations
+        Used gluPerspective() with the given fovy, aspect ratio, near, and
+        far. 
+    
+    Viewing Transformations
+        Used gluLookAt() with the given camera position, target (direction +
+        position), and camera up orientation. 
+
+    Modeling Transformations
+        Used glPushMatrix() and glPopMatrix() to isolate the modeling
+        transformations for the pool mesh and the waves.
+
+Meshes
+    Pool
+        Used the given Vector3 vertices and unpacked them into a sequence of
+        x, y, z points to be rendered with vertex arrays. Used glDrawElement()
+        with the given triangle indices to render the points as triangles.
+    Waves (Heightmap)
+        Used a grid of 128 x 128 x-z points to compute each point's y value.
+        Stored these x, y, z values as Vector3 objects in a 2d array instance
+        variable that would get updated upon each update call. Unpacked these
+        into a sequence of x, y, z points to be rendered with vertex arrays.
+        This sequence was based on determining which triangles to draw for
+        each point in the grid (2 triangles per point).  
+
+Normals
+    Loop through all vertices in the mesh (no duplicates) and then loop
+    through all the triangles. For each triangle such that the vertex was in
+    that triangle, compute the normal for that triangle and add it to the
+    average running sum of normals for that vertex. Normalize after all
+    triangles have been checked. Use vertex arrays for rendering.
+
+
+Lighting & Materials
+    Used one light source with ambient, diffuse, and specular lighting
+    effects. Specified different material characteristics for the pool and
+    waves within their respective push/pop matrices.
+
+Colors
+    No creativity. Just used red and blue. 
+
+
