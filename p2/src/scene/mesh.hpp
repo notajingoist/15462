@@ -79,6 +79,10 @@ private:
     Mesh( const Mesh& );
     Mesh& operator=( const Mesh& );
 
+    void first_pass();
+    void second_pass();
+    void build_adjacency_structure();
+    Vector3 create_interior_odd(real_t a, real_t b, real_t c, real_t d);
 };
 
 

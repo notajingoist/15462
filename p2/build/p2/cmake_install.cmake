@@ -1,4 +1,4 @@
-# Install script for directory: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/p2
+# Install script for directory: /Users/jingxiao/15462/p2/src/p2
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -27,25 +27,14 @@ IF(NOT CMAKE_INSTALL_COMPONENT)
   ENDIF(COMPONENT)
 ENDIF(NOT CMAKE_INSTALL_COMPONENT)
 
-# Install shared libraries without execute permission?
-IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-  SET(CMAKE_INSTALL_SO_NO_EXE "0")
-ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  IF(EXISTS "$ENV{DESTDIR}/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/../p2" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/../p2")
-    FILE(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/../p2"
-         RPATH "")
-  ENDIF()
   list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/../p2")
-FILE(INSTALL DESTINATION "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/.." TYPE EXECUTABLE FILES "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/p2/p2")
-  IF(EXISTS "$ENV{DESTDIR}/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/../p2" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/../p2")
+   "/Users/jingxiao/15462/p2/src/../p2")
+FILE(INSTALL DESTINATION "/Users/jingxiao/15462/p2/src/.." TYPE EXECUTABLE FILES "/Users/jingxiao/15462/p2/build/p2/p2")
+  IF(EXISTS "$ENV{DESTDIR}/Users/jingxiao/15462/p2/src/../p2" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/Users/jingxiao/15462/p2/src/../p2")
     IF(CMAKE_INSTALL_DO_STRIP)
-      EXECUTE_PROCESS(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/../p2")
+      EXECUTE_PROCESS(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/Users/jingxiao/15462/p2/src/../p2")
     ENDIF(CMAKE_INSTALL_DO_STRIP)
   ENDIF()
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")

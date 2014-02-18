@@ -1,4 +1,4 @@
-# Install script for directory: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src
+# Install script for directory: /Users/jingxiao/15462/p2/src
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -27,19 +27,14 @@ IF(NOT CMAKE_INSTALL_COMPONENT)
   ENDIF(COMPONENT)
 ENDIF(NOT CMAKE_INSTALL_COMPONENT)
 
-# Install shared libraries without execute permission?
-IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-  SET(CMAKE_INSTALL_SO_NO_EXE "0")
-ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-
 IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  INCLUDE("/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/glew/cmake_install.cmake")
-  INCLUDE("/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/application/cmake_install.cmake")
-  INCLUDE("/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/math/cmake_install.cmake")
-  INCLUDE("/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/p2/cmake_install.cmake")
-  INCLUDE("/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/scene/cmake_install.cmake")
-  INCLUDE("/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/tinyxml/cmake_install.cmake")
+  INCLUDE("/Users/jingxiao/15462/p2/build/application/cmake_install.cmake")
+  INCLUDE("/Users/jingxiao/15462/p2/build/math/cmake_install.cmake")
+  INCLUDE("/Users/jingxiao/15462/p2/build/p2/cmake_install.cmake")
+  INCLUDE("/Users/jingxiao/15462/p2/build/scene/cmake_install.cmake")
+  INCLUDE("/Users/jingxiao/15462/p2/build/tinyxml/cmake_install.cmake")
+  INCLUDE("/Users/jingxiao/15462/p2/build/SDLmain/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 
@@ -49,7 +44,7 @@ ELSE(CMAKE_INSTALL_COMPONENT)
   SET(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 ENDIF(CMAKE_INSTALL_COMPONENT)
 
-FILE(WRITE "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/${CMAKE_INSTALL_MANIFEST}" "")
+FILE(WRITE "/Users/jingxiao/15462/p2/build/${CMAKE_INSTALL_MANIFEST}" "")
 FOREACH(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  FILE(APPEND "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  FILE(APPEND "/Users/jingxiao/15462/p2/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 ENDFOREACH(file)

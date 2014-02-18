@@ -4,9 +4,9 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/glew/glew.cpp" "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/glew/CMakeFiles/glew.dir/glew.cpp.o"
+  "/Users/jingxiao/15462/p2/src/SDLmain/SDLmain.m" "/Users/jingxiao/15462/p2/build/SDLmain/CMakeFiles/SDLmain.dir/SDLmain.m.o"
   )
-SET(CMAKE_CXX_COMPILER_ID "GNU")
+SET(CMAKE_CXX_COMPILER_ID "Clang")
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES

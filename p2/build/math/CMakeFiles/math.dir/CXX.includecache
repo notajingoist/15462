@@ -6,73 +6,73 @@
 
 #IncludeRegexTransform: 
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/camera.cpp
+/Users/jingxiao/15462/p2/src/math/camera.cpp
 math/camera.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/camera.hpp
+/Users/jingxiao/15462/p2/src/math/math/camera.hpp
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/camera.hpp
+/Users/jingxiao/15462/p2/src/math/camera.hpp
 math/vector.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/vector.hpp
+/Users/jingxiao/15462/p2/src/math/math/vector.hpp
 math/quaternion.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/quaternion.hpp
+/Users/jingxiao/15462/p2/src/math/math/quaternion.hpp
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/color.cpp
+/Users/jingxiao/15462/p2/src/math/color.cpp
 math/color.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/color.hpp
+/Users/jingxiao/15462/p2/src/math/math/color.hpp
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/color.hpp
+/Users/jingxiao/15462/p2/src/math/color.hpp
 math/math.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/math.hpp
+/Users/jingxiao/15462/p2/src/math/math/math.hpp
 iostream
 -
 cassert
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math.cpp
+/Users/jingxiao/15462/p2/src/math/math.cpp
 math/math.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/math.hpp
+/Users/jingxiao/15462/p2/src/math/math/math.hpp
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math.hpp
+/Users/jingxiao/15462/p2/src/math/math.hpp
 algorithm
 -
 cmath
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/matrix.cpp
+/Users/jingxiao/15462/p2/src/math/matrix.cpp
 math/matrix.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/matrix.hpp
+/Users/jingxiao/15462/p2/src/math/math/matrix.hpp
 math/quaternion.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/quaternion.hpp
+/Users/jingxiao/15462/p2/src/math/math/quaternion.hpp
 cstring
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/matrix.hpp
+/Users/jingxiao/15462/p2/src/math/matrix.hpp
 math/math.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/math.hpp
+/Users/jingxiao/15462/p2/src/math/math/math.hpp
 math/vector.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/vector.hpp
+/Users/jingxiao/15462/p2/src/math/math/vector.hpp
 cassert
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/quaternion.cpp
+/Users/jingxiao/15462/p2/src/math/quaternion.cpp
 math/quaternion.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/quaternion.hpp
+/Users/jingxiao/15462/p2/src/math/math/quaternion.hpp
 math/matrix.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/matrix.hpp
+/Users/jingxiao/15462/p2/src/math/math/matrix.hpp
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/quaternion.hpp
+/Users/jingxiao/15462/p2/src/math/quaternion.hpp
 math/math.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/math.hpp
+/Users/jingxiao/15462/p2/src/math/math/math.hpp
 math/vector.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/vector.hpp
+/Users/jingxiao/15462/p2/src/math/math/vector.hpp
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/vector.cpp
+/Users/jingxiao/15462/p2/src/math/vector.cpp
 math/vector.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/vector.hpp
+/Users/jingxiao/15462/p2/src/math/math/vector.hpp
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/vector.hpp
+/Users/jingxiao/15462/p2/src/math/vector.hpp
 math/math.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src/math/math/math.hpp
+/Users/jingxiao/15462/p2/src/math/math/math.hpp
 algorithm
 -
 cassert

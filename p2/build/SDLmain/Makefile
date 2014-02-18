@@ -8,7 +8,7 @@ default_target: all
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canoncical targets will work.
+# Disable implicit rules so canonical targets will work.
 .SUFFIXES:
 
 # Remove some rules from gmake that .SUFFIXES does not remove.
@@ -30,19 +30,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/2.8.7/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E remove -f
+RM = /usr/local/Cellar/cmake/2.8.7/bin/cmake -E remove -f
 
 # The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+CMAKE_EDIT_COMMAND = /usr/local/Cellar/cmake/2.8.7/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src
+CMAKE_SOURCE_DIR = /Users/jingxiao/15462/p2/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build
+CMAKE_BINARY_DIR = /Users/jingxiao/15462/p2/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -50,7 +50,7 @@ CMAKE_BINARY_DIR = /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/2.8.7/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -60,19 +60,19 @@ edit_cache/fast: edit_cache
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
+	/usr/local/Cellar/cmake/2.8.7/bin/cmake -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
+	/usr/local/Cellar/cmake/2.8.7/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/usr/local/Cellar/cmake/2.8.7/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
@@ -82,7 +82,7 @@ install/local/fast: install/local
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/usr/local/Cellar/cmake/2.8.7/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
@@ -101,7 +101,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/2.8.7/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -110,14 +110,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -E cmake_progress_start /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/CMakeFiles /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/glew/CMakeFiles/progress.marks
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 glew/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/CMakeFiles 0
+	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/jingxiao/15462/p2/build/CMakeFiles /Users/jingxiao/15462/p2/build/SDLmain/CMakeFiles/progress.marks
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 SDLmain/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jingxiao/15462/p2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 glew/clean
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 SDLmain/clean
 .PHONY : clean
 
 # The main clean target
@@ -126,56 +126,56 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 glew/preinstall
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 SDLmain/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 glew/preinstall
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 SDLmain/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-glew/CMakeFiles/glew.dir/rule:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 glew/CMakeFiles/glew.dir/rule
-.PHONY : glew/CMakeFiles/glew.dir/rule
+SDLmain/CMakeFiles/SDLmain.dir/rule:
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 SDLmain/CMakeFiles/SDLmain.dir/rule
+.PHONY : SDLmain/CMakeFiles/SDLmain.dir/rule
 
 # Convenience name for target.
-glew: glew/CMakeFiles/glew.dir/rule
-.PHONY : glew
+SDLmain: SDLmain/CMakeFiles/SDLmain.dir/rule
+.PHONY : SDLmain
 
 # fast build rule for target.
-glew/fast:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f glew/CMakeFiles/glew.dir/build.make glew/CMakeFiles/glew.dir/build
-.PHONY : glew/fast
+SDLmain/fast:
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f SDLmain/CMakeFiles/SDLmain.dir/build.make SDLmain/CMakeFiles/SDLmain.dir/build
+.PHONY : SDLmain/fast
 
-glew.o: glew.cpp.o
-.PHONY : glew.o
+SDLmain.o: SDLmain.m.o
+.PHONY : SDLmain.o
 
 # target to build an object file
-glew.cpp.o:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f glew/CMakeFiles/glew.dir/build.make glew/CMakeFiles/glew.dir/glew.cpp.o
-.PHONY : glew.cpp.o
+SDLmain.m.o:
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f SDLmain/CMakeFiles/SDLmain.dir/build.make SDLmain/CMakeFiles/SDLmain.dir/SDLmain.m.o
+.PHONY : SDLmain.m.o
 
-glew.i: glew.cpp.i
-.PHONY : glew.i
+SDLmain.i: SDLmain.m.i
+.PHONY : SDLmain.i
 
 # target to preprocess a source file
-glew.cpp.i:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f glew/CMakeFiles/glew.dir/build.make glew/CMakeFiles/glew.dir/glew.cpp.i
-.PHONY : glew.cpp.i
+SDLmain.m.i:
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f SDLmain/CMakeFiles/SDLmain.dir/build.make SDLmain/CMakeFiles/SDLmain.dir/SDLmain.m.i
+.PHONY : SDLmain.m.i
 
-glew.s: glew.cpp.s
-.PHONY : glew.s
+SDLmain.s: SDLmain.m.s
+.PHONY : SDLmain.s
 
 # target to generate assembly for a file
-glew.cpp.s:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f glew/CMakeFiles/glew.dir/build.make glew/CMakeFiles/glew.dir/glew.cpp.s
-.PHONY : glew.cpp.s
+SDLmain.m.s:
+	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f SDLmain/CMakeFiles/SDLmain.dir/build.make SDLmain/CMakeFiles/SDLmain.dir/SDLmain.m.s
+.PHONY : SDLmain.m.s
 
 # Help Target
 help:
@@ -183,16 +183,16 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... SDLmain"
 	@echo "... edit_cache"
-	@echo "... glew"
 	@echo "... install"
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... glew.o"
-	@echo "... glew.i"
-	@echo "... glew.s"
+	@echo "... SDLmain.o"
+	@echo "... SDLmain.i"
+	@echo "... SDLmain.s"
 .PHONY : help
 
 
@@ -204,6 +204,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
