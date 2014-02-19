@@ -16,6 +16,40 @@
 
 namespace _462 {
 
+struct WingedEdge {
+    /*WingedEdge *prev, *next;
+    WingedEdge *sym;
+    WingedFace *f;
+    WingedVertex *start;
+    WingedVertex *end;
+    WingedVertex *odd;
+    bool is_subdivided;
+     */
+  
+    unsigned int curr_index; 
+    unsigned int prev_index;
+    unsigned int next_index;
+    unsigned int sym_index;
+    unsigned int start_index;
+    unsigned int end_index;
+    unsigned int face_index;
+    unsigned int odd_vertex_index;
+    bool is_subdivided;
+};
+
+struct WingedVertex {
+    //WingedEdge *e;
+    unsigned int edge_index;
+    unsigned int vertices_index;
+    Vector3 new_pos;
+};
+
+struct WingedFace {
+    //WingedEdge *e;
+    unsigned int edge_index;
+    unsigned int triangles_index;
+};
+
 struct MeshVertex
 {
     //Vector4 color;
@@ -70,6 +104,10 @@ private:
     typedef std::vector< float > FloatList;
     typedef std::vector< unsigned int > IndexList;
 
+    typedef std::vector< WingedEdge > W_EdgeList;
+    typedef std::vector< WingedVertex > W_VertexList;
+    typedef std::vector< WingedFace > W_FaceList;
+
     // the vertex data used for GL rendering
     FloatList vertex_data;
     // the index data used for GL rendering
@@ -79,8 +117,20 @@ private:
     Mesh( const Mesh& );
     Mesh& operator=( const Mesh& );
 
+    W_EdgeList edge_list;
+    W_VertexList vertex_list;
+    W_FaceList face_list;
+
     void first_pass();
     void second_pass();
+    void build_edge(WingedEdge & e, unsigned int curr_index,
+        unsigned int prev_index, unsigned int next_index,
+        unsigned int start_index, unsigned int end_index);
+    void build_vertex(WingedVertex & v, unsigned int edge_index,
+        unsigned int vertices_index);
+    void build_face(WingedFace & f, unsigned int edge_index,
+        unsigned int triangles_index);
+
     void build_adjacency_structure();
     Vector3 create_interior_odd(real_t a, real_t b, real_t c, real_t d);
 };

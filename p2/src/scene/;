@@ -19,7 +19,6 @@ bool Mesh::subdivide()
     first_pass();
     second_pass();    
 */
-    build_adjacency_structure();
     std::cout << "Subdivision not yet implemented" << std::endl;
     return true;
 }
@@ -31,59 +30,19 @@ void Mesh::build_edge(WingedEdge & e, unsigned int curr_index,
 /*WingedEdge prev, WingedEdge next,
     WingedVertex start, WingedVertex end, WingedEdge sym) */
 {
-    
-    unsigned int sym_index = -1;
-    for (unsigned int i = 0; i < edge_list.size(); i++) {
-        /*
-        printf("start_index: %d, edge_list[i] end_index: %d\n", 
-            start_index, edge_list[i].end_index);
-        printf("end_index: %d, edge_list[i] start_index: %d\n\n",
-            end_index, edge_list[i].start_index);
-        */
-        if ((edge_list[i].start_index == end_index) 
-            && (edge_list[i].end_index == start_index)) {
-            //found symmetric edge
-            sym_index = i;
-            //printf("found sym_index %d\n", sym_index);
-            edge_list[i].sym_index = curr_index;
-        }
-    }
-
     e.curr_index = curr_index;
     e.prev_index = prev_index;
     e.next_index = next_index;
     e.start_index = start_index;
     e.end_index = end_index;
-    e.sym_index = sym_index;
-    e.is_subdivided = false;
-
-    edge_list.push_back(e);
+    e.sym_index = -1;
 }
 
 void Mesh::build_vertex(WingedVertex & v, 
-    unsigned int edge_index, unsigned int vertices_index) 
+    unsigned int vertices_index, unsigned int edge_index) 
 {
-    bool exists = false;
-    for (unsigned int i = 0; i < vertex_list.size(); i++) {
-        if (vertex_list[i].vertices_index == vertices_index) { 
-            exists = true;
-        }
-    }
-
-    if (!exists) {
-        v.edge_index = edge_index;
-        v.vertices_index = vertices_index;
-        vertex_list.push_back(v);
-    }
-}
-
-void Mesh::build_face(WingedFace & f, 
-    unsigned int edge_index, unsigned int triangles_index)
-{
-    f.edge_index = edge_index;
-    f.triangles_index = triangles_index;
-
-    face_list.push_back(f);
+    v.vertices_index = vertices.index;
+    v.edge_index = edge_index;
 }
 
 void Mesh::build_adjacency_structure()
@@ -95,37 +54,31 @@ void Mesh::build_adjacency_structure()
         unsigned int i2 = triangles[i].vertices[2];
         unsigned int e_index = edge_list.size();
         unsigned int v_index = vertex_list.size();
-    
+        
         WingedEdge e0, e1, e2; // 0 1 2 
         WingedVertex v0, v1, v2; // 0 1 2
-        WingedFace f;
         
         build_edge(e0, e_index, e_index+2, e_index+1, 
-                    i0, i1); 
+                    v_index, v_index+1); 
         build_edge(e1, e_index+1, e_index, e_index+2, 
-                    i1, i2);
+                    v_index+1, v_index+2);
         build_edge(e2, e_index+2, e_index+1, e_index,
-                    i2, i0);
+                    v_index+2, v_index);
 
-        build_vertex(v0, e0.curr_index, i0);
-        build_vertex(v1, e1.curr_index, i1);
-        build_vertex(v2, e2.curr_index, i2);
+        build_vertex(v0, i0, e0.curr_index);
+        build_vertex(v1, i1, e1.curr_index);
+        build_vertex(v2, i2, e2.curr_index);
+
+        vertex_list.push_back(v0);
+        vertex_list.push_back(v1);
+        vertex_list.push_back(v2);
         
-        build_face(f, e0.curr_index, i); 
+        edge_list.push_back(e0);
+        edge_list.push_back(e1);
+        edge_list.push_back(e2); 
+
     }
-/*
-    for (unsigned int i = 0; i < edge_list.size(); i++) {
-        printf("start: %d, end:  %d\n", edge_list[i].start_index, 
-            edge_list[i].end_index);
-        printf("curr_index: %d\n", edge_list[i].curr_index);
-        printf("sym_index: %d\n", edge_list[i].sym_index);
-    }
-*/
-/*
-    for (unsigned int i = 0; i < vertex_list.size(); i++) {
-        printf("edge
-    }
-  */  
+    
 /*
     unsigned int original_size = triangles.size();
     for (int i = 0; i < original_size; i++) {
