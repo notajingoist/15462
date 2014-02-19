@@ -35,24 +35,22 @@ struct WingedEdge {
     unsigned int face_index;
     unsigned int odd_vertex_index;
     bool is_subdivided;
+    bool is_visited;
 };
 
 struct WingedVertex {
-    //WingedEdge *e;
     unsigned int edge_index;
     unsigned int vertices_index;
     Vector3 new_pos;
 };
 
 struct WingedFace {
-    //WingedEdge *e;
     unsigned int edge_index;
     unsigned int triangles_index;
 };
 
 struct MeshVertex
 {
-    //Vector4 color;
     Vector3 position;
     Vector3 normal;
     Vector2 tex_coord;
