@@ -125,14 +125,21 @@ private:
     void second_pass();
     void build_edge(WingedEdge & e, unsigned int curr_index,
         unsigned int prev_index, unsigned int next_index,
-        unsigned int start_index, unsigned int end_index);
+        unsigned int start_index, unsigned int end_index,
+        unsigned int face_index);
     void build_vertex(WingedVertex & v, unsigned int edge_index,
         unsigned int vertices_index);
     void build_face(WingedFace & f, unsigned int edge_index,
         unsigned int triangles_index);
 
     void build_adjacency_structure();
-    Vector3 create_interior_odd(real_t a, real_t b, real_t c, real_t d);
+    Vector3 create_interior_odd(Vector3 a, Vector3 b, 
+        Vector3 c, Vector3 d);
+    Vector3 create_boundary_odd(Vector3 a, Vector3 b);
+    void add_odd_vertices();
+    void update_triangles();
+    void add_triangle(unsigned int v0_index, unsigned int v1_index,
+        unsigned int v2_index);
 };
 
 
