@@ -122,7 +122,7 @@ private:
     W_FaceList face_list;
 
     void first_pass();
-    void second_pass();
+    void second_pass(unsigned int num_even_vertices);
     void build_edge(WingedEdge & e, unsigned int curr_index,
         unsigned int prev_index, unsigned int next_index,
         unsigned int start_index, unsigned int end_index,
@@ -140,6 +140,12 @@ private:
     void update_triangles();
     void add_triangle(unsigned int v0_index, unsigned int v1_index,
         unsigned int v2_index);
+    Vector3 create_interior_even(WingedVertex v, 
+        W_VertexList neighbor_vertex_list);
+    Vector3 create_boundary_even(WingedVertex v, Vector3 a,
+        Vector3 b);
+    void print_triangles();
+    void print_vertices();
 };
 
 

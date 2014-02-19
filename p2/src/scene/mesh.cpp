@@ -404,11 +404,16 @@ bool Mesh::create_gl_data()
 void Mesh::render() const
 {
     assert( index_data.size() > 0 );
-
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     GLenum a = has_colors ? GL_T2F_C4F_N3F_V3F : GL_T2F_N3F_V3F;
     const unsigned int ss = VERTEX_SIZE + has_colors*COLOR_SIZE;
+    //glColor3f (1.0, 1.0, 1.0);
+   
     glInterleavedArrays(a, ss*sizeof vertex_data[0], &vertex_data[0] );
+    //glDrawElements(GL_POINTS, index_data.size(), GL_UNSIGNED_INT, &index_data[0]);
+     
     glDrawElements( GL_TRIANGLES, index_data.size(), GL_UNSIGNED_INT, &index_data[0] );
+    
 }
 
 } /* _462 */
