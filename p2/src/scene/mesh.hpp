@@ -23,7 +23,6 @@ struct WingedEdge {
     unsigned int sym_index;
     unsigned int start_index;
     unsigned int end_index;
-    unsigned int face_index;
     unsigned int odd_vertex_index;
     bool is_subdivided;
     bool is_visited;
@@ -33,11 +32,6 @@ struct WingedVertex {
     unsigned int edge_index;
     unsigned int vertices_index;
     Vector3 new_pos;
-};
-
-struct WingedFace {
-    unsigned int edge_index;
-    unsigned int triangles_index;
 };
 
 struct MeshVertex
@@ -95,7 +89,6 @@ private:
 
     typedef std::vector< WingedEdge > W_EdgeList;
     typedef std::vector< WingedVertex > W_VertexList;
-    typedef std::vector< WingedFace > W_FaceList;
 
     // the vertex data used for GL rendering
     FloatList vertex_data;
@@ -108,7 +101,6 @@ private:
 
     W_EdgeList edge_list;
     W_VertexList vertex_list;
-    W_FaceList face_list;
 
     void first_pass();
     void second_pass(unsigned int num_even_vertices);
@@ -116,12 +108,9 @@ private:
     void build_adjacency_structure(); 
     void build_edge(unsigned int curr_index,
         unsigned int prev_index, unsigned int next_index,
-        unsigned int start_index, unsigned int end_index,
-        unsigned int face_index);
+        unsigned int start_index, unsigned int end_index);
     void build_vertex(unsigned int edge_index,
         unsigned int vertices_index);
-    void build_face(unsigned int edge_index,
-        unsigned int triangles_index);
     void set_vertex_edge_index(unsigned int edge_index,
         unsigned int vertices_index);
         

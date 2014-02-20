@@ -22,7 +22,6 @@ bool Mesh::subdivide()
     has_normals = false;
     create_gl_data();
    
-    face_list.clear();
     vertex_list.clear();
     edge_list.clear();
    
@@ -31,8 +30,7 @@ bool Mesh::subdivide()
 
 void Mesh::build_edge(unsigned int curr_index,
     unsigned int prev_index, unsigned int next_index, 
-    unsigned int start_index, unsigned int end_index,
-    unsigned int face_index)
+    unsigned int start_index, unsigned int end_index)
 {
     WingedEdge e; 
     unsigned int sym_index = -1;
@@ -56,7 +54,6 @@ void Mesh::build_edge(unsigned int curr_index,
     e.sym_index = sym_index;
     e.start_index = start_index;
     e.end_index = end_index;
-    e.face_index = face_index;
     e.odd_vertex_index = -1;
     e.is_subdivided = false;
     e.is_visited = false;
@@ -80,15 +77,6 @@ void Mesh::set_vertex_edge_index(unsigned int edge_index,
 }
 
 
-void Mesh::build_face(unsigned int edge_index, unsigned int triangles_index)
-{
-    WingedFace f;
-    f.edge_index = edge_index;
-    f.triangles_index = triangles_index;
-
-    face_list.push_back(f);
-}
-
 void Mesh::build_adjacency_structure()
 {
     //make one-to-one mapping of vertex_list to vertices
@@ -107,18 +95,16 @@ void Mesh::build_adjacency_structure()
         unsigned int e_index = edge_list.size();
         unsigned int v_index = vertex_list.size();
    
-        build_face(e_index, i);
-
         set_vertex_edge_index(e_index, i0);
         set_vertex_edge_index(e_index+1, i1);
         set_vertex_edge_index(e_index+2, i2);
         
         build_edge(e_index, e_index+2, e_index+1, 
-                    i0, i1, i); 
+                    i0, i1); 
         build_edge(e_index+1, e_index, e_index+2, 
-                    i1, i2, i);
+                    i1, i2);
         build_edge(e_index+2, e_index+1, e_index,
-                    i2, i0, i);
+                    i2, i0);
     }
 }
 
@@ -197,24 +183,12 @@ void Mesh::update_triangles()
             unsigned int odd_v1 = vertex_list[e1.odd_vertex_index].vertices_index;
             unsigned int odd_v2 = vertex_list[e2.odd_vertex_index].vertices_index;
        
-            
             unsigned int even_v0 = vertex_list[e0.start_index].vertices_index; 
             unsigned int even_v1 = vertex_list[e1.start_index].vertices_index;
             unsigned int even_v2 = vertex_list[e2.start_index].vertices_index;
-     
-            /* update middle triangle (replace old triangle's indices into 
-             * vertices with new indices that correspond to the newly created
-             * odd vertices 
-             */
-            /*WingedFace f = face_list[e0.face_index]; 
-            MeshTriangle& t_mid = triangles[f.triangles_index];
-            t_mid.vertices[0] = odd_v0;
-            t_mid.vertices[1] = odd_v1;
-            t_mid.vertices[2] = odd_v2;
-            */
+    
+            //add 4 new triangles 
             add_triangle(odd_v0, odd_v1, odd_v2); 
-            
-            /* add 3 new triangles */
             add_triangle(odd_v2, even_v0, odd_v0);
             add_triangle(odd_v0, even_v1, odd_v1);
             add_triangle(odd_v1, even_v2, odd_v2);
