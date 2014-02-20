@@ -15,7 +15,7 @@ bool Mesh::subdivide()
       Check mesh.hpp for the Mesh class definition.
      */
 
-    unsigned int num_even_vertices = vertices.size();
+    int num_even_vertices = vertices.size();
     
     build_adjacency_structure();
     first_pass();
@@ -31,13 +31,13 @@ bool Mesh::subdivide()
     return true;
 }
 
-void Mesh::build_edge(unsigned int curr_index,
-    unsigned int prev_index, unsigned int next_index, 
-    unsigned int start_index, unsigned int end_index)
+void Mesh::build_edge(int curr_index,
+    int prev_index, int next_index, 
+    int start_index, int end_index)
 {
     WingedEdge e; 
-    unsigned int sym_index = -1;
-    for (unsigned int i = 0; i < edge_list.size(); i++) {
+    int sym_index = -1;
+    for (int i = 0; i < edge_list.size(); i++) {
         WingedEdge other_e = edge_list[i];
         
         //check if this edge is the symmetric edge of e
@@ -67,7 +67,7 @@ void Mesh::build_edge(unsigned int curr_index,
 /**
  * Adds a new WingedVertex vertex to vertex_list
  */
-void Mesh::build_vertex(unsigned int edge_index, unsigned int vertices_index) 
+void Mesh::build_vertex(int edge_index, int vertices_index) 
 {
     WingedVertex v;
     v.edge_index = edge_index;
@@ -79,8 +79,8 @@ void Mesh::build_vertex(unsigned int edge_index, unsigned int vertices_index)
 /**
  * Adds a new WingedEdge edge to edge_list
  */
-void Mesh::set_vertex_edge_index(unsigned int edge_index, 
-    unsigned int vertices_index)
+void Mesh::set_vertex_edge_index(int edge_index, 
+    int vertices_index)
 {
     vertex_list[vertices_index].edge_index = edge_index;
 }
@@ -92,16 +92,16 @@ void Mesh::build_adjacency_structure()
 {
     //make one-to-one mapping of MeshVertex vertices from vertices
     //to WingedVertex vertices
-    for (unsigned int i = 0; i < vertices.size(); i++) {
+    for (int i = 0; i < vertices.size(); i++) {
         build_vertex(-1, i);
     }
 
-    for (unsigned int i = 0; i < triangles.size(); i++) {
-        unsigned int i0 = triangles[i].vertices[0];
-        unsigned int i1 = triangles[i].vertices[1];
-        unsigned int i2 = triangles[i].vertices[2];
-        unsigned int e_index = edge_list.size();
-        unsigned int v_index = vertex_list.size();
+    for (int i = 0; i < triangles.size(); i++) {
+        int i0 = triangles[i].vertices[0];
+        int i1 = triangles[i].vertices[1];
+        int i2 = triangles[i].vertices[2];
+        int e_index = edge_list.size();
+        int v_index = vertex_list.size();
    
         set_vertex_edge_index(e_index, i0);
         set_vertex_edge_index(e_index+1, i1);
@@ -119,28 +119,28 @@ void Mesh::build_adjacency_structure()
 
 void Mesh::add_odd_vertices() 
 {
-     for (unsigned int i = 0; i < edge_list.size(); i++) {
+     for (int i = 0; i < edge_list.size(); i++) {
         WingedEdge e = edge_list[i];
         if (!e.is_subdivided) {
-            unsigned int a_index = 
+            int a_index = 
                 vertex_list[e.start_index].vertices_index;
-            unsigned int b_index = 
+            int b_index = 
                 vertex_list[e.end_index].vertices_index; 
             Vector3 a = vertices[a_index].position;
             Vector3 b = vertices[b_index].position;
 
             MeshVertex new_mesh_vertex;
 
-            unsigned int curr_vertices_index = vertices.size();
+            int curr_vertices_index = vertices.size();
 
             if (e.sym_index != -1) {
                 //interior
                 WingedEdge e_sym = edge_list[e.sym_index];
 
-                unsigned int c_index = 
+                int c_index = 
                     vertex_list[edge_list[e.next_index].end_index]
                     .vertices_index;
-                unsigned int d_index = 
+                int d_index = 
                     vertex_list[edge_list[e_sym.next_index].end_index]
                     .vertices_index;
                 Vector3 c = vertices[c_index].position;
@@ -167,8 +167,8 @@ void Mesh::add_odd_vertices()
     }   
 }
 
-void Mesh::add_triangle(unsigned int v0_index, unsigned int v1_index,
-    unsigned int v2_index) 
+void Mesh::add_triangle(int v0_index, int v1_index,
+    int v2_index) 
 {
     MeshTriangle t;
 
@@ -182,23 +182,23 @@ void Mesh::add_triangle(unsigned int v0_index, unsigned int v1_index,
 void Mesh::update_triangles()
 {
     triangles.clear();
-    for (unsigned int i = 0; i < edge_list.size(); i++) {
+    for (int i = 0; i < edge_list.size(); i++) {
         WingedEdge e0 = edge_list[i]; 
         if (!e0.is_visited) {
             //triangles not updated
             WingedEdge e1 = edge_list[e0.next_index];
             WingedEdge e2 = edge_list[e0.prev_index];
             
-            unsigned int odd_v0 = 
+            int odd_v0 = 
                 vertex_list[e0.odd_vertex_index].vertices_index;
-            unsigned int odd_v1 = 
+            int odd_v1 = 
                 vertex_list[e1.odd_vertex_index].vertices_index;
-            unsigned int odd_v2 = 
+            int odd_v2 = 
                 vertex_list[e2.odd_vertex_index].vertices_index;
        
-            unsigned int even_v0 = vertex_list[e0.start_index].vertices_index; 
-            unsigned int even_v1 = vertex_list[e1.start_index].vertices_index;
-            unsigned int even_v2 = vertex_list[e2.start_index].vertices_index;
+            int even_v0 = vertex_list[e0.start_index].vertices_index; 
+            int even_v1 = vertex_list[e1.start_index].vertices_index;
+            int even_v2 = vertex_list[e2.start_index].vertices_index;
     
             //add 4 new triangles 
             add_triangle(odd_v0, odd_v1, odd_v2); 
@@ -235,14 +235,14 @@ Vector3 Mesh::create_boundary_odd(Vector3 a, Vector3 b)
 Vector3 Mesh::create_interior_even(WingedVertex v, 
     W_VertexList neighbor_vertex_list) 
 {
-    unsigned int num_neighbors = neighbor_vertex_list.size();
+    int num_neighbors = neighbor_vertex_list.size();
     real_t squared_component = ((3.0/8.0) + ((1.0/4.0) * 
         cos((2.0*PI)/num_neighbors))); 
     real_t beta = (1.0/num_neighbors) * ((5.0/8.0) - (squared_component
         * squared_component));
 
     Vector3 neighbor_sum;
-    for (unsigned int i = 0; i < num_neighbors; i++) {
+    for (int i = 0; i < num_neighbors; i++) {
         neighbor_sum += 
             vertices[neighbor_vertex_list[i].vertices_index].position;
     }
@@ -260,21 +260,21 @@ Vector3 Mesh::create_boundary_even(WingedVertex v, Vector3 a, Vector3 b)
     return (1.0/8.0) * (a + b) + (3.0/4.0) * (v_pos);
 }
 
-void Mesh::second_pass(unsigned int num_even_vertices)
+void Mesh::second_pass(int num_even_vertices)
 {
     /* first time iterating through, only update
      * new_pos property for each WingedVertex so that
      * calculations for each even vertex are unaffected 
      */
-    for (unsigned int i = 0; i < num_even_vertices; i++) {
+    for (int i = 0; i < num_even_vertices; i++) {
         WingedVertex winged_vertex = vertex_list[i];
         MeshVertex mesh_vertex = vertices[winged_vertex.vertices_index];
         
         W_VertexList neighbor_vertex_list;
-        unsigned int num_boundary_edge_neighbors = 0;
+        int num_boundary_edge_neighbors = 0;
         Vector3 a, b;
         
-        for (unsigned int j = 0; j < edge_list.size(); j++) {
+        for (int j = 0; j < edge_list.size(); j++) {
             WingedEdge e = edge_list[j];
             WingedVertex other_v_start = vertex_list[e.start_index];
             WingedVertex other_v_end = vertex_list[e.end_index];
@@ -308,7 +308,7 @@ void Mesh::second_pass(unsigned int num_even_vertices)
     /* second time iterating through, actually update
      * the MeshVertex position for rendering
      */
-    for (unsigned int i = 0; i < num_even_vertices; i++) {
+    for (int i = 0; i < num_even_vertices; i++) {
         vertices[vertex_list[i].vertices_index].position = 
             vertex_list[i].new_pos;
     } 

@@ -17,20 +17,20 @@
 namespace _462 {
 
 struct WingedEdge {
-    unsigned int curr_index; 
-    unsigned int prev_index;
-    unsigned int next_index;
-    unsigned int sym_index;
-    unsigned int start_index;
-    unsigned int end_index;
-    unsigned int odd_vertex_index;
+    int curr_index; 
+    int prev_index;
+    int next_index;
+    int sym_index;
+    int start_index;
+    int end_index;
+    int odd_vertex_index;
     bool is_subdivided;
     bool is_visited;
 };
 
 struct WingedVertex {
-    unsigned int edge_index;
-    unsigned int vertices_index;
+    int edge_index;
+    int vertices_index;
     Vector3 new_pos;
 };
 
@@ -103,16 +103,16 @@ private:
     W_VertexList vertex_list;
 
     void first_pass();
-    void second_pass(unsigned int num_even_vertices);
+    void second_pass(int num_even_vertices);
    
     void build_adjacency_structure(); 
-    void build_edge(unsigned int curr_index,
-        unsigned int prev_index, unsigned int next_index,
-        unsigned int start_index, unsigned int end_index);
-    void build_vertex(unsigned int edge_index,
-        unsigned int vertices_index);
-    void set_vertex_edge_index(unsigned int edge_index,
-        unsigned int vertices_index);
+    void build_edge(int curr_index,
+        int prev_index, int next_index,
+        int start_index, int end_index);
+    void build_vertex(int edge_index,
+        int vertices_index);
+    void set_vertex_edge_index(int edge_index,
+        int vertices_index);
         
     Vector3 create_interior_odd(Vector3 a, Vector3 b, Vector3 c, Vector3 d);
     Vector3 create_boundary_odd(Vector3 a, Vector3 b);
@@ -122,8 +122,8 @@ private:
       
     void add_odd_vertices();
     void update_triangles();
-    void add_triangle(unsigned int v0_index, unsigned int v1_index,
-        unsigned int v2_index);
+    void add_triangle(int v0_index, int v1_index,
+        int v2_index);
 };
 
 
