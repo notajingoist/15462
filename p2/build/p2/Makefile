@@ -8,7 +8,7 @@ default_target: all
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canonical targets will work.
+# Disable implicit rules so canoncical targets will work.
 .SUFFIXES:
 
 # Remove some rules from gmake that .SUFFIXES does not remove.
@@ -30,19 +30,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/2.8.7/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/2.8.7/bin/cmake -E remove -f
+RM = /usr/bin/cmake -E remove -f
 
 # The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/local/Cellar/cmake/2.8.7/bin/ccmake
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/jingxiao/15462/p2/src
+CMAKE_SOURCE_DIR = /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/jingxiao/15462/p2/build
+CMAKE_BINARY_DIR = /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -50,7 +50,7 @@ CMAKE_BINARY_DIR = /Users/jingxiao/15462/p2/build
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/Cellar/cmake/2.8.7/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -60,19 +60,19 @@ edit_cache/fast: edit_cache
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -P cmake_install.cmake
+	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -P cmake_install.cmake
+	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
@@ -82,7 +82,7 @@ install/local/fast: install/local
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
@@ -101,7 +101,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -110,14 +110,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/jingxiao/15462/p2/build/CMakeFiles /Users/jingxiao/15462/p2/build/p2/CMakeFiles/progress.marks
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jingxiao/15462/p2/build/CMakeFiles 0
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -E cmake_progress_start /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/CMakeFiles /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/p2/CMakeFiles/progress.marks
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/clean
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/clean
 .PHONY : clean
 
 # The main clean target
@@ -126,22 +126,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/preinstall
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/preinstall
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 p2/CMakeFiles/p2.dir/rule:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/CMakeFiles/p2.dir/rule
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 p2/CMakeFiles/p2.dir/rule
 .PHONY : p2/CMakeFiles/p2.dir/rule
 
 # Convenience name for target.
@@ -150,7 +150,7 @@ p2: p2/CMakeFiles/p2.dir/rule
 
 # fast build rule for target.
 p2/fast:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/build
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/build
 .PHONY : p2/fast
 
 cubemap.o: cubemap.cpp.o
@@ -158,7 +158,7 @@ cubemap.o: cubemap.cpp.o
 
 # target to build an object file
 cubemap.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/cubemap.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/cubemap.cpp.o
 .PHONY : cubemap.cpp.o
 
 cubemap.i: cubemap.cpp.i
@@ -166,7 +166,7 @@ cubemap.i: cubemap.cpp.i
 
 # target to preprocess a source file
 cubemap.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/cubemap.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/cubemap.cpp.i
 .PHONY : cubemap.cpp.i
 
 cubemap.s: cubemap.cpp.s
@@ -174,7 +174,7 @@ cubemap.s: cubemap.cpp.s
 
 # target to generate assembly for a file
 cubemap.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/cubemap.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/cubemap.cpp.s
 .PHONY : cubemap.cpp.s
 
 framebuffer.o: framebuffer.cpp.o
@@ -182,7 +182,7 @@ framebuffer.o: framebuffer.cpp.o
 
 # target to build an object file
 framebuffer.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/framebuffer.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/framebuffer.cpp.o
 .PHONY : framebuffer.cpp.o
 
 framebuffer.i: framebuffer.cpp.i
@@ -190,7 +190,7 @@ framebuffer.i: framebuffer.cpp.i
 
 # target to preprocess a source file
 framebuffer.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/framebuffer.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/framebuffer.cpp.i
 .PHONY : framebuffer.cpp.i
 
 framebuffer.s: framebuffer.cpp.s
@@ -198,7 +198,7 @@ framebuffer.s: framebuffer.cpp.s
 
 # target to generate assembly for a file
 framebuffer.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/framebuffer.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/framebuffer.cpp.s
 .PHONY : framebuffer.cpp.s
 
 main.o: main.cpp.o
@@ -206,7 +206,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/main.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -214,7 +214,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/main.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -222,7 +222,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/main.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 project.o: project.cpp.o
@@ -230,7 +230,7 @@ project.o: project.cpp.o
 
 # target to build an object file
 project.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/project.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/project.cpp.o
 .PHONY : project.cpp.o
 
 project.i: project.cpp.i
@@ -238,7 +238,7 @@ project.i: project.cpp.i
 
 # target to preprocess a source file
 project.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/project.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/project.cpp.i
 .PHONY : project.cpp.i
 
 project.s: project.cpp.s
@@ -246,7 +246,7 @@ project.s: project.cpp.s
 
 # target to generate assembly for a file
 project.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/project.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/project.cpp.s
 .PHONY : project.cpp.s
 
 shader.o: shader.cpp.o
@@ -254,7 +254,7 @@ shader.o: shader.cpp.o
 
 # target to build an object file
 shader.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/shader.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/shader.cpp.o
 .PHONY : shader.cpp.o
 
 shader.i: shader.cpp.i
@@ -262,7 +262,7 @@ shader.i: shader.cpp.i
 
 # target to preprocess a source file
 shader.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/shader.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/shader.cpp.i
 .PHONY : shader.cpp.i
 
 shader.s: shader.cpp.s
@@ -270,7 +270,7 @@ shader.s: shader.cpp.s
 
 # target to generate assembly for a file
 shader.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/shader.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f p2/CMakeFiles/p2.dir/build.make p2/CMakeFiles/p2.dir/shader.cpp.s
 .PHONY : shader.cpp.s
 
 # Help Target
@@ -312,6 +312,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

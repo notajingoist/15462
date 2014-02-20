@@ -1,3 +1,3 @@
 FILE(REMOVE_RECURSE
-  "libSDLmain.a"
+  "libglew.a"
 )

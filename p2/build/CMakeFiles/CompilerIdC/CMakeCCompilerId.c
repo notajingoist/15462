@@ -48,9 +48,6 @@
 #elif defined(__TI_COMPILER_VERSION__)
 # define COMPILER_ID "TI_DSP"
 
-#elif defined(__TINYC__)
-# define COMPILER_ID "TinyCC"
-
 #elif defined(__SCO_VERSION__)
 # define COMPILER_ID "SCO"
 

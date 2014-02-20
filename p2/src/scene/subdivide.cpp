@@ -1,5 +1,7 @@
 #include "scene/mesh.hpp"
 
+#include<stdio.h>
+
 namespace _462 {
 
 bool Mesh::subdivide()
@@ -13,26 +15,13 @@ bool Mesh::subdivide()
       Check mesh.hpp for the Mesh class definition.
      */
 
-    printf("Beginning of subdivide\n");
-    print_triangles();
-    print_vertices();
-
     unsigned int num_even_vertices = vertices.size();
     build_adjacency_structure();
-    
-    print_edges();
-    
     first_pass();
     second_pass(num_even_vertices);
     has_normals = false;
     create_gl_data();
-    
    
-    printf("End of subdivide\n");
-    print_triangles();
-    print_vertices();
-    print_edges();
-  
     face_list.clear();
     vertex_list.clear();
     edge_list.clear();
@@ -58,7 +47,6 @@ void Mesh::build_edge(unsigned int curr_index,
             //found symmetric edge
             sym_index = i;
             edge_list[i].sym_index = curr_index;
-            //printf("found symmetric edge, sym index: %d\n", i);
         }
     }
 
@@ -123,32 +111,6 @@ void Mesh::build_adjacency_structure()
     }
 }
 
-void Mesh::print_triangles()
-{
-    for (unsigned int i = 0; i < triangles.size(); i++) {
-        printf("Triangle %d: %d %d %d\n", i, triangles[i].vertices[0],
-            triangles[i].vertices[1], triangles[i].vertices[2]);
-    }
-}
-
-void Mesh::print_vertices()
-{
-    for (unsigned int i = 0; i < vertices.size(); i++) {
-        printf("Vertex %d: %f %f %f\n", i, vertices[i].position.x,
-            vertices[i].position.y, vertices[i].position.z);
-    }
-}
-
-void Mesh::print_edges()
-{
-    for (unsigned int i = 0; i < edge_list.size(); i++) {
-        WingedEdge e = edge_list[i];
-        printf("Edge %d: start i: %d, end i: %d, prev i: %d,\
- next i: %d, sym i: %d\n", e.curr_index, e.start_index, 
-        e.end_index, e.prev_index, e.next_index, e.sym_index);
-    }
-    printf("\n");
-}
 
 void Mesh::add_odd_vertices() 
 {
@@ -167,16 +129,8 @@ void Mesh::add_odd_vertices()
             unsigned int curr_vertices_index = vertices.size();
             unsigned int curr_vertex_list_index = vertex_list.size();
 
-            if (curr_vertices_index != curr_vertex_list_index) {
-                printf("\n\n\tNOT THE SAMMEEEE\n\n");
-            }
-
             if (e.sym_index != -1) {
                 //interior
-                
-               /* printf("about to add new INTERIOR odd vertex for curr index: %d\n",
-                    e.curr_index);
-                */
                 WingedEdge e_sym = edge_list[e.sym_index];
 
                 unsigned int c_index = 
@@ -195,21 +149,11 @@ void Mesh::add_odd_vertices()
                 new_vertex.vertices_index = curr_vertices_index;
                 new_vertex.edge_index = e.curr_index;
                 vertex_list.push_back(new_vertex);
-                //build_vertex(new_vertex, e.curr_index, curr_vertices_index);
            
                 new_mesh_vertex.position = create_interior_odd(a, b, c, d);
                 vertices.push_back(new_mesh_vertex);
-                /*printf("new vertex pos x: %f, y: %f, z: %f\n\n", 
-                    new_mesh_vertex.position.x,
-                    new_mesh_vertex.position.y,
-                    new_mesh_vertex.position.y); */
-                //vertices.push_back(new_mesh_vertex);
             } else {
                 //boundary
-                /*printf("about to add new BOUNDARY odd vertex for curr index: %d\n",
-                    e.curr_index);
-                */
-                
                 edge_list[i].odd_vertex_index = curr_vertex_list_index;
                 edge_list[i].is_subdivided = true;
 
@@ -217,26 +161,16 @@ void Mesh::add_odd_vertices()
                 new_vertex.vertices_index = curr_vertices_index;
                 new_vertex.edge_index = e.curr_index;
                 vertex_list.push_back(new_vertex);
-                //build_vertex(new_vertex, e.curr_index, curr_vertices_index);
             
                 new_mesh_vertex.position = create_boundary_odd(a, b);
                 vertices.push_back(new_mesh_vertex);
-                //vertices.push_back(new_mesh_vertex); 
-            
                 
             }
 
-             
-                        //vertices.push_back(new_mesh_vertex);
-            //printf("e.oddvertexindex %d\n", e.odd_vertex_index);
         } else {
             //edge already subdivided 
         }
     }   
-/*
-    for (unsigned int i = 0; i < edge_list.size(); i++) {
-        printf("odd vertex index: %d\n", edge_list[i].odd_vertex_index);
-    }*/
 }
 
 void Mesh::add_triangle(unsigned int v0_index, unsigned int v1_index,
@@ -265,34 +199,20 @@ void Mesh::update_triangles()
             unsigned int odd_v1 = vertex_list[e1.odd_vertex_index].vertices_index;
             unsigned int odd_v2 = vertex_list[e2.odd_vertex_index].vertices_index;
        
-            //WingedFace f = face_list[e0.face_index];
-
-            /* update middle triangle (replace old triangle's indices into 
-             * vertices with new indices that correspond to the newly created
-             * odd vertices 
-             */
-            /*
-            MeshTriangle& t_mid = triangles[f.triangles_index];
-            triangles[f.triangles_index].vertices[0] = odd_v0; 
-            triangles[f.triangles_index].vertices[1] = odd_v1;
-            triangles[f.triangles_index].vertices[2] = odd_v2;
-           */
+            
             unsigned int even_v0 = vertex_list[e0.start_index].vertices_index; 
             unsigned int even_v1 = vertex_list[e1.start_index].vertices_index;
             unsigned int even_v2 = vertex_list[e2.start_index].vertices_index;
      
             /* add 3 new triangles */
-
+            /* update middle triangle (replace old triangle's indices into 
+             * vertices with new indices that correspond to the newly created
+             * odd vertices 
+             */
             add_triangle(odd_v0, odd_v1, odd_v2); 
             add_triangle(odd_v2, even_v0, odd_v0);
             add_triangle(odd_v0, even_v1, odd_v1);
             add_triangle(odd_v1, even_v2, odd_v2);
-            
-
-            /*add_triangle(even_v0, odd_v0, odd_v2);
-            add_triangle(odd_v0, even_v1, odd_v1);
-            add_triangle(odd_v2, odd_v1, even_v2);
-            */
 
             edge_list[i].is_visited = true;
             edge_list[e0.next_index].is_visited = true;
@@ -301,43 +221,6 @@ void Mesh::update_triangles()
             //triangles already updated
         }
     }
-
-/*    for (unsigned int i = 0; i < face_list.size(); i++) {
-        WingedFace f = face_list[i];
-        unsigned int f_edge_index = f.edge_index;
-
-        //if (edge_list[f.
-
-        WingedEdge e0 = edge_list[f.edge_index];
-        WingedEdge e1 = edge_list[edge_list[f.edge_index].next_index];
-        WingedEdge e2 = edge_list[edge_list[f.edge_index].prev_index];
-*/
-        /*printf("vertex list size: %ld,  odd vtx index: %d\n", vertex_list.size(),
-            e0.odd_vertex_index);
-        */
-/*        unsigned int odd_v0 = vertex_list[e0.odd_vertex_index].vertices_index;
-        unsigned int odd_v1 = vertex_list[e1.odd_vertex_index].vertices_index;
-        unsigned int odd_v2 = vertex_list[e2.odd_vertex_index].vertices_index;
-*/   
-        /* update middle triangle (replace old triangle's indices into 
-         * vertices with new indices that correspond to the newly created
-         * odd vertices 
-         */
-/*        MeshTriangle& t_mid = triangles[f.triangles_index];
-        t_mid.vertices[0] = odd_v0; 
-        t_mid.vertices[1] = odd_v1;
-        t_mid.vertices[2] = odd_v2;
-       
-        unsigned int even_v0 = vertex_list[e0.start_index].vertices_index; 
-        unsigned int even_v1 = vertex_list[e1.start_index].vertices_index;
-        unsigned int even_v2 = vertex_list[e2.start_index].vertices_index;
-*/ 
-        /* add 3 new triangles */
-/*        add_triangle(even_v0, odd_v0, odd_v2);
-        add_triangle(odd_v0, even_v1, odd_v1);
-        add_triangle(odd_v2, odd_v1, even_v2);
-    }
-*/
 }
 
 void Mesh::first_pass() 
@@ -435,25 +318,8 @@ void Mesh::second_pass(unsigned int num_even_vertices)
             vertex_list[i].new_pos;
     } 
 
-/*
-    //for i=0; i < even_vertices.size() [aka size of unmodified vertices]
-    //apply even vertices formula, change
-    //vertices[i].position
-*/
 }
 
 
 } /* _462 */
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -135,10 +135,6 @@ private:
     void update_triangles();
     void add_triangle(unsigned int v0_index, unsigned int v1_index,
         unsigned int v2_index);
-   
-    void print_triangles();
-    void print_vertices();
-    void print_edges();
 };
 
 

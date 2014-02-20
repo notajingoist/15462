@@ -8,7 +8,7 @@ default_target: all
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canonical targets will work.
+# Disable implicit rules so canoncical targets will work.
 .SUFFIXES:
 
 # Remove some rules from gmake that .SUFFIXES does not remove.
@@ -30,19 +30,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/2.8.7/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/2.8.7/bin/cmake -E remove -f
+RM = /usr/bin/cmake -E remove -f
 
 # The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/local/Cellar/cmake/2.8.7/bin/ccmake
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/jingxiao/15462/p2/src
+CMAKE_SOURCE_DIR = /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/jingxiao/15462/p2/build
+CMAKE_BINARY_DIR = /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -50,7 +50,7 @@ CMAKE_BINARY_DIR = /Users/jingxiao/15462/p2/build
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/Cellar/cmake/2.8.7/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -60,19 +60,19 @@ edit_cache/fast: edit_cache
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -P cmake_install.cmake
+	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -P cmake_install.cmake
+	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
@@ -82,7 +82,7 @@ install/local/fast: install/local
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
@@ -101,7 +101,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/Cellar/cmake/2.8.7/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -110,14 +110,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/jingxiao/15462/p2/build/CMakeFiles /Users/jingxiao/15462/p2/build/math/CMakeFiles/progress.marks
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jingxiao/15462/p2/build/CMakeFiles 0
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -E cmake_progress_start /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/CMakeFiles /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/math/CMakeFiles/progress.marks
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/clean
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/clean
 .PHONY : clean
 
 # The main clean target
@@ -126,22 +126,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/preinstall
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/preinstall
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 math/CMakeFiles/math.dir/rule:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/CMakeFiles/math.dir/rule
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f CMakeFiles/Makefile2 math/CMakeFiles/math.dir/rule
 .PHONY : math/CMakeFiles/math.dir/rule
 
 # Convenience name for target.
@@ -150,7 +150,7 @@ math: math/CMakeFiles/math.dir/rule
 
 # fast build rule for target.
 math/fast:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/build
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/build
 .PHONY : math/fast
 
 camera.o: camera.cpp.o
@@ -158,7 +158,7 @@ camera.o: camera.cpp.o
 
 # target to build an object file
 camera.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/camera.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/camera.cpp.o
 .PHONY : camera.cpp.o
 
 camera.i: camera.cpp.i
@@ -166,7 +166,7 @@ camera.i: camera.cpp.i
 
 # target to preprocess a source file
 camera.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/camera.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/camera.cpp.i
 .PHONY : camera.cpp.i
 
 camera.s: camera.cpp.s
@@ -174,7 +174,7 @@ camera.s: camera.cpp.s
 
 # target to generate assembly for a file
 camera.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/camera.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/camera.cpp.s
 .PHONY : camera.cpp.s
 
 color.o: color.cpp.o
@@ -182,7 +182,7 @@ color.o: color.cpp.o
 
 # target to build an object file
 color.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/color.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/color.cpp.o
 .PHONY : color.cpp.o
 
 color.i: color.cpp.i
@@ -190,7 +190,7 @@ color.i: color.cpp.i
 
 # target to preprocess a source file
 color.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/color.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/color.cpp.i
 .PHONY : color.cpp.i
 
 color.s: color.cpp.s
@@ -198,7 +198,7 @@ color.s: color.cpp.s
 
 # target to generate assembly for a file
 color.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/color.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/color.cpp.s
 .PHONY : color.cpp.s
 
 math.o: math.cpp.o
@@ -206,7 +206,7 @@ math.o: math.cpp.o
 
 # target to build an object file
 math.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/math.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/math.cpp.o
 .PHONY : math.cpp.o
 
 math.i: math.cpp.i
@@ -214,7 +214,7 @@ math.i: math.cpp.i
 
 # target to preprocess a source file
 math.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/math.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/math.cpp.i
 .PHONY : math.cpp.i
 
 math.s: math.cpp.s
@@ -222,7 +222,7 @@ math.s: math.cpp.s
 
 # target to generate assembly for a file
 math.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/math.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/math.cpp.s
 .PHONY : math.cpp.s
 
 matrix.o: matrix.cpp.o
@@ -230,7 +230,7 @@ matrix.o: matrix.cpp.o
 
 # target to build an object file
 matrix.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/matrix.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/matrix.cpp.o
 .PHONY : matrix.cpp.o
 
 matrix.i: matrix.cpp.i
@@ -238,7 +238,7 @@ matrix.i: matrix.cpp.i
 
 # target to preprocess a source file
 matrix.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/matrix.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/matrix.cpp.i
 .PHONY : matrix.cpp.i
 
 matrix.s: matrix.cpp.s
@@ -246,7 +246,7 @@ matrix.s: matrix.cpp.s
 
 # target to generate assembly for a file
 matrix.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/matrix.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/matrix.cpp.s
 .PHONY : matrix.cpp.s
 
 quaternion.o: quaternion.cpp.o
@@ -254,7 +254,7 @@ quaternion.o: quaternion.cpp.o
 
 # target to build an object file
 quaternion.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/quaternion.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/quaternion.cpp.o
 .PHONY : quaternion.cpp.o
 
 quaternion.i: quaternion.cpp.i
@@ -262,7 +262,7 @@ quaternion.i: quaternion.cpp.i
 
 # target to preprocess a source file
 quaternion.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/quaternion.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/quaternion.cpp.i
 .PHONY : quaternion.cpp.i
 
 quaternion.s: quaternion.cpp.s
@@ -270,7 +270,7 @@ quaternion.s: quaternion.cpp.s
 
 # target to generate assembly for a file
 quaternion.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/quaternion.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/quaternion.cpp.s
 .PHONY : quaternion.cpp.s
 
 vector.o: vector.cpp.o
@@ -278,7 +278,7 @@ vector.o: vector.cpp.o
 
 # target to build an object file
 vector.cpp.o:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/vector.cpp.o
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/vector.cpp.o
 .PHONY : vector.cpp.o
 
 vector.i: vector.cpp.i
@@ -286,7 +286,7 @@ vector.i: vector.cpp.i
 
 # target to preprocess a source file
 vector.cpp.i:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/vector.cpp.i
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/vector.cpp.i
 .PHONY : vector.cpp.i
 
 vector.s: vector.cpp.s
@@ -294,7 +294,7 @@ vector.s: vector.cpp.s
 
 # target to generate assembly for a file
 vector.cpp.s:
-	cd /Users/jingxiao/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/vector.cpp.s
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(MAKE) -f math/CMakeFiles/math.dir/build.make math/CMakeFiles/math.dir/vector.cpp.s
 .PHONY : vector.cpp.s
 
 # Help Target
@@ -339,6 +339,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /Users/jingxiao/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
