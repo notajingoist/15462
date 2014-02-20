@@ -202,12 +202,19 @@ void Mesh::update_triangles()
             unsigned int even_v1 = vertex_list[e1.start_index].vertices_index;
             unsigned int even_v2 = vertex_list[e2.start_index].vertices_index;
      
-            /* add 3 new triangles */
             /* update middle triangle (replace old triangle's indices into 
              * vertices with new indices that correspond to the newly created
              * odd vertices 
              */
+            /*WingedFace f = face_list[e0.face_index]; 
+            MeshTriangle& t_mid = triangles[f.triangles_index];
+            t_mid.vertices[0] = odd_v0;
+            t_mid.vertices[1] = odd_v1;
+            t_mid.vertices[2] = odd_v2;
+            */
             add_triangle(odd_v0, odd_v1, odd_v2); 
+            
+            /* add 3 new triangles */
             add_triangle(odd_v2, even_v0, odd_v0);
             add_triangle(odd_v0, even_v1, odd_v1);
             add_triangle(odd_v1, even_v2, odd_v2);
