@@ -1,6 +1,0 @@
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/application/CMakeFiles/application.dir
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/glew/CMakeFiles/glew.dir
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/math/CMakeFiles/math.dir
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/p2/CMakeFiles/p2.dir
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/scene/CMakeFiles/scene.dir
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p2/build/tinyxml/CMakeFiles/tinyxml.dir
