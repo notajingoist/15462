@@ -114,13 +114,13 @@ private:
     void second_pass(unsigned int num_even_vertices);
    
     void build_adjacency_structure(); 
-    void build_edge(WingedEdge & e, unsigned int curr_index,
+    void build_edge(unsigned int curr_index,
         unsigned int prev_index, unsigned int next_index,
         unsigned int start_index, unsigned int end_index,
         unsigned int face_index);
-    void build_vertex(WingedVertex & v, unsigned int edge_index,
+    void build_vertex(unsigned int edge_index,
         unsigned int vertices_index);
-    void build_face(WingedFace & f, unsigned int edge_index,
+    void build_face(unsigned int edge_index,
         unsigned int triangles_index);
 
     Vector3 create_interior_odd(Vector3 a, Vector3 b, 
@@ -138,6 +138,7 @@ private:
    
     void print_triangles();
     void print_vertices();
+    void print_edges();
 };
 
 
