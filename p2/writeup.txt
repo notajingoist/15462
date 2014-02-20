@@ -1,8 +1,8 @@
-/* 
-15-462 Project 2: Geometry - Write-Up 
-Author: Jing Xiao 
-AndrewID: jingxiao
-*/
+/**
+ * 15-462 Project 2: Geometry - Write-Up 
+ * Author: Jing Xiao 
+ *AndrewID: jingxiao
+ */
 
 ALGORITHMS/DATA STRUCTURES
 - Use the winged edge data structure (without keeping track of faces
