@@ -114,13 +114,11 @@ private:
     void set_vertex_edge_index(unsigned int edge_index,
         unsigned int vertices_index);
         
-    Vector3 create_interior_odd(Vector3 a, Vector3 b, 
-        Vector3 c, Vector3 d);
+    Vector3 create_interior_odd(Vector3 a, Vector3 b, Vector3 c, Vector3 d);
     Vector3 create_boundary_odd(Vector3 a, Vector3 b);
     Vector3 create_interior_even(WingedVertex v, 
         W_VertexList neighbor_vertex_list);
-    Vector3 create_boundary_even(WingedVertex v, Vector3 a,
-        Vector3 b);
+    Vector3 create_boundary_even(WingedVertex v, Vector3 a, Vector3 b);
       
     void add_odd_vertices();
     void update_triangles();
