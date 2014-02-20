@@ -1,0 +1,125 @@
+/* 
+15-462 Project 2: Geometry - Write-Up 
+Author: Jing Xiao 
+AndrewID: jingxiao
+*/
+
+ALGORITHMS/DATA STRUCTURES
+- Use the winged edge data structure (without keeping track of faces
+  explicitly) to maintain adjacency relations between vertices, edges, and faces
+  (implicitly).  
+- Define a WingedEdge struct to represent each edge in the mesh. It holds
+  information about the edge's own index into the list of winged edges, and the
+  indices of its previous edge, next edge, and symmetric edge. It also contains
+  information about its start and end vertices' indices into the list of
+  vertices, as well as booleans to determine whether the edge has been
+  subdivided (a new odd vertex has been created for that edge) and whether it
+  has been visited (the new triangles corresponding to the face corresponding to
+  the edge have been added). It also has information about the index of the odd
+  vertex that gets created for it in the first pass.  
+- Define a WingedVertex struct to represent each vertex in the mesh. It holds
+  information about the index of an edge (into the list of edges) that it is a
+  part of, the corresponding index into vertices (the MeshVertexList) which is
+  also the same as its own index into the list of winged vertices, and its new
+  position, which gets calculated in the second pass. 
+- Build an edge_list (std::vector) of WingedEdge edges and a vertex_list
+  (std::vector) of WingedVertex vertices 
+
+IMPLEMENTATION DETAILS 
+Shader:
+- Normalize the cam_dir and norm vectors, and then use reflect() with these
+  normalized vectors to obtain the point on the environment map to sample from. 
+- Sample the environment at this point using the uniform samplerCube variable
+  and use textureCube() to determine this reflected light color. 
+
+Subdivision:
+1. Build the adjacency structure
+    - Build the vertex_list (instance variable, available to entire Mesh class)
+        - Loop through vertices (MeshVertex) to create a vertex_list
+          (WingedVertex) with a 1-1 mapping from MeshVertex vertices to
+          WingedVertex vertices.
+    - Build the edge_list (instance variable, available to entire Mesh class)
+        - Loop through triangles (MeshTriangle) to create an edge_list
+          (WingedEdge) with the edges of each triangle. Since each triangle can
+          have at most 3 adjacent faces only, each edge is seen at most twice.
+          In building each edge, if the start and end vertex indices correspond
+          to an existing WingedEdge's end and start vertex respectively, the
+          edge is set as the symmetric edge of the existing edge, and the
+          existing edge is set as the symmetric edge of the newly built edge.
+          Prev-curr-next edge orderings are determined based on their
+          counter-clockwise presentation in the triangle's array of 3 indices
+          into vertices. 
+        - Set the edge index attribute for the WingedVertex vertices in the
+          vertex_list corresponding to the triangle from each iteration of the
+          loop through triangles to be the index into edge_list that corresponds
+          to an edge that is a part of the vertex.  2. First pass
+    - Add odd vertices
+        - Loop through edge_list to subdivide each previously un-subdivided
+          edge by creating a new odd vertex for each (and recording its index
+          into the vertex_list/vertices). If the edge has a symmetric edge, it
+          is interior, and so the interior-odd formula is applied to the edge's
+          start and end vertices' positions and its next edge and its symmetric
+          edge's next edge's end indices' positions. Otherwise, the
+          edge is a boundary edge, and the boundary-odd formula is applied to
+          the edge's start and end vertices' positions. The newly obtained odd
+          vertex is added to the vertex_list and to vertices, and the
+          edge/symmetric edge's (if it exists) subdivided boolean is set to
+          true.
+    - Add triangles
+        - Clear triangles (MeshTriangle) because each existing triangle will
+          be replaced by 4 new triangles. 
+        - Loop through the edge_list to create 4 new triangles based on the
+          odd vertex information associated with each edge of the face
+          corresponding to the edge currently being iterated on (the current
+          edge, its previous edge, and its next edge). To guarantee that face
+          isn't considered again, the visited boolean for each of the 3 edges is
+          set to true.  
+3. Second pass
+    - Update WingedVertex positions
+        - Loop through the vertex_list number-of-even-vertices number of times
+          (recorded the initial size of vertices before adding the new odd
+          vertices) and then for each vertex, looped through the edge_list to
+          find all edges with:
+            1. This vertex as their start vertex, recording the end index of
+            these edges as the neighbors. If any of these edges have no
+            symmetric edge, the vertex is a boundary vertex, and so the position
+            of the edge's end vertex is also recorded and a variable counting
+            the number of boundary edge neighbors is incremented.
+            2. Otherwise, this vertex as their end vertex (note that this case
+            is never reached if the edge has a symmetric edge because this
+            vertex would have also been the edge's start vertex, thereby falling
+            under the case above). If any of these edges have no symmetric edge,
+            the vertex is a boundary vertex, and so the position of the edge's
+            start vertex is also recorded and a variable counting the number of
+            boundary edge neighbors is incremented.
+        - If there are exactly 2 boundary edge neighbors, the boundary-even
+          formula is applied, otherwise the boundary-interior formula is
+          applied. This new position is set as this even vertex's new position
+          in its representative vertex in vertex_list. 
+    - Update MeshVertex positions
+        - Loop through the vertex_list number-of-even-vertices number of times
+          again and then for each vertex, actually set the position of the
+          corresponding vertex in vertices to be the previously recorded new
+          vertex position.
+4. Re-calculate normals
+    - Set has_normals to false 
+    - Call created_gl_data() 
+5. Clear adjacency structure
+    - Clear vertex_list
+    - Clear edge_list
+
+MAJOR DESIGN DECISIONS
+- Representing adjacent edges and vertices as their indices into their
+  respective lists. This was easier as I didn't have to deal with pointers and
+  references and the trouble that may come with addresses changing whenever the
+  std::vectors resize and need to reallocate space.
+- Implicitly recording adjacent face information. Each face could be formed from
+  an edge based on its previous and next edge, so having another WingedFace
+  struct and face_list would not have been necessary. When updating triangles, I
+  just cleared it each time as all of the triangles would change anyway. 
+- 1-1 mapping of vertex_list's WingedVertex vertices and vertices's MeshVertex
+  vertices. This made indexing into both lists straightforward. The only
+  downside was having to construct this vertex_list intially in an extra loop. 
+
+ETCETERA 
+- A simple triangle model for testing purposes. 
