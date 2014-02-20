@@ -122,7 +122,9 @@ private:
         unsigned int vertices_index);
     void build_face(unsigned int edge_index,
         unsigned int triangles_index);
-
+    void set_vertex_edge_index(unsigned int edge_index,
+        unsigned int vertices_index);
+        
     Vector3 create_interior_odd(Vector3 a, Vector3 b, 
         Vector3 c, Vector3 d);
     Vector3 create_boundary_odd(Vector3 a, Vector3 b);

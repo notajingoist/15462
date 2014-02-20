@@ -66,8 +66,19 @@ void Mesh::build_edge(unsigned int curr_index,
 
 void Mesh::build_vertex(unsigned int edge_index, unsigned int vertices_index) 
 {
+    WingedVertex v;
+    v.edge_index = edge_index;
+    v.vertices_index = vertices_index;
+
+    vertex_list.push_back(v);
+}
+
+void Mesh::set_vertex_edge_index(unsigned int edge_index, 
+    unsigned int vertices_index)
+{
     vertex_list[vertices_index].edge_index = edge_index;
 }
+
 
 void Mesh::build_face(unsigned int edge_index, unsigned int triangles_index)
 {
@@ -98,9 +109,9 @@ void Mesh::build_adjacency_structure()
    
         build_face(e_index, i);
 
-        build_vertex(e_index, i0);
-        build_vertex(e_index+1, i1);
-        build_vertex(e_index+2, i2);
+        set_vertex_edge_index(e_index, i0);
+        set_vertex_edge_index(e_index+1, i1);
+        set_vertex_edge_index(e_index+2, i2);
         
         build_edge(e_index, e_index+2, e_index+1, 
                     i0, i1, i); 
@@ -127,7 +138,6 @@ void Mesh::add_odd_vertices()
             MeshVertex new_mesh_vertex;
 
             unsigned int curr_vertices_index = vertices.size();
-            unsigned int curr_vertex_list_index = vertex_list.size();
 
             if (e.sym_index != -1) {
                 //interior
@@ -140,32 +150,20 @@ void Mesh::add_odd_vertices()
                 Vector3 c = vertices[c_index].position;
                 Vector3 d = vertices[d_index].position;
                   
-                edge_list[i].odd_vertex_index = curr_vertex_list_index;
-                edge_list[i].is_subdivided = true;
-                edge_list[e.sym_index].odd_vertex_index = curr_vertex_list_index; 
+                edge_list[e.sym_index].odd_vertex_index = curr_vertices_index;
                 edge_list[e.sym_index].is_subdivided = true;
- 
-                WingedVertex new_vertex;
-                new_vertex.vertices_index = curr_vertices_index;
-                new_vertex.edge_index = e.curr_index;
-                vertex_list.push_back(new_vertex);
-           
+                
                 new_mesh_vertex.position = create_interior_odd(a, b, c, d);
-                vertices.push_back(new_mesh_vertex);
             } else {
                 //boundary
-                edge_list[i].odd_vertex_index = curr_vertex_list_index;
-                edge_list[i].is_subdivided = true;
-
-                WingedVertex new_vertex;
-                new_vertex.vertices_index = curr_vertices_index;
-                new_vertex.edge_index = e.curr_index;
-                vertex_list.push_back(new_vertex);
-            
                 new_mesh_vertex.position = create_boundary_odd(a, b);
-                vertices.push_back(new_mesh_vertex);
-                
             }
+            
+            build_vertex(e.curr_index, curr_vertices_index);
+
+            edge_list[i].odd_vertex_index = curr_vertices_index;
+            edge_list[i].is_subdivided = true;
+            vertices.push_back(new_mesh_vertex);
 
         } else {
             //edge already subdivided 
