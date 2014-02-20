@@ -16,12 +16,15 @@ bool Mesh::subdivide()
      */
 
     unsigned int num_even_vertices = vertices.size();
+    
     build_adjacency_structure();
     first_pass();
     second_pass(num_even_vertices);
+    
+    //re-calculate normals
     has_normals = false;
     create_gl_data();
-   
+
     vertex_list.clear();
     edge_list.clear();
    
@@ -61,6 +64,9 @@ void Mesh::build_edge(unsigned int curr_index,
     edge_list.push_back(e);
 }
 
+/**
+ * Adds a new WingedVertex vertex to vertex_list
+ */
 void Mesh::build_vertex(unsigned int edge_index, unsigned int vertices_index) 
 {
     WingedVertex v;
@@ -70,22 +76,24 @@ void Mesh::build_vertex(unsigned int edge_index, unsigned int vertices_index)
     vertex_list.push_back(v);
 }
 
+/**
+ * Adds a new WingedEdge edge to edge_list
+ */
 void Mesh::set_vertex_edge_index(unsigned int edge_index, 
     unsigned int vertices_index)
 {
     vertex_list[vertices_index].edge_index = edge_index;
 }
 
-
+/**
+ *
+ */
 void Mesh::build_adjacency_structure()
 {
-    //make one-to-one mapping of vertex_list to vertices
-
+    //make one-to-one mapping of MeshVertex vertices from vertices
+    //to WingedVertex vertices
     for (unsigned int i = 0; i < vertices.size(); i++) {
-        WingedVertex v;
-        v.edge_index = -1;
-        v.vertices_index = i;
-        vertex_list.push_back(v);
+        build_vertex(-1, i);
     }
 
     for (unsigned int i = 0; i < triangles.size(); i++) {
