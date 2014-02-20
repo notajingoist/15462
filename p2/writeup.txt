@@ -1,7 +1,7 @@
 /**
  * 15-462 Project 2: Geometry - Write-Up 
  * Author: Jing Xiao 
- *AndrewID: jingxiao
+ * AndrewID: jingxiao
  */
 
 ALGORITHMS/DATA STRUCTURES
