@@ -130,9 +130,11 @@ void Mesh::add_odd_vertices()
                 WingedEdge e_sym = edge_list[e.sym_index];
 
                 unsigned int c_index = 
-                    vertex_list[edge_list[e.next_index].end_index].vertices_index;
+                    vertex_list[edge_list[e.next_index].end_index]
+                    .vertices_index;
                 unsigned int d_index = 
-                    vertex_list[edge_list[e_sym.next_index].end_index].vertices_index;
+                    vertex_list[edge_list[e_sym.next_index].end_index]
+                    .vertices_index;
                 Vector3 c = vertices[c_index].position;
                 Vector3 d = vertices[d_index].position;
                   
@@ -179,9 +181,12 @@ void Mesh::update_triangles()
             WingedEdge e1 = edge_list[e0.next_index];
             WingedEdge e2 = edge_list[e0.prev_index];
             
-            unsigned int odd_v0 = vertex_list[e0.odd_vertex_index].vertices_index;
-            unsigned int odd_v1 = vertex_list[e1.odd_vertex_index].vertices_index;
-            unsigned int odd_v2 = vertex_list[e2.odd_vertex_index].vertices_index;
+            unsigned int odd_v0 = 
+                vertex_list[e0.odd_vertex_index].vertices_index;
+            unsigned int odd_v1 = 
+                vertex_list[e1.odd_vertex_index].vertices_index;
+            unsigned int odd_v2 = 
+                vertex_list[e2.odd_vertex_index].vertices_index;
        
             unsigned int even_v0 = vertex_list[e0.start_index].vertices_index; 
             unsigned int even_v1 = vertex_list[e1.start_index].vertices_index;
@@ -230,11 +235,13 @@ Vector3 Mesh::create_interior_even(WingedVertex v,
 
     Vector3 neighbor_sum;
     for (unsigned int i = 0; i < num_neighbors; i++) {
-        neighbor_sum += vertices[neighbor_vertex_list[i].vertices_index].position;
+        neighbor_sum += 
+            vertices[neighbor_vertex_list[i].vertices_index].position;
     }
 
     Vector3 v_pos = vertices[v.vertices_index].position;
-    Vector3 new_vertex = v_pos * (1.0 - (num_neighbors * beta)) + (beta * neighbor_sum); 
+    Vector3 new_vertex = v_pos * (1.0 - (num_neighbors * beta)) 
+        + (beta * neighbor_sum); 
 
     return new_vertex;
 }
@@ -270,7 +277,8 @@ void Mesh::second_pass(unsigned int num_even_vertices)
                     num_boundary_edge_neighbors++;
                     a = vertices[other_v_end.vertices_index].position;
                 }
-            } else if (other_v_end.vertices_index == winged_vertex.vertices_index) {
+            } else if (other_v_end.vertices_index 
+                == winged_vertex.vertices_index) {
                 if (e.sym_index == -1) {
                     num_boundary_edge_neighbors++; 
                     b = vertices[other_v_start.vertices_index].position;
