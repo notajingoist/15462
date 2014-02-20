@@ -17,15 +17,6 @@
 namespace _462 {
 
 struct WingedEdge {
-    /*WingedEdge *prev, *next;
-    WingedEdge *sym;
-    WingedFace *f;
-    WingedVertex *start;
-    WingedVertex *end;
-    WingedVertex *odd;
-    bool is_subdivided;
-     */
-  
     unsigned int curr_index; 
     unsigned int prev_index;
     unsigned int next_index;
@@ -121,6 +112,8 @@ private:
 
     void first_pass();
     void second_pass(unsigned int num_even_vertices);
+   
+    void build_adjacency_structure(); 
     void build_edge(WingedEdge & e, unsigned int curr_index,
         unsigned int prev_index, unsigned int next_index,
         unsigned int start_index, unsigned int end_index,
@@ -130,18 +123,19 @@ private:
     void build_face(WingedFace & f, unsigned int edge_index,
         unsigned int triangles_index);
 
-    void build_adjacency_structure();
     Vector3 create_interior_odd(Vector3 a, Vector3 b, 
         Vector3 c, Vector3 d);
     Vector3 create_boundary_odd(Vector3 a, Vector3 b);
-    void add_odd_vertices();
-    void update_triangles();
-    void add_triangle(unsigned int v0_index, unsigned int v1_index,
-        unsigned int v2_index);
     Vector3 create_interior_even(WingedVertex v, 
         W_VertexList neighbor_vertex_list);
     Vector3 create_boundary_even(WingedVertex v, Vector3 a,
         Vector3 b);
+      
+    void add_odd_vertices();
+    void update_triangles();
+    void add_triangle(unsigned int v0_index, unsigned int v1_index,
+        unsigned int v2_index);
+   
     void print_triangles();
     void print_vertices();
 };
