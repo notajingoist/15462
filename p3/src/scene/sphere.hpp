@@ -26,6 +26,7 @@ public:
     Sphere();
     virtual ~Sphere();
     virtual void render() const;
+    virtual int intersects_ray(Ray r) const;
 };
 
 } /* _462 */

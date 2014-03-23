@@ -107,6 +107,21 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
 
         Ray r = Ray(scene->camera.get_position(), Ray::get_pixel_dir(i, j));
 
+
+        Geometry* const* geometries = scene->get_geometries();
+        for (size_t g = 0; g < scene->num_geometries(); g++) {
+            /*printf("geometry pos x is %f, y is %f, z is %f.\n", 
+            geometries[g]->position.x, geometries[g]->position.y, 
+            geometries[g]->position.z);*/
+            
+            if (geometries[g]->intersects_ray(r) == 1) {
+                res = Color3::White();       
+            }
+
+
+        }
+
+        
         // TODO return the color of the given pixel
         // you don't have to use this stub function if you prefer to
         // write your own version of Raytracer::raytrace.

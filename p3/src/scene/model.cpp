@@ -33,4 +33,9 @@ void Model::render() const
         material->reset_gl_state();
 }
 
+int Model::intersects_ray(Ray r) const 
+{
+    return 0;
+}
+
 } /* _462 */

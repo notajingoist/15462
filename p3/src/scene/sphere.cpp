@@ -96,5 +96,58 @@ void Sphere::render() const
         material->reset_gl_state();
 }
 
+int Sphere::intersects_ray(Ray r) const
+{
+    int intersect_result = 0;
+   
+    Vector3 trans_e = invMat.transform_point(r.e); 
+    Vector3 trans_d = invMat.transform_vector(r.d);
+    
+    real_t A = dot(trans_d, trans_d);
+    real_t B = dot((2*trans_d), (trans_e-position));
+    real_t C = dot((trans_e-position), (trans_e-position)) - (radius*radius);
+    real_t discriminant = (B*B) - (4*A*C);
+    real_t t_hit, t_leave;
+    Vector3 n_hit, n_leave;
+
+    if (discriminant < 0) {
+        //no solutions, ray and sphere do not intersect
+        return intersect_result;
+    } else if (discriminant > 0) {
+        //2 solutions, one where ray enters sphere, one where it leaves
+        real_t t1 = (dot(-1*trans_d, (trans_e-position)) + sqrt(discriminant))/(dot(trans_d, trans_d));
+        real_t t2 = (dot(-1*trans_d, (trans_e-position)) - sqrt(discriminant))/(dot(trans_d, trans_d));
+        
+        t_hit = (t1 < t2) ? t1 : t2;
+        t_leave = (t1 < t2) ? t2 : t1;
+        n_hit = normalize(normMat*(2*((trans_e + t_hit*trans_d)-position)));
+        n_leave = normalize(normMat*(2*((trans_e + t_leave*trans_d)-position)));
+        
+        intersect_result = (t_hit > 0) ? 1 : 0; 
+    } else {
+        //1 solution, ray grazes sphere at one point
+        t_hit = (dot(-1*trans_d, (trans_e-position)) + sqrt(discriminant))/(dot(trans_d, trans_d));
+        n_hit = normalize(normMat*(2*((trans_e + t_hit*trans_d)-position)));
+    
+        intersect_result = (t_hit > 0) ? 1 : 0;
+    }
+
+    return intersect_result;
+}
+
+
 } /* _462 */
+
+
+
+
+
+
+
+
+
+
+
+
+
 

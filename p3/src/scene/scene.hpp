@@ -54,6 +54,10 @@ public:
      */
     virtual void render() const = 0;
 
+    virtual int intersects_ray(Ray r) const;
+        //if geometry interesects ray, return 1, else 0
+        //override for sphere, triangle, model, etc.
+
 	bool initialize();
 };
 

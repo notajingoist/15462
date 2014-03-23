@@ -49,4 +49,16 @@ void Triangle::render() const
         vertices[0].material->reset_gl_state();
 }
 
+int Triangle::intersects_ray(Ray r) const
+{
+    /*
+    Vertex vtx_a = vertices[0];
+    Vertex vtx_b = vertices[1];
+    Vertex vtx_c = vertices[2];
+
+    */
+
+    return 0;
+}
+
 } /* _462 */

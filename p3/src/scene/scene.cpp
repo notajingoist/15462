@@ -31,6 +31,11 @@ bool Geometry::initialize()
 	return true;
 }
 
+int Geometry::intersects_ray(Ray r) const
+{
+    return 0;
+}
+
 SphereLight::SphereLight():
     position(Vector3::Zero()),
     color(Color3::White()),
@@ -143,7 +148,6 @@ void Scene::add_light( const SphereLight& l )
 {
     point_lights.push_back( l );
 }
-
 
 } /* _462 */
 
