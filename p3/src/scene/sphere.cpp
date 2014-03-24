@@ -98,8 +98,6 @@ void Sphere::render() const
 
 int Sphere::intersects_ray(Ray r) const
 {
-    int intersect_result = 0;
-   
     Vector3 trans_e = invMat.transform_point(r.e); 
     Vector3 trans_d = invMat.transform_vector(r.d);
     
@@ -112,7 +110,7 @@ int Sphere::intersects_ray(Ray r) const
 
     if (discriminant < 0) {
         //no solutions, ray and sphere do not intersect
-        return intersect_result;
+        return 0;
     } else if (discriminant > 0) {
         //2 solutions, one where ray enters sphere, one where it leaves
         real_t t1 = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
@@ -123,16 +121,14 @@ int Sphere::intersects_ray(Ray r) const
         n_hit = normalize(normMat*(2*((trans_e + t_hit*trans_d))));
         n_leave = normalize(normMat*(2*((trans_e + t_leave*trans_d))));
         
-        intersect_result = (t_hit > 0) ? 1 : 0; 
+        return (t_hit > 0) ? 1 : 0; 
     } else {
         //1 solution, ray grazes sphere at one point
         t_hit = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
         n_hit = normalize(normMat*(2*((trans_e + t_hit*trans_d))));
     
-        intersect_result = (t_hit > 0) ? 1 : 0;
+        return (t_hit > 0) ? 1 : 0;
     }
-
-    return intersect_result;
 }
 
 

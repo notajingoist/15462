@@ -130,13 +130,13 @@ vector
 cfloat
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/sphere.cpp
-scene/sphere.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/sphere.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/triangle.cpp
+scene/triangle.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/triangle.hpp
 application/opengl.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/application/opengl.hpp
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/sphere.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/triangle.hpp
 scene/scene.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/scene.hpp
 

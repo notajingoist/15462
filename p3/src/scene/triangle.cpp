@@ -57,24 +57,59 @@ int Triangle::intersects_ray(Ray r) const
     Vertex vtx_a = vertices[0];
     Vertex vtx_b = vertices[1];
     Vertex vtx_c = vertices[2];
+   
+    /*
+    Vector3 vtx_a_n = vtx_a.normal;
+    Vector3 vtx_b_n = vtx_b.normal;
+    Vector3 vtx_c_n = vtx_c.normal;
+    */
 
-    real_t a = vtx_a.position.x - vtx_b.position.x; //xa - xb
-    real_t b = vtx_a.position.y - vtx_b.position.y; //ya - yb
-    real_t c = vtx_a.position.z - vtx_b.position.z; //za - zb
-    real_t d = vtx_a.position.x - vtx_c.position.x; //xa - xc
-    real_t e = vtx_a.position.y - vtx_c.position.y; //ya - yc
-    real_t f = vtx_a.position.z - vtx_c.position.z; //za - zc
+    Vector3 vtx_a_pos = vtx_a.position;
+    Vector3 vtx_b_pos = vtx_b.position;
+    Vector3 vtx_c_pos = vtx_c.position;
+    
+    real_t a = vtx_a_pos.x - vtx_b_pos.x; //xa - xb
+    real_t b = vtx_a_pos.y - vtx_b_pos.y; //ya - yb
+    real_t c = vtx_a_pos.z - vtx_b_pos.z; //za - zb
+    real_t d = vtx_a_pos.x - vtx_c_pos.x; //xa - xc
+    real_t e = vtx_a_pos.y - vtx_c_pos.y; //ya - yc
+    real_t f = vtx_a_pos.z - vtx_c_pos.z; //za - zc
     real_t g = trans_d.x; //xd
     real_t h = trans_d.y; //yd
     real_t i = trans_d.z; //zd
-    real_t j = vtx_a.position.x - trans_e.x; //xa - xe
-    real_t k = vtx_a.position.y - trans_e.y; //ya - ye
-    real_t l = vtx_a.position.z - trans_e.z; //za - ze
+    real_t j = vtx_a_pos.x - trans_e.x; //xa - xe
+    real_t k = vtx_a_pos.y - trans_e.y; //ya - ye
+    real_t l = vtx_a_pos.z - trans_e.z; //za - ze
 
     real_t M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
-    //real_t = (-1)*(f*
+    real_t t = (-1)*(f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
+    if (t < 0) {
+        return 0;
+    }
 
-    return 0;
+    real_t gamma = (i*(a*k - j*b) + h*(j*c - a*l) + g*(b*l - k*c))/M; 
+    if ((gamma < 0) || (gamma > 1)) {
+        return 0;
+    }
+
+    real_t beta = (j*(e*i - h*f) + k*(g*f - d*i) + l*(d*h - e*g))/M;
+    if ((beta < 0) || (beta > (1 - gamma))) {
+        return 0;
+    }
+
+    Vector3 pre_n = cross((vtx_b_pos - vtx_a_pos), (vtx_c_pos - vtx_a_pos));
+    Vector3 n = normalize(normMat*pre_n);
+     
+    return 1;
 }
 
 } /* _462 */
+
+
+
+
+
+
+
+
+
