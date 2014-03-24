@@ -51,12 +51,28 @@ void Triangle::render() const
 
 int Triangle::intersects_ray(Ray r) const
 {
-    /*
+    Vector3 trans_e = invMat.transform_point(r.e); 
+    Vector3 trans_d = invMat.transform_vector(r.d);
+
     Vertex vtx_a = vertices[0];
     Vertex vtx_b = vertices[1];
     Vertex vtx_c = vertices[2];
 
-    */
+    real_t a = vtx_a.position.x - vtx_b.position.x; //xa - xb
+    real_t b = vtx_a.position.y - vtx_b.position.y; //ya - yb
+    real_t c = vtx_a.position.z - vtx_b.position.z; //za - zb
+    real_t d = vtx_a.position.x - vtx_c.position.x; //xa - xc
+    real_t e = vtx_a.position.y - vtx_c.position.y; //ya - yc
+    real_t f = vtx_a.position.z - vtx_c.position.z; //za - zc
+    real_t g = trans_d.x; //xd
+    real_t h = trans_d.y; //yd
+    real_t i = trans_d.z; //zd
+    real_t j = vtx_a.position.x - trans_e.x; //xa - xe
+    real_t k = vtx_a.position.y - trans_e.y; //ya - ye
+    real_t l = vtx_a.position.z - trans_e.z; //za - ze
+
+    real_t M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
+    //real_t = (-1)*(f*
 
     return 0;
 }
