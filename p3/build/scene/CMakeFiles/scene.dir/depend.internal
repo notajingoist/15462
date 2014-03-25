@@ -35,7 +35,9 @@ scene/CMakeFiles/scene.dir/model.cpp.o
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/math.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/matrix.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/quaternion.hpp
+ /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/random462.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/vector.hpp
+ /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/raytracer.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/material.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/mesh.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/model.cpp
@@ -74,7 +76,9 @@ scene/CMakeFiles/scene.dir/scene.cpp.o
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/math.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/matrix.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/quaternion.hpp
+ /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/random462.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/vector.hpp
+ /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/raytracer.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/material.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/mesh.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/ray.hpp
@@ -93,7 +97,9 @@ scene/CMakeFiles/scene.dir/sphere.cpp.o
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/math.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/matrix.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/quaternion.hpp
+ /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/random462.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/vector.hpp
+ /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/raytracer.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/material.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/mesh.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/ray.hpp
@@ -113,7 +119,9 @@ scene/CMakeFiles/scene.dir/triangle.cpp.o
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/math.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/matrix.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/quaternion.hpp
+ /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/random462.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/vector.hpp
+ /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/raytracer.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/material.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/mesh.hpp
  /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/ray.hpp

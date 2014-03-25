@@ -33,7 +33,7 @@ void Model::render() const
         material->reset_gl_state();
 }
 
-int Model::intersects_ray(Ray r) const 
+void Model::intersects_ray(Ray r, IntersectInfo& intsec) const 
 {
     Triangle* all_triangles = new Triangle[mesh->num_triangles()];
 
@@ -63,17 +63,38 @@ int Model::intersects_ray(Ray r) const
         all_triangles[i] = tri; 
     }
 
-    int intersection_result = 0;
-    //real_t min_t = -1;
+    
+    intsec.intersects = false;
+    IntersectInfo* tri_intersections = new IntersectInfo[mesh->num_triangles()];
+    
+    bool intersection_found = false;
+    real_t min_t = 0;
+    //size_t min_t_index = 0;
     for (size_t i = 0; i < mesh->num_triangles(); i++) {
         //real_t t = all_triangles[i].intersects_ray(r);
-        if (all_triangles[i].intersects_ray(r)) {
+        /*if (all_triangles[i].intersects_ray(r)) {
             intersection_result = 1;
+        }*/
+        
+        IntersectInfo& tri_intsec = tri_intersections[i];
+        tri_intsec.geom_index = i;
+        
+        all_triangles[i].intersects_ray(r, tri_intsec);
+        
+        if (tri_intsec.intersects && (!intersection_found 
+            || (tri_intsec.t_hit < min_t))) {
+            intsec.intersects = tri_intsec.intersects; //true
+            intsec.t_hit = tri_intsec.t_hit;
+            intsec.n_hit = tri_intsec.n_hit;
+
+            intersection_found = true;
+            min_t = tri_intsec.t_hit;
+            //min_t_index = i;
         }
     }
 
     delete[] all_triangles;
-    return intersection_result;
+    delete[] tri_intersections;
 }
 
 } /* _462 */

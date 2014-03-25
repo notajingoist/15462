@@ -15,8 +15,17 @@
 
 #include "math/color.hpp"
 #include "math/random462.hpp"
-
+#include "math/vector.hpp"
 namespace _462 {
+
+struct IntersectInfo {
+    size_t geom_index;
+    real_t t_hit;
+    real_t t_leave;
+    Vector3 n_hit;
+    Vector3 n_leave;
+    bool intersects;
+};
 
 class Scene;
 class Ray;

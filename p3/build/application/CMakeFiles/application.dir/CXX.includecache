@@ -84,6 +84,12 @@ math/math.hpp
 math/vector.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/math/vector.hpp
 
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/random462.hpp
+math/math.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/math/math.hpp
+random
+-
+
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/vector.hpp
 math/math.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/math/math/math.hpp
@@ -95,6 +101,14 @@ cmath
 -
 iostream
 -
+
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/raytracer.hpp
+math/color.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/math/color.hpp
+math/random462.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/math/random462.hpp
+math/vector.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/math/vector.hpp
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/material.hpp
 math/color.hpp
@@ -151,6 +165,8 @@ scene/material.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/material.hpp
 scene/mesh.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/mesh.hpp
+p3/raytracer.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/p3/raytracer.hpp
 ray.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/ray.hpp
 string

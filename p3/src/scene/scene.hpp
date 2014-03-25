@@ -13,6 +13,7 @@
 #include "math/camera.hpp"
 #include "scene/material.hpp"
 #include "scene/mesh.hpp"
+#include "p3/raytracer.hpp"
 //#include "scene/bvh.hpp"
 #include "ray.hpp"
 #include <string>
@@ -54,7 +55,7 @@ public:
      */
     virtual void render() const = 0;
 
-    virtual int intersects_ray(Ray r) const;
+    virtual void intersects_ray(Ray r, IntersectInfo& intsec) const;
         //if geometry interesects ray, return 1, else 0
         //override for sphere, triangle, model, etc.
 

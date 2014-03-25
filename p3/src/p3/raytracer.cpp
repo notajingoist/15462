@@ -96,6 +96,8 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
     real_t dx = real_t(1)/width;
     real_t dy = real_t(1)/height;
 
+    //new min_t list for each sample
+    //run through each sample with intersection true, and do res = white for the min sample
     Color3 res = Color3::Black();
     unsigned int iter;
     for (iter = 0; iter < num_samples; iter++)
@@ -107,20 +109,35 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
 
         Ray r = Ray(scene->camera.get_position(), Ray::get_pixel_dir(i, j));
 
-
+        bool intersection_found = false;
+        size_t min_t_index = 0;
+        real_t min_t = 0;
         Geometry* const* geometries = scene->get_geometries();
-        for (size_t g = 0; g < scene->num_geometries(); g++) {
+        IntersectInfo* intersections = new IntersectInfo[scene->num_geometries()];
+        for (size_t i = 0; i < scene->num_geometries(); i++) {
+            
             /*printf("geometry pos x is %f, y is %f, z is %f.\n", 
             geometries[g]->position.x, geometries[g]->position.y, 
             geometries[g]->position.z);*/
-            
-            if (geometries[g]->intersects_ray(r) == 1) {
-                res = Color3::White();       
+
+            IntersectInfo& intsec = intersections[i];
+            intsec.geom_index = i;
+            intsec.intersects = false;
+            geometries[i]->intersects_ray(r, intsec);
+            //printf("geom index: %ld\n", intsec.geom_index); 
+            if (intsec.intersects && (!intersection_found
+                || (intsec.t_hit < min_t))) {
+                //res = Color3::White();   
+                min_t = intsec.t_hit;
+                min_t_index = i;
             }
-
-
         }
-
+      
+        if (intersection_found) {
+            
+        }
+        
+        delete[] intersections;
         
         // TODO return the color of the given pixel
         // you don't have to use this stub function if you prefer to

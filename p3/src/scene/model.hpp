@@ -27,7 +27,7 @@ public:
     virtual ~Model();
 
     virtual void render() const;
-    virtual int intersects_ray(Ray r) const; 
+    virtual void intersects_ray(Ray r, IntersectInfo& intsec) const; 
 };
 
 
