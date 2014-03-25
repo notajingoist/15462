@@ -43,3 +43,20 @@ cd ..
 ./p2 scenes/bunny.scene
 ```
 ---
+
+#####Project 3
+
+```
+cd p3
+cd build && rm -rf * && cmake ../src && make install
+cd ..
+./p3 scenes/spheres.scene
+```
+
+```
+cd p3
+cd build && make install
+cd ..
+./p3 scenes/spheres.scene
+```
+---
