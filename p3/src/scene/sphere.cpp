@@ -105,13 +105,8 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
     real_t B = dot((2*trans_d), (trans_e));
     real_t C = dot((trans_e), (trans_e)) - (radius*radius);
     real_t discriminant = (B*B) - (4*A*C);
-    //real_t t_hit, t_leave;
-    //Vector3 n_hit, n_leave;
 
     if (discriminant < 0) {
-        //no solutions, ray and sphere do not intersect
-        //intsec.intersects = false;
-        //return 0;
     } else if (discriminant > 0) {
         //2 solutions, one where ray enters sphere, one where it leaves
         real_t t1 = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
@@ -122,7 +117,6 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
         Vector3 n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
         Vector3 n_leave = normalize(normMat*(2*((trans_e + intsec.t_leave*trans_d))));
        
-        //intsec.intersects = (intsec.t_hit > 0) ? true : false; 
         if ((t_hit > 0) && (!intsec.intersection_found
             || (t_hit < intsec.t_hit))) {
             intsec.intersection_found = true;
@@ -137,7 +131,6 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
         real_t t_hit = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
         Vector3 n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
     
-        //intsec.intersects = (intsec.t_hit > 0) ? true : false;
         if ((t_hit > 0) && (!intsec.intersection_found
             || (t_hit < intsec.t_hit))) {
             intsec.intersection_found = true;
@@ -150,5 +143,3 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
 
 
 } /* _462 */
-
-

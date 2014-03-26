@@ -58,12 +58,6 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
     Vertex vtx_b = vertices[1];
     Vertex vtx_c = vertices[2];
    
-    /*
-    Vector3 vtx_a_n = vtx_a.normal;
-    Vector3 vtx_b_n = vtx_b.normal;
-    Vector3 vtx_c_n = vtx_c.normal;
-    */
-
     Vector3 vtx_a_pos = vtx_a.position;
     Vector3 vtx_b_pos = vtx_b.position;
     Vector3 vtx_c_pos = vtx_c.position;
@@ -84,27 +78,21 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
     real_t M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
     real_t t = (-1)*(f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
     if (t < 0) { //<= ? 
-        //intsec.intersects = false;
-        //return;
         return;
     }
 
     real_t gamma = (i*(a*k - j*b) + h*(j*c - a*l) + g*(b*l - k*c))/M; 
     if ((gamma < 0) || (gamma > 1)) {
-        //intsec.intersects = false;
-        //return;
         return;
     }
 
     real_t beta = (j*(e*i - h*f) + k*(g*f - d*i) + l*(d*h - e*g))/M;
     if ((beta < 0) || (beta > (1 - gamma))) {
-        //intsec.intersects = false;
         return;
     }
 
     Vector3 pre_n = cross((vtx_b_pos - vtx_a_pos), (vtx_c_pos - vtx_a_pos));
     Vector3 n = normalize(normMat*pre_n);
-    
     if (!intsec.intersection_found || (t < intsec.t_hit)) {
         intsec.intersection_found = true;
         intsec.t_hit = t;

@@ -110,30 +110,18 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
         Ray r = Ray(scene->camera.get_position(), Ray::get_pixel_dir(i, j));
 
         Geometry* const* geometries = scene->get_geometries();
-        //IntersectInfo* intersections = new IntersectInfo[scene->num_geometries()];
         
         IntersectInfo intsec;
         intsec.intersection_found = false;
         intsec.t_hit = -1;
         intsec.model_tri = false;
         for (size_t i = 0; i < scene->num_geometries(); i++) {
-            
             /*printf("geometry pos x is %f, y is %f, z is %f.\n", 
             geometries[g]->position.x, geometries[g]->position.y, 
             geometries[g]->position.z);*/
-
-            //IntersectInfo& intsec = intersections[i];
-            //intsec.geom_index = i;
-            //intsec.intersects = false;
-            geometries[i]->intersects_ray(r, intsec, i);
             //printf("geom index: %ld\n", intsec.geom_index); 
             
-            /*if (intsec.intersects && (!intersection_found
-                || (intsec.t_hit < min_t))) {
-                //res = Color3::White();   
-                min_t = intsec.t_hit;
-                min_t_index = i;
-            }*/
+            geometries[i]->intersects_ray(r, intsec, i);
         }
       
         if (intsec.intersection_found) {
@@ -147,18 +135,14 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
                 MeshVertex vtx_c = 
                     m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[2]];
                 */
-                //res += stuff
                 res += Color3::White();
             } else {
                 //sample color from geom object geometries[intsec.geom_index]
-                //res += Color3::White();
                 res += Color3::Red();
             }
         } else {
             res += scene->background_color; 
         }
-        
-        //delete[] intersections;
         
         // TODO return the color of the given pixel
         // you don't have to use this stub function if you prefer to
