@@ -120,20 +120,6 @@ iostream
 cstring
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/raytracer.cpp
-raytracer.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/raytracer.hpp
-scene/scene.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/scene/scene.hpp
-SDL_timer.h
--
-iostream
--
-random
--
-omp.h
--
-
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/raytracer.hpp
 math/color.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/math/color.hpp

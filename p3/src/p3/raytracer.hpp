@@ -39,7 +39,7 @@ struct IntersectInfo {
     bool sphere_two;
     bool sphere_one;
 };
-
+struct ColorInfo;
 class Scene;
 class Ray;
 struct Intersection;
@@ -78,6 +78,18 @@ private:
     unsigned int num_samples;
 };
 
+struct ColorInfo {
+    //Geometry* const* geometries;
+    //Color3 ambient_light;
+    //real_t refractive_index;
+    //const SphereLight* sphere_light;
+    const Scene* scene;
+};
+
+
+
 } /* _462 */
+
+
 
 #endif /* _462_RAYTRACER_HPP_ */

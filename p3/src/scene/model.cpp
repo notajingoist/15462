@@ -33,7 +33,7 @@ void Model::render() const
         material->reset_gl_state();
 }
 
-Color3 Model::compute_color(IntersectInfo& intsec) const
+Color3 Model::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     //blah
     return Color3::Red();

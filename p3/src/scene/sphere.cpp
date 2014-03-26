@@ -96,13 +96,53 @@ void Sphere::render() const
         material->reset_gl_state();
 }
 
-Color3 Sphere::compute_color(IntersectInfo& intsec) const
+Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
-    //colinf.material = material;
     Vector3 p = intsec.e + (intsec.t_hit * intsec.d);     
-     
-    Color3 pixel_col = material->get_texture_pixel(p.x, p.y); 
-    return pixel_col;
+    
+    //ambient color of light
+    Color3 ca = colinf.scene->ambient_light;
+    //material's ambient color
+    Color3 ka = material->ambient;
+    //material's diffuse color
+    Color3 kd = material->diffuse;
+    //texture color at point p
+    Color3 tp = material->get_texture_pixel(p.x, p.y); 
+
+    Color3 c_all_lights = Color3::Black();
+    for (size_t i = 0; i < colinf.scene->num_lights(); i++) {
+        Color3 c = colinf.scene->get_lights()[i].color;
+        real_t ac = colinf.scene->get_lights()[i].attenuation.constant;
+        real_t al = colinf.scene->get_lights()[i].attenuation.linear;
+        real_t aq = colinf.scene->get_lights()[i].attenuation.quadratic;
+
+        Vector3 light_pos = colinf.scene->get_lights()[i].position;
+        Vector3 light_dir = normalize(light_pos - p); //L
+        real_t light_dist = distance(p, light_pos); //d
+        Ray shadow_r = Ray(p, light_dir);
+        
+        real_t b = 1;
+        IntersectInfo b_intsec;
+        Raytracer::initialize_intsec_info(b_intsec);
+        colinf.scene->shoot_ray(shadow_r, b_intsec);
+        if (b_intsec.intersection_found) {
+            Vector3 obj_pos = p + (b_intsec.t_hit * light_dir);
+            real_t obj_dist = distance(p, obj_pos);
+            if (obj_dist <= light_dist) {
+                b = 0;
+            }
+        }
+
+        real_t n_dot_l = dot(intsec.n_hit, light_dir);
+        real_t max_n_dot_l = (n_dot_l > 0) ? n_dot_l : 0;
+
+        Color3 ci = c*(1/(ac + (light_dist*al) + (light_dist*light_dist*aq)));
+
+        c_all_lights += b*ci*kd*max_n_dot_l; 
+    }
+
+    Color3 cp = tp*((ca*ka) + c_all_lights);
+    return cp;
 }
 
 void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const

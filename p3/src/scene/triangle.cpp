@@ -49,7 +49,7 @@ void Triangle::render() const
         vertices[0].material->reset_gl_state();
 }
 
-Color3 Triangle::compute_color(IntersectInfo& intsec) const
+Color3 Triangle::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     //colinf.material = material; for each vertex
     return Color3::Red();

@@ -22,6 +22,8 @@
 
 namespace _462 {
 
+
+//struct ColorInfo;
 class Geometry
 {
 public:
@@ -56,7 +58,7 @@ public:
     virtual void render() const = 0;
 
     virtual void intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const;
-    virtual Color3 compute_color(IntersectInfo& intsec) const;
+    virtual Color3 compute_color(IntersectInfo& intsec, ColorInfo& colinf) const;
 
 	bool initialize();
 };
@@ -129,6 +131,8 @@ public:
     void add_mesh( Mesh* m );
     void add_light( const SphereLight& l );
 
+    void shoot_ray(Ray r, IntersectInfo& intsec) const;
+    
 private:
 
     typedef std::vector< SphereLight > SphereLightList;

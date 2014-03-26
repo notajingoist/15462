@@ -124,14 +124,16 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
         initialize_intsec_info(intsec);
 
         //printf("model_tri: %d\n", intsec.model_tri);
-        for (size_t i = 0; i < scene->num_geometries(); i++) {
+        //for (size_t i = 0; i < scene->num_geometries(); i++) {
             /*printf("geometry pos x is %f, y is %f, z is %f.\n", 
             geometries[g]->position.x, geometries[g]->position.y, 
             geometries[g]->position.z);*/
             //printf("geom index: %ld\n", intsec.geom_index); 
                     
-            geometries[i]->intersects_ray(r, intsec, i);
-        }
+           // geometries[i]->intersects_ray(r, intsec, i);
+        //}
+        
+        scene->shoot_ray(r, intsec);
       
         if (intsec.intersection_found) {
             if (intsec.model_tri) {
@@ -147,7 +149,10 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
                 res += Color3::White();
             } else {
                 //sample color from geom object geometries[intsec.geom_index]
-                res += geometries[intsec.geom_index]->compute_color(intsec);
+                ColorInfo colinf;
+                colinf.scene = scene;
+                //colinf.geometries = geometries;
+                res += geometries[intsec.geom_index]->compute_color(intsec, colinf);
                 //res += Color3::Red();
             }
         } else {

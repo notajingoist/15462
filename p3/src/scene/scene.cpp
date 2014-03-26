@@ -31,7 +31,7 @@ bool Geometry::initialize()
 	return true;
 }
 
-Color3 Geometry::compute_color(IntersectInfo& intsec) const
+Color3 Geometry::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     return Color3::Black();
 }
@@ -151,6 +151,13 @@ void Scene::add_mesh( Mesh* m )
 void Scene::add_light( const SphereLight& l )
 {
     point_lights.push_back( l );
+}
+
+void Scene::shoot_ray(Ray r, IntersectInfo& intsec) const
+{
+    for (size_t i = 0; i < num_geometries(); i++) {
+        get_geometries()[i]->intersects_ray(r, intsec, i);
+    }
 }
 
 } /* _462 */
