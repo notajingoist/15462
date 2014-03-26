@@ -74,6 +74,17 @@ bool Raytracer::initialize(Scene* scene, size_t num_samples,
     return true;
 }
 
+void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
+{
+    intsec.intersection_found = false;
+    intsec.model_tri = false;
+    intsec.tri = false;
+    intsec.sphere = false;
+    intsec.sphere_two = false;
+    intsec.sphere_one = false;
+    intsec.t_hit = -1;
+}
+
 /**
  * Performs a raytrace on the given pixel on the current scene.
  * The pixel is relative to the bottom-left corner of the image.
@@ -96,8 +107,6 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
     real_t dx = real_t(1)/width;
     real_t dy = real_t(1)/height;
 
-    //new min_t list for each sample
-    //run through each sample with intersection true, and do res = white for the min sample
     Color3 res = Color3::Black();
     unsigned int iter;
     for (iter = 0; iter < num_samples; iter++)
@@ -112,15 +121,23 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
         Geometry* const* geometries = scene->get_geometries();
         
         IntersectInfo intsec;
-        intsec.intersection_found = false;
+        initialize_intsec_info(intsec);
+
+        /*intsec.intersection_found = false;
         intsec.t_hit = -1;
         intsec.model_tri = false;
+        intsec.tri = false;
+        intsec.sphere = false;
+        intsec.sphere_two = false;
+        intsec.sphere_one = false;
+        */
+        //printf("model_tri: %d\n", intsec.model_tri);
         for (size_t i = 0; i < scene->num_geometries(); i++) {
             /*printf("geometry pos x is %f, y is %f, z is %f.\n", 
             geometries[g]->position.x, geometries[g]->position.y, 
             geometries[g]->position.z);*/
             //printf("geom index: %ld\n", intsec.geom_index); 
-            
+                    
             geometries[i]->intersects_ray(r, intsec, i);
         }
       

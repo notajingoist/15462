@@ -47,9 +47,14 @@ void Model::tri_intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index,
 void Model::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const 
 {
     IntersectInfo tri_intsec;
-    tri_intsec.intersection_found = false;
+    Raytracer::initialize_intsec_info(tri_intsec);
+    /*tri_intsec.intersection_found = false;
     tri_intsec.t_hit = -1;
     tri_intsec.model_tri = false;
+    tri_intsec.tri = false;
+    tri_intsec.sphere = false;
+    tri_intsec.sphere_two = false;
+    tri_intsec.sphere_one = false;*/
     for (size_t i = 0; i < mesh->num_triangles(); i++) {
         MeshVertex vtx_a = mesh->get_vertices()[mesh->get_triangles()[i].vertices[0]];
         MeshVertex vtx_b = mesh->get_vertices()[mesh->get_triangles()[i].vertices[1]];

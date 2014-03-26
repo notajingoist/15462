@@ -21,12 +21,18 @@ namespace _462 {
 struct IntersectInfo {
     size_t geom_index;
     size_t tri_index;
+    
     real_t t_hit;
     real_t t_leave;
     Vector3 n_hit;
     Vector3 n_leave;
+    
     bool intersection_found;
     bool model_tri;
+    bool tri;
+    bool sphere;
+    bool sphere_two;
+    bool sphere_one;
 };
 
 class Scene;
@@ -44,6 +50,8 @@ public:
                     size_t width, size_t height);
 
     bool raytrace(unsigned char* buffer, real_t* max_time);
+
+    static void initialize_intsec_info(IntersectInfo& intsec);
 
 private:
 

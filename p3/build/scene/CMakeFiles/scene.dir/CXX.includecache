@@ -148,6 +148,10 @@ string
 vector
 -
 
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene.cpp
+scene/scene.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/scene.hpp
+
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene.hpp
 math/vector.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/math/vector.hpp
