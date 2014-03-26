@@ -56,8 +56,7 @@ public:
     virtual void render() const = 0;
 
     virtual void intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const;
-        //if geometry interesects ray, return 1, else 0
-        //override for sphere, triangle, model, etc.
+    virtual Color3 compute_color(IntersectInfo& intsec) const;
 
 	bool initialize();
 };

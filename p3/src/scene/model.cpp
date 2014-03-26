@@ -33,6 +33,12 @@ void Model::render() const
         material->reset_gl_state();
 }
 
+Color3 Model::compute_color(IntersectInfo& intsec) const
+{
+    //blah
+    return Color3::Red();
+}
+
 void Model::tri_intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index,
                                 MeshVertex a, MeshVertex b, MeshVertex c) const
 {
@@ -62,7 +68,9 @@ void Model::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) cons
             intsec.n_hit = tri_intsec.n_hit;
             intsec.geom_index = geom_index;
             intsec.tri_index = tri_intsec.geom_index;
-            intsec.model_tri = true; 
+            intsec.e = tri_intsec.e;
+            intsec.d = tri_intsec.d;
+            //intsec.model_tri = true; 
         }
 
     }

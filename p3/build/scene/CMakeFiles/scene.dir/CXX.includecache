@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/application/imageio.hpp
+cstdlib
+-
+
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/application/opengl.hpp
 GL/glew.h
 -
@@ -85,6 +89,14 @@ math/random462.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/math/random462.hpp
 math/vector.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/math/vector.hpp
+scene/material.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/p3/scene/material.hpp
+
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/material.cpp
+scene/material.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/material.hpp
+application/imageio.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/application/imageio.hpp
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/material.hpp
 math/color.hpp
@@ -129,6 +141,10 @@ scene/scene.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/scene.hpp
 scene/mesh.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/mesh.hpp
+
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/ray.cpp
+ray.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/ray.hpp
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/ray.hpp
 math/vector.hpp

@@ -31,6 +31,11 @@ bool Geometry::initialize()
 	return true;
 }
 
+Color3 Geometry::compute_color(IntersectInfo& intsec) const
+{
+    return Color3::Black();
+}
+
 void Geometry::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
 }

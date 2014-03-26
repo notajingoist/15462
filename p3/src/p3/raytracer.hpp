@@ -16,9 +16,13 @@
 #include "math/color.hpp"
 #include "math/random462.hpp"
 #include "math/vector.hpp"
+#include "scene/material.hpp"
 namespace _462 {
 
 struct IntersectInfo {
+    Vector3 e;
+    Vector3 d;
+
     size_t geom_index;
     size_t tri_index;
     

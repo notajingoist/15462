@@ -96,11 +96,22 @@ void Sphere::render() const
         material->reset_gl_state();
 }
 
+Color3 Sphere::compute_color(IntersectInfo& intsec) const
+{
+    //colinf.material = material;
+    Vector3 p = intsec.e + (intsec.t_hit * intsec.d);     
+    Color3 pixel_col = material->get_texture_pixel(p.x, p.y); 
+    return pixel_col;
+}
+
 void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
     Vector3 trans_e = invMat.transform_point(r.e); 
     Vector3 trans_d = invMat.transform_vector(r.d);
-    
+  
+    intsec.e = trans_e;
+    intsec.d = trans_d;
+
     real_t A = dot(trans_d, trans_d);
     real_t B = dot((2*trans_d), (trans_e));
     real_t C = dot((trans_e), (trans_e)) - (radius*radius);

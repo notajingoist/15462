@@ -147,7 +147,8 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
                 res += Color3::White();
             } else {
                 //sample color from geom object geometries[intsec.geom_index]
-                res += Color3::Red();
+                res += geometries[intsec.geom_index]->compute_color(intsec);
+                //res += Color3::Red();
             }
         } else {
             res += scene->background_color; 

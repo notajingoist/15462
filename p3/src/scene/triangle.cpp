@@ -49,10 +49,19 @@ void Triangle::render() const
         vertices[0].material->reset_gl_state();
 }
 
+Color3 Triangle::compute_color(IntersectInfo& intsec) const
+{
+    //colinf.material = material; for each vertex
+    return Color3::Red();
+}
+
 void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
     Vector3 trans_e = invMat.transform_point(r.e); 
     Vector3 trans_d = invMat.transform_vector(r.d);
+    
+    intsec.e = trans_e;
+    intsec.d = trans_d;
 
     Vertex vtx_a = vertices[0];
     Vertex vtx_b = vertices[1];

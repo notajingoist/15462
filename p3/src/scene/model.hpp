@@ -30,6 +30,8 @@ public:
     virtual void intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const; 
     void tri_intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index,
                             MeshVertex a, MeshVertex b, MeshVertex c) const;
+
+    virtual Color3 compute_color(IntersectInfo& intsec) const;
 };
 
 
