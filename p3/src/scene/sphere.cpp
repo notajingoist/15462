@@ -100,6 +100,7 @@ Color3 Sphere::compute_color(IntersectInfo& intsec) const
 {
     //colinf.material = material;
     Vector3 p = intsec.e + (intsec.t_hit * intsec.d);     
+     
     Color3 pixel_col = material->get_texture_pixel(p.x, p.y); 
     return pixel_col;
 }
@@ -128,7 +129,7 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
         Vector3 n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
         Vector3 n_leave = normalize(normMat*(2*((trans_e + intsec.t_leave*trans_d))));
        
-        if ((t_hit > 0) && (!intsec.intersection_found
+        if ((t_hit > SLOP) && (!intsec.intersection_found
             || (t_hit < intsec.t_hit))) {
             intsec.intersection_found = true;
             intsec.t_hit = t_hit;
@@ -142,7 +143,7 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
         real_t t_hit = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
         Vector3 n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
     
-        if ((t_hit > 0) && (!intsec.intersection_found
+        if ((t_hit > SLOP) && (!intsec.intersection_found
             || (t_hit < intsec.t_hit))) {
             intsec.intersection_found = true;
             intsec.t_hit = t_hit;

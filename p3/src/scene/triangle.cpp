@@ -86,7 +86,7 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
 
     real_t M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
     real_t t = (-1)*(f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
-    if (t < 0) { //<= ? 
+    if (t <= SLOP) { //<= ? 
         return;
     }
 

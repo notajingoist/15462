@@ -12,6 +12,7 @@
 #define _462_RAYTRACER_HPP_
 
 #define MAX_DEPTH 5
+#define SLOP 0.001
 
 #include "math/color.hpp"
 #include "math/random462.hpp"
