@@ -123,14 +123,6 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
         IntersectInfo intsec;
         initialize_intsec_info(intsec);
 
-        /*intsec.intersection_found = false;
-        intsec.t_hit = -1;
-        intsec.model_tri = false;
-        intsec.tri = false;
-        intsec.sphere = false;
-        intsec.sphere_two = false;
-        intsec.sphere_one = false;
-        */
         //printf("model_tri: %d\n", intsec.model_tri);
         for (size_t i = 0; i < scene->num_geometries(); i++) {
             /*printf("geometry pos x is %f, y is %f, z is %f.\n", 
