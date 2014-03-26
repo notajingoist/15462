@@ -26,7 +26,7 @@ public:
     Sphere();
     virtual ~Sphere();
     virtual void render() const;
-    virtual void intersects_ray(Ray r, IntersectInfo& intsec) const;
+    virtual void intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const;
 };
 
 } /* _462 */

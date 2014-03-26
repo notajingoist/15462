@@ -33,16 +33,43 @@ void Model::render() const
         material->reset_gl_state();
 }
 
-void Model::intersects_ray(Ray r, IntersectInfo& intsec) const 
+void Model::tri_intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index,
+                                MeshVertex a, MeshVertex b, MeshVertex c) const
 {
-    Triangle* all_triangles = new Triangle[mesh->num_triangles()];
+    Triangle tri = Triangle();
+    tri.vertices[0].position = a.position;
+    tri.vertices[1].position = b.position;
+    tri.vertices[2].position = c.position;
 
+    tri.intersects_ray(r, intsec, geom_index);
+}
+
+void Model::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const 
+{
+    //Triangle* all_triangles = new Triangle[mesh->num_triangles()];
+    
+    IntersectInfo tri_intsec;
+    tri_intsec.intersection_found = false;
+    tri_intsec.t_hit = -1;
+    tri_intsec.model_tri = false;
     for (size_t i = 0; i < mesh->num_triangles(); i++) {
         MeshVertex vtx_a = mesh->get_vertices()[mesh->get_triangles()[i].vertices[0]];
         MeshVertex vtx_b = mesh->get_vertices()[mesh->get_triangles()[i].vertices[1]];
         MeshVertex vtx_c = mesh->get_vertices()[mesh->get_triangles()[i].vertices[2]];
+       
+        tri_intersects_ray(r, tri_intsec, i, vtx_a, vtx_b, vtx_c);
         
-        Triangle tri = Triangle();
+        if (tri_intsec.intersection_found && (!intsec.intersection_found 
+            || (tri_intsec.t_hit < intsec.t_hit))) {
+            intsec.intersection_found = true;
+            intsec.t_hit = tri_intsec.t_hit;
+            intsec.n_hit = tri_intsec.n_hit;
+            intsec.geom_index = geom_index;
+            intsec.tri_index = tri_intsec.geom_index;
+            intsec.model_tri = true; 
+        }
+
+        /*Triangle tri = Triangle();
          
         tri.vertices[0].position = vtx_a.position;
         tri.vertices[1].position = vtx_b.position;
@@ -60,41 +87,43 @@ void Model::intersects_ray(Ray r, IntersectInfo& intsec) const
         tri.vertices[1].material = material;
         tri.vertices[2].material = material;
 
-        all_triangles[i] = tri; 
+        all_triangles[i] = tri;*/ 
     }
 
     
-    intsec.intersects = false;
-    IntersectInfo* tri_intersections = new IntersectInfo[mesh->num_triangles()];
+    //intsec.intersects = false;
+    //IntersectInfo* tri_intersections = new IntersectInfo[mesh->num_triangles()];
+    //IntersectInfo tri_intsec;
+    //tri_intsec.intersection_found = false;
+    //tri_intsec.t_hit = -1;
     
-    bool intersection_found = false;
-    real_t min_t = 0;
-    //size_t min_t_index = 0;
-    for (size_t i = 0; i < mesh->num_triangles(); i++) {
+    //for (size_t i = 0; i < mesh->num_triangles(); i++) {
         //real_t t = all_triangles[i].intersects_ray(r);
         /*if (all_triangles[i].intersects_ray(r)) {
             intersection_result = 1;
         }*/
         
-        IntersectInfo& tri_intsec = tri_intersections[i];
-        tri_intsec.geom_index = i;
+        //IntersectInfo& tri_intsec = tri_intersections[i];
+        //tri_intsec.geom_index = i;
         
-        all_triangles[i].intersects_ray(r, tri_intsec);
+        //all_triangles[i].intersects_ray(r, tri_intsec, i);
         
-        if (tri_intsec.intersects && (!intersection_found 
-            || (tri_intsec.t_hit < min_t))) {
-            intsec.intersects = tri_intsec.intersects; //true
+        /*if (tri_intsec.intersection_found && (!intsec.intersection_found 
+            || (tri_intsec.t_hit < intsec.t_hit))) {
+            intsec.intersection_found = true;
             intsec.t_hit = tri_intsec.t_hit;
             intsec.n_hit = tri_intsec.n_hit;
+            intsec.geom_index = geom_index;
+            intsec.tri_index = tri_intsec.geom_index;
 
             intersection_found = true;
             min_t = tri_intsec.t_hit;
             //min_t_index = i;
-        }
-    }
+        }*/
+    //}
 
-    delete[] all_triangles;
-    delete[] tri_intersections;
+    //delete[] all_triangles;
+    //delete[] tri_intersections;
 }
 
 } /* _462 */

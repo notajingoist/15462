@@ -96,7 +96,7 @@ void Sphere::render() const
         material->reset_gl_state();
 }
 
-void Sphere::intersects_ray(Ray r, IntersectInfo& intsec) const
+void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
     Vector3 trans_e = invMat.transform_point(r.e); 
     Vector3 trans_d = invMat.transform_vector(r.d);
@@ -110,25 +110,41 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec) const
 
     if (discriminant < 0) {
         //no solutions, ray and sphere do not intersect
-        intsec.intersects = false;
+        //intsec.intersects = false;
         //return 0;
     } else if (discriminant > 0) {
         //2 solutions, one where ray enters sphere, one where it leaves
         real_t t1 = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
         real_t t2 = (dot(-1*trans_d, (trans_e)) - sqrt(discriminant))/(dot(trans_d, trans_d));
         
-        intsec.t_hit = (t1 < t2) ? t1 : t2;
-        intsec.t_leave = (t1 < t2) ? t2 : t1;
-        intsec.n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
-        intsec.n_leave = normalize(normMat*(2*((trans_e + intsec.t_leave*trans_d))));
+        real_t t_hit = (t1 < t2) ? t1 : t2;
+        real_t t_leave = (t1 < t2) ? t2 : t1;
+        Vector3 n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
+        Vector3 n_leave = normalize(normMat*(2*((trans_e + intsec.t_leave*trans_d))));
        
-        intsec.intersects = (intsec.t_hit > 0) ? true : false; 
+        //intsec.intersects = (intsec.t_hit > 0) ? true : false; 
+        if ((t_hit > 0) && (!intsec.intersection_found
+            || (t_hit < intsec.t_hit))) {
+            intsec.intersection_found = true;
+            intsec.t_hit = t_hit;
+            intsec.t_leave = t_leave;
+            intsec.n_hit = n_hit;
+            intsec.n_leave = n_leave;
+            intsec.geom_index = geom_index;
+        }
     } else {
         //1 solution, ray grazes sphere at one point
-        intsec.t_hit = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
-        intsec.n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
+        real_t t_hit = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
+        Vector3 n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
     
-        intsec.intersects = (intsec.t_hit > 0) ? true : false;
+        //intsec.intersects = (intsec.t_hit > 0) ? true : false;
+        if ((t_hit > 0) && (!intsec.intersection_found
+            || (t_hit < intsec.t_hit))) {
+            intsec.intersection_found = true;
+            intsec.t_hit = t_hit;
+            intsec.n_hit = n_hit;
+            intsec.geom_index = geom_index;
+        }
     }
 }
 

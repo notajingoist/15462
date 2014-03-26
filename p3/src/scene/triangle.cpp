@@ -49,7 +49,7 @@ void Triangle::render() const
         vertices[0].material->reset_gl_state();
 }
 
-void Triangle::intersects_ray(Ray r, IntersectInfo& intsec) const
+void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
     Vector3 trans_e = invMat.transform_point(r.e); 
     Vector3 trans_d = invMat.transform_vector(r.d);
@@ -83,29 +83,35 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec) const
 
     real_t M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
     real_t t = (-1)*(f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
-    if (t < 0) {
-        intsec.intersects = false;
+    if (t < 0) { //<= ? 
+        //intsec.intersects = false;
+        //return;
         return;
     }
 
     real_t gamma = (i*(a*k - j*b) + h*(j*c - a*l) + g*(b*l - k*c))/M; 
     if ((gamma < 0) || (gamma > 1)) {
-        intsec.intersects = false;
+        //intsec.intersects = false;
+        //return;
         return;
     }
 
     real_t beta = (j*(e*i - h*f) + k*(g*f - d*i) + l*(d*h - e*g))/M;
     if ((beta < 0) || (beta > (1 - gamma))) {
-        intsec.intersects = false;
+        //intsec.intersects = false;
         return;
     }
 
     Vector3 pre_n = cross((vtx_b_pos - vtx_a_pos), (vtx_c_pos - vtx_a_pos));
     Vector3 n = normalize(normMat*pre_n);
-     
-    intsec.t_hit = t;
-    intsec.n_hit = n;
-    intsec.intersects = true;
+    
+    if (!intsec.intersection_found || (t < intsec.t_hit)) {
+        intsec.intersection_found = true;
+        intsec.t_hit = t;
+        intsec.n_hit = n;
+        intsec.geom_index = geom_index;
+    }
+    
 }
 
 } /* _462 */

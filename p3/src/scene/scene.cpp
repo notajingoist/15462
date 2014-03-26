@@ -31,9 +31,8 @@ bool Geometry::initialize()
 	return true;
 }
 
-void Geometry::intersects_ray(Ray r, IntersectInfo& intsec) const
+void Geometry::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
-    intsec.intersects = false;
 }
 
 SphereLight::SphereLight():

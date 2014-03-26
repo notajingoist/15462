@@ -27,7 +27,9 @@ public:
     virtual ~Model();
 
     virtual void render() const;
-    virtual void intersects_ray(Ray r, IntersectInfo& intsec) const; 
+    virtual void intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const; 
+    void tri_intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index,
+                            MeshVertex a, MeshVertex b, MeshVertex c) const;
 };
 
 
