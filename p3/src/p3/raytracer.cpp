@@ -24,6 +24,7 @@ namespace _462 {
 
 // max number of threads OpenMP can use. Change this if you like.
 #define MAX_THREADS 8
+#define RECURSE_DEPTH 3
 
 static const unsigned STEP_SIZE = 8;
 
@@ -74,6 +75,8 @@ bool Raytracer::initialize(Scene* scene, size_t num_samples,
     return true;
 }
 
+
+
 void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
 {
     intsec.intersection_found = false;
@@ -83,6 +86,52 @@ void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
     intsec.sphere_two = false;
     intsec.sphere_one = false;
     intsec.t_hit = -1;
+}
+
+void Raytracer::recursive_raytrace(const Scene* scene, Ray r, Color3& res, 
+    size_t depth) 
+{
+    if (depth <= 0) {
+        return;
+    } else {
+        depth--;
+
+        Geometry* const* geometries = scene->get_geometries();
+        
+        IntersectInfo intsec;
+        initialize_intsec_info(intsec);
+        scene->shoot_ray(r, intsec);
+      
+        if (intsec.intersection_found) {
+            if (intsec.model_tri) {
+                /*
+                Mesh* m = geometries[intsec.geom_index]->mesh;
+                MeshVertex vtx_a = 
+                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[0]];
+                MeshVertex vtx_b = 
+                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[1]];
+                MeshVertex vtx_c = 
+                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[2]];
+                */
+                res += Color3::White();
+            } else {
+                //sample color from geom object geometries[intsec.geom_index]
+                ColorInfo colinf;
+                colinf.scene = scene;
+               
+                //phong illumination
+                res += geometries[intsec.geom_index]->compute_color(intsec, colinf);
+                
+                //reflection
+                Ray reflection_r = Ray(intsec.d, -(2.0*dot(intsec.d, intsec.n_hit)
+                    *intsec.n_hit));
+                recursive_raytrace(scene, reflection_r, res, depth);
+            }
+        } else {
+            res += scene->background_color; 
+        }
+        
+    }
 }
 
 /**
@@ -118,54 +167,16 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
 
         Ray r = Ray(scene->camera.get_position(), Ray::get_pixel_dir(i, j));
 
-        Geometry* const* geometries = scene->get_geometries();
-        
-        IntersectInfo intsec;
-        initialize_intsec_info(intsec);
-
-        //printf("model_tri: %d\n", intsec.model_tri);
-        //for (size_t i = 0; i < scene->num_geometries(); i++) {
-            /*printf("geometry pos x is %f, y is %f, z is %f.\n", 
-            geometries[g]->position.x, geometries[g]->position.y, 
-            geometries[g]->position.z);*/
-            //printf("geom index: %ld\n", intsec.geom_index); 
-                    
-           // geometries[i]->intersects_ray(r, intsec, i);
-        //}
-        
-        scene->shoot_ray(r, intsec);
-      
-        if (intsec.intersection_found) {
-            if (intsec.model_tri) {
-                /*
-                Mesh* m = geometries[intsec.geom_index]->mesh;
-                MeshVertex vtx_a = 
-                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[0]];
-                MeshVertex vtx_b = 
-                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[1]];
-                MeshVertex vtx_c = 
-                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[2]];
-                */
-                res += Color3::White();
-            } else {
-                //sample color from geom object geometries[intsec.geom_index]
-                ColorInfo colinf;
-                colinf.scene = scene;
-                //colinf.geometries = geometries;
-                res += geometries[intsec.geom_index]->compute_color(intsec, colinf);
-                //res += Color3::Red();
-            }
-        } else {
-            res += scene->background_color; 
-        }
-        
+        recursive_raytrace(scene, r, res, RECURSE_DEPTH);
         // TODO return the color of the given pixel
         // you don't have to use this stub function if you prefer to
-        // write your own version of Raytracer::raytrace.
+        // write your own version ofeRaytracer::raytrace.
 
     }
     return res*(real_t(1)/num_samples);
 }
+
+
 
 /**
  * Raytraces some portion of the scene. Should raytrace for about

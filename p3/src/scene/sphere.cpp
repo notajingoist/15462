@@ -173,6 +173,10 @@ Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
     }
 
     Color3 cp = tp*((ca*ka) + c_all_lights);
+    
+    Vector3 reflection_r = intsec.d - (2.0*dot(intsec.d, intsec.n_hit)*intsec.n_hit);
+    
+    
     return cp;
     //return clamp(cp, 0.0, 1.0);
 }

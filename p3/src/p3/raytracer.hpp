@@ -57,8 +57,11 @@ public:
     bool raytrace(unsigned char* buffer, real_t* max_time);
 
     static void initialize_intsec_info(IntersectInfo& intsec);
-
+    
 private:
+
+    
+    void recursive_raytrace(const Scene* scene, Ray r, Color3& res, size_t depth);
 
     Color3 trace_pixel(const Scene* scene,
 		       size_t x,
