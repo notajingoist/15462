@@ -106,8 +106,25 @@ Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
     Color3 ka = material->ambient;
     //material's diffuse color
     Color3 kd = material->diffuse;
+    
+    real_t xc = position.x;
+    real_t yc = position.y;
+    real_t zc = position.z;
+    
+    real_t theta = acos((p.z-zc)/radius);
+    real_t phi = atan2((p.y-yc), (p.x-xc));
+    phi = (phi < 0) ? (phi + 2*PI) : phi;
+
+    real_t u = phi/(2*PI);
+    real_t v = (PI-theta)/PI;
+
+   /* Vector3 axis;
+    real_t angle;
+    orientation.to_axis_angle(&axis, &angle);
+    */
+
     //texture color at point p
-    Color3 tp = material->get_texture_pixel(p.x, p.y); 
+    Color3 tp = material->get_texture_pixel(u, v); 
 
     Color3 c_all_lights = Color3::Black();
     for (size_t i = 0; i < colinf.scene->num_lights(); i++) {
@@ -166,8 +183,8 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
         
         real_t t_hit = (t1 < t2) ? t1 : t2;
         real_t t_leave = (t1 < t2) ? t2 : t1;
-        Vector3 n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
-        Vector3 n_leave = normalize(normMat*(2*((trans_e + intsec.t_leave*trans_d))));
+        Vector3 n_hit = normalize(normMat*(2*((trans_e + t_hit*trans_d))));
+        Vector3 n_leave = normalize(normMat*(2*((trans_e + t_leave*trans_d))));
        
         if ((t_hit > SLOP) && (!intsec.intersection_found
             || (t_hit < intsec.t_hit))) {
@@ -181,7 +198,7 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
     } else {
         //1 solution, ray grazes sphere at one point
         real_t t_hit = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
-        Vector3 n_hit = normalize(normMat*(2*((trans_e + intsec.t_hit*trans_d))));
+        Vector3 n_hit = normalize(normMat*(2*((trans_e + t_hit*trans_d))));
     
         if ((t_hit > SLOP) && (!intsec.intersection_found
             || (t_hit < intsec.t_hit))) {
