@@ -98,6 +98,25 @@ void Sphere::render() const
 
 Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
+    /**
+    Vector3 p = intsec.e + (intsec.t_hit * intsec.d);     
+    for (size_t i = 0; i < colinf.scene->num_lights(); i++) {
+        Vector3 light_pos = colinf.scene->get_lights()[i].position;
+        Vector3 light_dir = normalize(light_pos - p); //L
+        Ray shadow_r = Ray(p, light_dir);
+        
+        IntersectInfo b_intsec;
+        Raytracer::initialize_intsec_info(b_intsec);
+        colinf.scene->shoot_ray(shadow_r, b_intsec);
+        if (b_intsec.intersection_found) {
+            return Color3::Black();
+        } else {
+            return Color3::White();
+        }
+    }
+    return Color3::White();
+    **/
+    
     Vector3 p = intsec.e + (intsec.t_hit * intsec.d);     
     
     //ambient color of light
@@ -117,11 +136,6 @@ Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 
     real_t u = phi/(2*PI);
     real_t v = (PI-theta)/PI;
-
-   /* Vector3 axis;
-    real_t angle;
-    orientation.to_axis_angle(&axis, &angle);
-    */
 
     //texture color at point p
     Color3 tp = material->get_texture_pixel(u, v); 
@@ -148,18 +162,19 @@ Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
             if (obj_dist <= light_dist) {
                 b = 0;
             }
-        }
+        } 
 
         real_t n_dot_l = dot(intsec.n_hit, light_dir);
         real_t max_n_dot_l = (n_dot_l > 0) ? n_dot_l : 0;
 
-        Color3 ci = c*(1/(ac + (light_dist*al) + (light_dist*light_dist*aq)));
+        Color3 ci = c*(1.0/(ac + (light_dist*al) + (light_dist*light_dist*aq)));
 
         c_all_lights += b*ci*kd*max_n_dot_l; 
     }
 
     Color3 cp = tp*((ca*ka) + c_all_lights);
     return cp;
+    //return clamp(cp, 0.0, 1.0);
 }
 
 void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
@@ -167,27 +182,61 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
     Vector3 trans_e = invMat.transform_point(r.e); 
     Vector3 trans_d = invMat.transform_vector(r.d);
   
-    intsec.e = trans_e;
-    intsec.d = trans_d;
-
     real_t A = dot(trans_d, trans_d);
-    real_t B = dot((2*trans_d), (trans_e));
+    real_t B = dot((2.0*trans_d), (trans_e));
     real_t C = dot((trans_e), (trans_e)) - (radius*radius);
-    real_t discriminant = (B*B) - (4*A*C);
+    real_t discriminant = (B*B) - (4.0*A*C);
 
-    if (discriminant < 0) {
-    } else if (discriminant > 0) {
+    if (discriminant < 0.0) {
+        return;
+    }
+
+    real_t t1 = ((-1.0*B)+sqrt(discriminant))/(2.0*A);
+    real_t t2 = ((-1.0*B)-sqrt(discriminant))/(2.0*A);
+    /**
+    real_t t1 = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
+    real_t t2 = (dot(-1*trans_d, (trans_e)) - sqrt(discriminant))/(dot(trans_d, trans_d));
+    **/
+
+    real_t t_hit;
+    if (t1 <= SLOP && t2 <= SLOP) {
+        return;
+    } else if (t1 <= SLOP) {
+        t_hit = t2;
+    } else if (t2 <= SLOP) {
+        t_hit = t1;
+    } else {
+        t_hit = (t1 < t2) ? t1 : t2;
+    }
+
+    Vector3 n_hit = normMat*(normalize(trans_e + t_hit*trans_d));
+    if (!intsec.intersection_found || (t_hit < intsec.t_hit)) {
+        intsec.e = r.e;
+        intsec.d = r.d;
+        intsec.intersection_found = true;
+        intsec.t_hit = t_hit;
+        intsec.n_hit = n_hit;
+        intsec.geom_index = geom_index;
+    }
+
+    /**
+    else if (discriminant > 0) {
         //2 solutions, one where ray enters sphere, one where it leaves
         real_t t1 = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
         real_t t2 = (dot(-1*trans_d, (trans_e)) - sqrt(discriminant))/(dot(trans_d, trans_d));
         
         real_t t_hit = (t1 < t2) ? t1 : t2;
         real_t t_leave = (t1 < t2) ? t2 : t1;
-        Vector3 n_hit = normalize(normMat*(2*((trans_e + t_hit*trans_d))));
-        Vector3 n_leave = normalize(normMat*(2*((trans_e + t_leave*trans_d))));
+        Vector3 n_hit = normMat*(normalize(trans_e + t_hit*trans_d));
+        //normalize(normMat*(2*((trans_e + t_hit*trans_d))));
+
+        Vector3 n_leave = normMat*(normalize(trans_e + t_leave*trans_d));
+        //normalize(normMat*(2*((trans_e + t_leave*trans_d))));
        
         if ((t_hit > SLOP) && (!intsec.intersection_found
             || (t_hit < intsec.t_hit))) {
+            intsec.e = trans_e;
+            intsec.d = trans_d;
             intsec.intersection_found = true;
             intsec.t_hit = t_hit;
             intsec.t_leave = t_leave;
@@ -198,16 +247,19 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
     } else {
         //1 solution, ray grazes sphere at one point
         real_t t_hit = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
-        Vector3 n_hit = normalize(normMat*(2*((trans_e + t_hit*trans_d))));
+        Vector3 n_hit = normMat*(normalize(trans_e + t_hit*trans_d));
     
         if ((t_hit > SLOP) && (!intsec.intersection_found
             || (t_hit < intsec.t_hit))) {
+            intsec.e = trans_e;
+            intsec.d = trans_d;
             intsec.intersection_found = true;
             intsec.t_hit = t_hit;
             intsec.n_hit = n_hit;
             intsec.geom_index = geom_index;
         }
     }
+    **/
 }
 
 
