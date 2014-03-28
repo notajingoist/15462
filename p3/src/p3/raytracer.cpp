@@ -91,8 +91,6 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
     if (depth <= 0) {
         return Color3::Black();
     } else {
-        depth--;
-
         Geometry* const* geometries = scene->get_geometries();
         
         IntersectInfo intsec;
@@ -121,10 +119,11 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
                     geometries[intsec.geom_index]->compute_color(intsec, colinf);
                 
                 //reflection
-                Ray reflection_r = Ray(intsec.d, -(2.0*dot(intsec.d, intsec.n_hit)
+                Vector3 p = intsec.e + (intsec.t_hit * intsec.d);
+                Ray reflection_r = Ray(p, intsec.d-(2.0*dot(intsec.d, intsec.n_hit)
                     *intsec.n_hit));
                 Color3 reflection_col = 
-                    recursive_raytrace(scene, reflection_r, depth);
+                    recursive_raytrace(scene, reflection_r, (depth-1));
 
                 return (cp + (reflection_col 
                     * geometries[intsec.geom_index]->get_material()->specular
