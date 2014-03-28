@@ -80,8 +80,8 @@ bool Raytracer::initialize(Scene* scene, size_t num_samples,
 void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
 {
     intsec.intersection_found = false;
-    intsec.model_tri = false;
     intsec.t_hit = -1;
+    intsec.model_tri = false;
 }
 
 Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth) 
@@ -97,47 +97,29 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
       
         if (intsec.intersection_found) {
             if (intsec.model_tri) {
-                /*
-                Mesh* m = geometries[intsec.geom_index]->mesh;
-                MeshVertex vtx_a = 
-                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[0]];
-                MeshVertex vtx_b = 
-                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[1]];
-                MeshVertex vtx_c = 
-                    m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[2]];
-                */
-                return Color3::White();
-            } else {
-                //sample color from geom object geometries[intsec.geom_index]
-                ColorInfo colinf;
-                colinf.p = intsec.e + (intsec.t_hit * intsec.d);
-                colinf.scene = scene;
-                colinf.tp = geometries[intsec.geom_index]->compute_tp(intsec, colinf);
-
-                //reflection
-                Ray reflection_r = Ray(colinf.p, 
-                    intsec.d-(2.0*dot(intsec.d, intsec.n_hit)*intsec.n_hit));
-                
-                Color3 reflection_col = 
-                    recursive_raytrace(scene, reflection_r, (depth-1)) 
-                    * geometries[intsec.geom_index]->get_specular(intsec)
-                    * colinf.tp;
-                
-                if (geometries[intsec.geom_index]->get_refractive_index(intsec) 
-                    == 0) {
-                    //opaque, phong illumination + reflection
-                    Color3 cp = 
-                        geometries[intsec.geom_index]->compute_color(intsec, colinf);
-                    return cp + reflection_col;
-                } else {
-                    //transparent, refraction + reflection
-                    Color3 refrac = Color3::Black();
-                    return refrac + reflection_col;
-                }
-                
+                return Color3::Red();
             }
+            ColorInfo colinf;
+            colinf.p = intsec.e + (intsec.t_hit * intsec.d);
+            colinf.scene = scene;
+            colinf.tp = geometries[intsec.geom_index]->compute_tp(intsec, colinf);
 
-        } else {
+            Ray reflection_r = Ray(colinf.p, 
+                intsec.d-(2.0*dot(intsec.d, intsec.n_hit)*intsec.n_hit));
+            Color3 reflection_col = recursive_raytrace(scene, reflection_r, (depth-1))
+                * geometries[intsec.geom_index]->get_specular(intsec) 
+                * colinf.tp;
+            if (geometries[intsec.geom_index]->get_refractive_index(intsec) == 0) {
+                //opaque, phong illumination + reflection
+                Color3 cp = 
+                    geometries[intsec.geom_index]->compute_color(intsec, colinf);
+                return cp + reflection_col;
+            } else {
+                //transparent, refraction + reflection
+                Color3 refrac = Color3::Black();
+                return refrac + reflection_col;
+            }
+        } else { //intersection not found
             return scene->background_color; 
         }
         

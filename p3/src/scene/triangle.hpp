@@ -44,6 +44,8 @@ public:
     virtual Color3 compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const;
     virtual Color3 get_specular(IntersectInfo& intsec) const;
     virtual real_t get_refractive_index(IntersectInfo& intsec) const;
+
+    void from_mesh(const Mesh* mesh, size_t tri_index, const Material* material);
 };
 
 

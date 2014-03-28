@@ -32,6 +32,7 @@ struct IntersectInfo {
     
     bool intersection_found;
     bool model_tri;
+    
     real_t alpha;
     real_t beta;
     real_t gamma;

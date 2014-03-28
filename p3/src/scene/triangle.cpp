@@ -49,6 +49,18 @@ void Triangle::render() const
         vertices[0].material->reset_gl_state();
 }
 
+void Triangle::from_mesh(const Mesh* mesh, size_t tri_index, const Material* material) 
+{   
+    for (size_t i = 0; i < 3; i++) {
+        MeshVertex mesh_vtx = 
+            mesh->get_vertices()[mesh->get_triangles()[tri_index].vertices[i]];
+        vertices[i].position = mesh_vtx.position;
+        vertices[i].normal = mesh_vtx.normal;
+        vertices[i].tex_coord = mesh_vtx.tex_coord;
+        vertices[i].material = material;
+    }
+}
+
 Color3 Triangle::get_specular(IntersectInfo& intsec) const
 {
     Vertex vtx_a = vertices[0];
@@ -184,7 +196,6 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
         intsec.t_hit = t;
         intsec.n_hit = n;
         intsec.geom_index = geom_index;
-    
         intsec.gamma = gamma;
         intsec.beta = beta;
         intsec.alpha = alpha;
