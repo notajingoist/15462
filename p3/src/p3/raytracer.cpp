@@ -83,16 +83,13 @@ void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
     intsec.model_tri = false;
     intsec.tri = false;
     intsec.sphere = false;
-    intsec.sphere_two = false;
-    intsec.sphere_one = false;
     intsec.t_hit = -1;
 }
 
-void Raytracer::recursive_raytrace(const Scene* scene, Ray r, Color3& res, 
-    size_t depth) 
+Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth) 
 {
     if (depth <= 0) {
-        return;
+        return Color3::Black();
     } else {
         depth--;
 
@@ -113,22 +110,28 @@ void Raytracer::recursive_raytrace(const Scene* scene, Ray r, Color3& res,
                 MeshVertex vtx_c = 
                     m->get_vertices()[m->get_triangles()[intsec.tri_index].vertices[2]];
                 */
-                res += Color3::White();
+                return Color3::White();
             } else {
                 //sample color from geom object geometries[intsec.geom_index]
                 ColorInfo colinf;
                 colinf.scene = scene;
                
                 //phong illumination
-                res += geometries[intsec.geom_index]->compute_color(intsec, colinf);
+                Color3 cp = 
+                    geometries[intsec.geom_index]->compute_color(intsec, colinf);
                 
                 //reflection
                 Ray reflection_r = Ray(intsec.d, -(2.0*dot(intsec.d, intsec.n_hit)
                     *intsec.n_hit));
-                recursive_raytrace(scene, reflection_r, res, depth);
+                Color3 reflection_col = 
+                    recursive_raytrace(scene, reflection_r, depth);
+
+                return (cp + (reflection_col 
+                    * geometries[intsec.geom_index]->get_material()->specular
+                    * colinf.tp));
             }
         } else {
-            res += scene->background_color; 
+            return scene->background_color; 
         }
         
     }
@@ -167,7 +170,7 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
 
         Ray r = Ray(scene->camera.get_position(), Ray::get_pixel_dir(i, j));
 
-        recursive_raytrace(scene, r, res, RECURSE_DEPTH);
+        res += recursive_raytrace(scene, r, RECURSE_DEPTH);
         // TODO return the color of the given pixel
         // you don't have to use this stub function if you prefer to
         // write your own version ofeRaytracer::raytrace.

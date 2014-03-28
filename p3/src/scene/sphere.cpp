@@ -96,6 +96,11 @@ void Sphere::render() const
         material->reset_gl_state();
 }
 
+const Material* Sphere::get_material() const
+{
+    return material;
+}
+
 Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     /**
@@ -174,9 +179,8 @@ Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 
     Color3 cp = tp*((ca*ka) + c_all_lights);
     
-    Vector3 reflection_r = intsec.d - (2.0*dot(intsec.d, intsec.n_hit)*intsec.n_hit);
-    
-    
+    colinf.tp = tp;
+
     return cp;
     //return clamp(cp, 0.0, 1.0);
 }

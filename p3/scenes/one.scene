@@ -27,13 +27,20 @@
     </material> 
  
     <sphere material="default">
-        <position x="2.1213" y="1.825" z="-1.235"/>
-        <radius v="1.05"/>
-    </sphere>
-    <sphere material="default">
-        <position x="0.1213" y="-0.19" z="1.235"/>
+        <position x="2.0" y="0.0" z="0.0"/>
         <radius v="1.0"/>
     </sphere>
+
+    <sphere material="default">
+        <position x="-2.0" y="0.0" z="0.0"/>
+        <radius v="1.0"/>
+    </sphere>
+    
+    <sphere material="default">
+        <position x="0.0" y="2.0" z="0.0"/>
+        <radius v="1.0"/>
+    </sphere>
+
 
 </scene>
 

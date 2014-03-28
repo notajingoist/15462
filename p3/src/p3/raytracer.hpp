@@ -28,15 +28,12 @@ struct IntersectInfo {
     size_t tri_index;
     
     real_t t_hit;
-    real_t t_leave;
     Vector3 n_hit;
-    Vector3 n_leave;
     
     bool intersection_found;
     bool model_tri;
     bool tri;
     bool sphere;
-    bool sphere_two;
     bool sphere_one;
 };
 struct ColorInfo;
@@ -61,7 +58,7 @@ public:
 private:
 
     
-    void recursive_raytrace(const Scene* scene, Ray r, Color3& res, size_t depth);
+    Color3 recursive_raytrace(const Scene* scene, Ray r, size_t depth);
 
     Color3 trace_pixel(const Scene* scene,
 		       size_t x,
@@ -87,6 +84,7 @@ struct ColorInfo {
     //real_t refractive_index;
     //const SphereLight* sphere_light;
     const Scene* scene;
+    Color3 tp; 
 };
 
 

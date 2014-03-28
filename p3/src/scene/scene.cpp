@@ -40,6 +40,11 @@ void Geometry::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
 {
 }
 
+const Material* Geometry::get_material() const
+{
+    return NULL;
+}
+
 SphereLight::SphereLight():
     position(Vector3::Zero()),
     color(Color3::White()),
