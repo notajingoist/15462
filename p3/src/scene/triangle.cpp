@@ -152,6 +152,10 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
     real_t l = vtx_a_pos.z - trans_e.z; //za - ze
 
     real_t M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
+    if (M == 0.0) {
+        return;
+    }
+
     real_t t = (-1.0)*(f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
     if (t <= SLOP) { //<= ? 
         return;
