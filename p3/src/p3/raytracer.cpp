@@ -181,6 +181,7 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
         // write your own version ofeRaytracer::raytrace.
 
     }
+    res = clamp(res, 0.0, 1.0);
     return res*(real_t(1)/num_samples);
 }
 

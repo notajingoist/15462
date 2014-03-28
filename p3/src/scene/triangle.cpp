@@ -60,9 +60,6 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
     Vector3 trans_e = invMat.transform_point(r.e); 
     Vector3 trans_d = invMat.transform_vector(r.d);
     
-    intsec.e = trans_e;
-    intsec.d = trans_d;
-
     Vertex vtx_a = vertices[0];
     Vertex vtx_b = vertices[1];
     Vertex vtx_c = vertices[2];
@@ -103,6 +100,8 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
     Vector3 pre_n = cross((vtx_b_pos - vtx_a_pos), (vtx_c_pos - vtx_a_pos));
     Vector3 n = normalize(normMat*pre_n);
     if (!intsec.intersection_found || (t < intsec.t_hit)) {
+        intsec.e = r.e;
+        intsec.d = r.d;
         intsec.intersection_found = true;
         intsec.t_hit = t;
         intsec.n_hit = n;

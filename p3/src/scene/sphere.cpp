@@ -201,10 +201,6 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
 
     real_t t1 = ((-1.0*B)+sqrt(discriminant))/(2.0*A);
     real_t t2 = ((-1.0*B)-sqrt(discriminant))/(2.0*A);
-    /**
-    real_t t1 = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
-    real_t t2 = (dot(-1*trans_d, (trans_e)) - sqrt(discriminant))/(dot(trans_d, trans_d));
-    **/
 
     real_t t_hit;
     if (t1 <= SLOP && t2 <= SLOP) {
@@ -226,48 +222,6 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
         intsec.n_hit = n_hit;
         intsec.geom_index = geom_index;
     }
-
-    /**
-    else if (discriminant > 0) {
-        //2 solutions, one where ray enters sphere, one where it leaves
-        real_t t1 = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
-        real_t t2 = (dot(-1*trans_d, (trans_e)) - sqrt(discriminant))/(dot(trans_d, trans_d));
-        
-        real_t t_hit = (t1 < t2) ? t1 : t2;
-        real_t t_leave = (t1 < t2) ? t2 : t1;
-        Vector3 n_hit = normMat*(normalize(trans_e + t_hit*trans_d));
-        //normalize(normMat*(2*((trans_e + t_hit*trans_d))));
-
-        Vector3 n_leave = normMat*(normalize(trans_e + t_leave*trans_d));
-        //normalize(normMat*(2*((trans_e + t_leave*trans_d))));
-       
-        if ((t_hit > SLOP) && (!intsec.intersection_found
-            || (t_hit < intsec.t_hit))) {
-            intsec.e = trans_e;
-            intsec.d = trans_d;
-            intsec.intersection_found = true;
-            intsec.t_hit = t_hit;
-            intsec.t_leave = t_leave;
-            intsec.n_hit = n_hit;
-            intsec.n_leave = n_leave;
-            intsec.geom_index = geom_index;
-        }
-    } else {
-        //1 solution, ray grazes sphere at one point
-        real_t t_hit = (dot(-1*trans_d, (trans_e)) + sqrt(discriminant))/(dot(trans_d, trans_d));
-        Vector3 n_hit = normMat*(normalize(trans_e + t_hit*trans_d));
-    
-        if ((t_hit > SLOP) && (!intsec.intersection_found
-            || (t_hit < intsec.t_hit))) {
-            intsec.e = trans_e;
-            intsec.d = trans_d;
-            intsec.intersection_found = true;
-            intsec.t_hit = t_hit;
-            intsec.n_hit = n_hit;
-            intsec.geom_index = geom_index;
-        }
-    }
-    **/
 }
 
 
