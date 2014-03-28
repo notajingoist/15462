@@ -43,20 +43,24 @@ real_t Model::get_refractive_index(IntersectInfo& intsec) const
     return material->refractive_index;
 }
 
+Color3 Model::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
+{
+    Color3 ca = colinf.scene->ambient_light;
+    Color3 ka = material->ambient;
+    Color3 kd = material->diffuse; 
+    colinf.kd = kd;
+
+    Color3 c_all_lights = compute_lights_color(intsec, colinf);
+    Color3 cp = colinf.tp*((ca*ka) + c_all_lights);
+   
+    return cp;
+}
+
 Color3 Model::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
 {
-    printf("computing tp color\n");
     Triangle tri = Triangle();
     tri.from_mesh(mesh, intsec.tri_index, material);
     return tri.compute_tp(intsec, colinf);
-}
-
-Color3 Model::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
-{
-    printf("computing model color\n");
-    Triangle tri = Triangle();
-    tri.from_mesh(mesh, intsec.tri_index, material);
-    return tri.compute_color(intsec, colinf);
 }
 
 void Model::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const 
@@ -75,15 +79,13 @@ void Model::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) cons
         tri.intersects_ray(r, tri_intsec, i);
         if (tri_intsec.intersection_found && (!intsec.intersection_found 
             || (tri_intsec.t_hit < intsec.t_hit))) {
-            intsec.e = tri_intsec.e;
-            intsec.d = tri_intsec.d;
-            printf("tri_intsec.e: %lf, %lf, %lf\n", tri_intsec.e.x, tri_intsec.e.y, tri_intsec.e.z);
-            printf("r.e: %lf, %lf, %lf\n", r.e.x, r.e.y, r.e.z);
+            intsec.e = r.e;
+            intsec.d = r.d;
             intsec.intersection_found = true;
             intsec.t_hit = tri_intsec.t_hit;
             intsec.n_hit = tri_intsec.n_hit;
             intsec.geom_index = geom_index;
-            intsec.tri_index = tri_intsec.geom_index;
+            intsec.tri_index = i;
             intsec.model_tri = true;
         }
 

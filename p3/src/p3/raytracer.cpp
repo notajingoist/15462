@@ -75,8 +75,6 @@ bool Raytracer::initialize(Scene* scene, size_t num_samples,
     return true;
 }
 
-
-
 void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
 {
     intsec.intersection_found = false;
@@ -159,13 +157,12 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
 
         Ray r = Ray(scene->camera.get_position(), Ray::get_pixel_dir(i, j));
 
-        res += recursive_raytrace(scene, r, RECURSE_DEPTH);
+        res += clamp(recursive_raytrace(scene, r, RECURSE_DEPTH), 0.0, 1.0);
         // TODO return the color of the given pixel
         // you don't have to use this stub function if you prefer to
         // write your own version ofeRaytracer::raytrace.
 
     }
-    res = clamp(res, 0.0, 1.0);
     return res*(real_t(1)/num_samples);
 }
 
