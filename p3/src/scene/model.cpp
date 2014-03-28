@@ -93,7 +93,6 @@ void Model::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) cons
             intsec.n_hit = tri_intsec.n_hit;
             intsec.geom_index = geom_index;
             intsec.tri_index = i;
-            //intsec.model_tri = true;
             intsec.gamma = tri_intsec.gamma;
             intsec.beta = tri_intsec.beta;
             intsec.alpha = tri_intsec.alpha;

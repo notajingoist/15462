@@ -137,7 +137,6 @@ void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
 {
     intsec.intersection_found = false;
     intsec.t_hit = -1;
-    intsec.model_tri = false;
 }
 
 Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth) 
@@ -152,9 +151,6 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
         scene->shoot_ray(r, intsec);
       
         if (intsec.intersection_found) {
-            if (intsec.model_tri) {
-                return Color3::Red();
-            }
             ColorInfo colinf;
             colinf.p = intsec.e + (intsec.t_hit * intsec.d);
             colinf.scene = scene;

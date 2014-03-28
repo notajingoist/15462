@@ -32,7 +32,6 @@ struct IntersectInfo {
     Vector3 n_hit;
     
     bool intersection_found;
-    bool model_tri;
     
     real_t alpha;
     real_t beta;
