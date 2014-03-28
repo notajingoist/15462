@@ -113,21 +113,27 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
                 //sample color from geom object geometries[intsec.geom_index]
                 ColorInfo colinf;
                 colinf.scene = scene;
-               
-                //phong illumination
-                Color3 cp = 
-                    geometries[intsec.geom_index]->compute_color(intsec, colinf);
-                
+
                 //reflection
                 Vector3 p = intsec.e + (intsec.t_hit * intsec.d);
                 Ray reflection_r = Ray(p, intsec.d-(2.0*dot(intsec.d, intsec.n_hit)
                     *intsec.n_hit));
                 Color3 reflection_col = 
-                    recursive_raytrace(scene, reflection_r, (depth-1));
-
-                return (cp + (reflection_col 
+                    recursive_raytrace(scene, reflection_r, (depth-1)) 
                     * geometries[intsec.geom_index]->get_material()->specular
-                    * colinf.tp));
+                    * colinf.tp;
+
+                if (geometries[intsec.geom_index]->get_material()->refractive_index 
+                    == 0) {
+                    //opaque, phong illumination + reflection
+                    Color3 cp = 
+                        geometries[intsec.geom_index]->compute_color(intsec, colinf);
+                    return cp + reflection_col;
+                } else {
+                    //transparent, refraction + reflection
+                    Color3 refrac = Color3::Black();
+                    return refrac + reflection_col;
+                }
             }
         } else {
             return scene->background_color; 
