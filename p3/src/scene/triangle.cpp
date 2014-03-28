@@ -52,6 +52,26 @@ void Triangle::render() const
 Color3 Triangle::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     //colinf.material = material; for each vertex
+    Vertex vtx_a = vertices[0];
+    Vertex vtx_b = vertices[1];
+    Vertex vtx_c = vertices[2];
+    
+    Vector3 p = intsec.e + (intsec.t_hit * intsec.d); 
+    Color3 ca = colinf.scene->ambient_light;
+    
+    Color3 ka = (intsec.alpha*vtx_a.material->ambient)
+        + (intsec.beta*vtx_b.material->ambient)
+        + (intsec.gamma*vtx_c.material->ambient);
+    Color3 kd = (intsec.alpha*vtx_a.material->diffuse)
+        + (intsec.beta*vtx_b.material->diffuse)
+        + (intsec.gamma*vtx_c.material->diffuse);
+    
+    //Color3 tp;
+
+    Color3 c_all_lights = compute_lights_color(intsec, colinf);
+    //Color3 cp = tp*((ca*ka) + (kd*c_all_lights));
+    //colinf.tp = tp;
+   
     return Color3::Red();
 }
 
@@ -82,23 +102,27 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
     real_t l = vtx_a_pos.z - trans_e.z; //za - ze
 
     real_t M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
-    real_t t = (-1)*(f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
+    real_t t = (-1.0)*(f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
     if (t <= SLOP) { //<= ? 
         return;
     }
 
     real_t gamma = (i*(a*k - j*b) + h*(j*c - a*l) + g*(b*l - k*c))/M; 
-    if ((gamma < 0) || (gamma > 1)) {
+    if ((gamma < 0.0) || (gamma > 1.0)) {
         return;
     }
 
     real_t beta = (j*(e*i - h*f) + k*(g*f - d*i) + l*(d*h - e*g))/M;
-    if ((beta < 0) || (beta > (1 - gamma))) {
+    if ((beta < 0.0) || (beta > (1.0 - gamma))) {
         return;
     }
 
-    Vector3 pre_n = cross((vtx_b_pos - vtx_a_pos), (vtx_c_pos - vtx_a_pos));
-    Vector3 n = normalize(normMat*pre_n);
+    real_t alpha = 1.0 - gamma - beta;
+    //Vector3 pre_n = cross((vtx_b_pos - vtx_a_pos), (vtx_c_pos - vtx_a_pos));
+    //Vector3 n = normalize(normMat*pre_n);
+    Vector3 pre_n = (alpha*vtx_a.normal) + (beta*vtx_b.normal) 
+        + (gamma*vtx_c.normal);
+    Vector3 n = normMat*(normalize(pre_n));
     if (!intsec.intersection_found || (t < intsec.t_hit)) {
         intsec.e = r.e;
         intsec.d = r.d;
@@ -106,17 +130,14 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
         intsec.t_hit = t;
         intsec.n_hit = n;
         intsec.geom_index = geom_index;
+    
+        intsec.gamma = gamma;
+        intsec.beta = beta;
+        intsec.alpha = alpha;
     }
     
 }
 
 } /* _462 */
-
-
-
-
-
-
-
 
 

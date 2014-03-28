@@ -35,6 +35,10 @@ struct IntersectInfo {
     bool tri;
     bool sphere;
     bool sphere_one;
+    
+    real_t alpha;
+    real_t beta;
+    real_t gamma;
 };
 struct ColorInfo;
 class Scene;
@@ -85,6 +89,8 @@ struct ColorInfo {
     //const SphereLight* sphere_light;
     const Scene* scene;
     Color3 tp; 
+    Vector3 p;
+    Color3 kd;
 };
 
 

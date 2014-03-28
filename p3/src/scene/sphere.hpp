@@ -28,6 +28,7 @@ public:
     virtual void render() const;
     virtual void intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const;
     virtual Color3 compute_color(IntersectInfo& intsec, ColorInfo& colinf) const;
+    virtual Color3 compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const;
     virtual const Material* get_material() const;
 };
 

@@ -101,50 +101,41 @@ const Material* Sphere::get_material() const
     return material;
 }
 
-Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
+Color3 Sphere::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
 {
-    /**
-    Vector3 p = intsec.e + (intsec.t_hit * intsec.d);     
-    for (size_t i = 0; i < colinf.scene->num_lights(); i++) {
-        Vector3 light_pos = colinf.scene->get_lights()[i].position;
-        Vector3 light_dir = normalize(light_pos - p); //L
-        Ray shadow_r = Ray(p, light_dir);
-        
-        IntersectInfo b_intsec;
-        Raytracer::initialize_intsec_info(b_intsec);
-        colinf.scene->shoot_ray(shadow_r, b_intsec);
-        if (b_intsec.intersection_found) {
-            return Color3::Black();
-        } else {
-            return Color3::White();
-        }
-    }
-    return Color3::White();
-    **/
-    
-    Vector3 p = intsec.e + (intsec.t_hit * intsec.d);     
-    
-    //ambient color of light
-    Color3 ca = colinf.scene->ambient_light;
-    //material's ambient color
-    Color3 ka = material->ambient;
-    //material's diffuse color
-    Color3 kd = material->diffuse;
-    
     real_t xc = position.x;
     real_t yc = position.y;
     real_t zc = position.z;
     
-    real_t theta = acos((p.z-zc)/radius);
-    real_t phi = atan2((p.y-yc), (p.x-xc));
+    real_t theta = acos((colinf.p.z-zc)/radius);
+    real_t phi = atan2((colinf.p.y-yc), (colinf.p.x-xc));
     phi = (phi < 0) ? (phi + 2*PI) : phi;
 
     real_t u = phi/(2*PI);
     real_t v = (PI-theta)/PI;
 
     //texture color at point p
-    Color3 tp = material->get_texture_pixel(u, v); 
+    return material->get_texture_pixel(u, v); 
+}
 
+Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
+{
+    Vector3 p = intsec.e + (intsec.t_hit * intsec.d);     
+
+    //ambient color of light
+    Color3 ca = colinf.scene->ambient_light;
+    //material's ambient color
+    Color3 ka = material->ambient;
+    //material's diffuse color
+    Color3 kd = material->diffuse;
+
+    colinf.p = p;
+    colinf.kd = kd;
+    //colinf.ca = ca;
+    //colinf.ka = ka;
+    //colinf.kd = kd;
+    
+    /**
     Color3 c_all_lights = Color3::Black();
     for (size_t i = 0; i < colinf.scene->num_lights(); i++) {
         Color3 c = colinf.scene->get_lights()[i].color;
@@ -176,10 +167,9 @@ Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 
         c_all_lights += b*ci*kd*max_n_dot_l; 
     }
-
-    Color3 cp = tp*((ca*ka) + c_all_lights);
-    
-    colinf.tp = tp;
+    **/
+    Color3 c_all_lights = compute_lights_color(intsec, colinf);
+    Color3 cp = colinf.tp*((ca*ka) + c_all_lights);
 
     return cp;
     //return clamp(cp, 0.0, 1.0);

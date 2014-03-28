@@ -31,6 +31,47 @@ bool Geometry::initialize()
 	return true;
 }
 
+Color3 Geometry::compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf) const
+{
+    Color3 c_all_lights = Color3::Black();
+    for (size_t i = 0; i < colinf.scene->num_lights(); i++) {
+        Color3 c = colinf.scene->get_lights()[i].color;
+        real_t ac = colinf.scene->get_lights()[i].attenuation.constant;
+        real_t al = colinf.scene->get_lights()[i].attenuation.linear;
+        real_t aq = colinf.scene->get_lights()[i].attenuation.quadratic;
+
+        Vector3 light_pos = colinf.scene->get_lights()[i].position;
+        Vector3 light_dir = normalize(light_pos - colinf.p); //L
+        real_t light_dist = distance(colinf.p, light_pos); //d
+        Ray shadow_r = Ray(colinf.p, light_dir);
+        
+        real_t b = 1;
+        IntersectInfo b_intsec;
+        Raytracer::initialize_intsec_info(b_intsec);
+        colinf.scene->shoot_ray(shadow_r, b_intsec);
+        if (b_intsec.intersection_found) {
+            Vector3 obj_pos = colinf.p + (b_intsec.t_hit * light_dir);
+            real_t obj_dist = distance(colinf.p, obj_pos);
+            if (obj_dist <= light_dist) {
+                b = 0;
+            }
+        } 
+
+        real_t n_dot_l = dot(intsec.n_hit, light_dir);
+        real_t max_n_dot_l = (n_dot_l > 0) ? n_dot_l : 0;
+
+        Color3 ci = c*(1.0/(ac + (light_dist*al) + (light_dist*light_dist*aq)));
+
+        c_all_lights += b*ci*colinf.kd*max_n_dot_l; 
+    }
+    return c_all_lights;
+}
+
+Color3 Geometry::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
+{
+    return Color3::Black();
+}
+
 Color3 Geometry::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     return Color3::Black();
