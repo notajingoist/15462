@@ -60,10 +60,10 @@ public:
     virtual void intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const;
     virtual Color3 compute_color(IntersectInfo& intsec, ColorInfo& colinf) const;
     
-    virtual Color3 compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf) const;
+    Color3 compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf) const;
     virtual Color3 compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const;
-    virtual const Material* get_material() const; 
-
+    virtual Color3 get_specular(IntersectInfo& intsec) const;
+    virtual real_t get_refractive_index(IntersectInfo& intsec) const;
 	bool initialize();
 };
 

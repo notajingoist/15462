@@ -24,7 +24,7 @@ namespace _462 {
 
 // max number of threads OpenMP can use. Change this if you like.
 #define MAX_THREADS 8
-#define RECURSE_DEPTH 3
+#define RECURSE_DEPTH 5
 
 static const unsigned STEP_SIZE = 8;
 
@@ -81,8 +81,6 @@ void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
 {
     intsec.intersection_found = false;
     intsec.model_tri = false;
-    intsec.tri = false;
-    intsec.sphere = false;
     intsec.t_hit = -1;
 }
 
@@ -116,22 +114,16 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
                 colinf.scene = scene;
                 colinf.tp = geometries[intsec.geom_index]->compute_tp(intsec, colinf);
 
-                /**
-                Color3 cp = 
-                        geometries[intsec.geom_index]->compute_color(intsec, colinf);
-                **/
-
                 //reflection
                 Ray reflection_r = Ray(colinf.p, 
                     intsec.d-(2.0*dot(intsec.d, intsec.n_hit)*intsec.n_hit));
                 
                 Color3 reflection_col = 
                     recursive_raytrace(scene, reflection_r, (depth-1)) 
-                    * geometries[intsec.geom_index]->get_material()->specular
+                    * geometries[intsec.geom_index]->get_specular(intsec)
                     * colinf.tp;
-
                 
-                if (geometries[intsec.geom_index]->get_material()->refractive_index 
+                if (geometries[intsec.geom_index]->get_refractive_index(intsec) 
                     == 0) {
                     //opaque, phong illumination + reflection
                     Color3 cp = 

@@ -32,10 +32,6 @@ struct IntersectInfo {
     
     bool intersection_found;
     bool model_tri;
-    bool tri;
-    bool sphere;
-    bool sphere_one;
-    
     real_t alpha;
     real_t beta;
     real_t gamma;
@@ -88,8 +84,8 @@ struct ColorInfo {
     //real_t refractive_index;
     //const SphereLight* sphere_light;
     const Scene* scene;
-    Color3 tp; 
     Vector3 p;
+    Color3 tp;
     Color3 kd;
 };
 

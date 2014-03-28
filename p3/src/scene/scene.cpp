@@ -69,7 +69,7 @@ Color3 Geometry::compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf) 
 
 Color3 Geometry::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
 {
-    return Color3::Black();
+    return Color3::White();
 }
 
 Color3 Geometry::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
@@ -81,9 +81,14 @@ void Geometry::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
 {
 }
 
-const Material* Geometry::get_material() const
+Color3 Geometry::get_specular(IntersectInfo& intsec) const
 {
-    return NULL;
+    return Color3::Black();
+}
+
+real_t Geometry::get_refractive_index(IntersectInfo& intsec) const
+{
+    return 0;
 }
 
 SphereLight::SphereLight():
