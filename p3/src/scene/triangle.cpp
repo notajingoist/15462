@@ -139,17 +139,26 @@ Color3 Triangle::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
 
 void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
-    Vector3 trans_e = invMat.transform_point(r.e); 
-    Vector3 trans_d = invMat.transform_vector(r.d);
-    
+
     Vertex vtx_a = vertices[0];
     Vertex vtx_b = vertices[1];
     Vertex vtx_c = vertices[2];
-   
+ 
     Vector3 vtx_a_pos = vtx_a.position;
     Vector3 vtx_b_pos = vtx_b.position;
     Vector3 vtx_c_pos = vtx_c.position;
     
+    Vector3 vtx_a_n = vtx_a.normal;
+    Vector3 vtx_b_n = vtx_b.normal;
+    Vector3 vtx_c_n = vtx_c.normal;
+
+    Raytracer::intersects_tri_vertices(r, intsec, geom_index, vtx_a_pos, vtx_b_pos, 
+        vtx_c_pos, vtx_a_n, vtx_b_n, vtx_c_n, invMat, normMat);
+   
+/*
+    Vector3 trans_e = invMat.transform_point(r.e); 
+    Vector3 trans_d = invMat.transform_vector(r.d);
+
     real_t a = vtx_a_pos.x - vtx_b_pos.x; //xa - xb
     real_t b = vtx_a_pos.y - vtx_b_pos.y; //ya - yb
     real_t c = vtx_a_pos.z - vtx_b_pos.z; //za - zb
@@ -200,7 +209,7 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
         intsec.beta = beta;
         intsec.alpha = alpha;
     }
-    
+*/  
 }
 
 } /* _462 */

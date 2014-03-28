@@ -18,6 +18,7 @@
 #include "math/random462.hpp"
 #include "math/vector.hpp"
 #include "scene/material.hpp"
+#include "math/matrix.hpp"
 namespace _462 {
 
 struct IntersectInfo {
@@ -55,7 +56,11 @@ public:
     bool raytrace(unsigned char* buffer, real_t* max_time);
 
     static void initialize_intsec_info(IntersectInfo& intsec);
-    
+
+    static void intersects_tri_vertices(Ray r, IntersectInfo&, 
+        size_t geom_index, Vector3 vtx_a_pos, Vector3 vtx_b_pos, Vector3 vtx_c_pos, 
+            Vector3 vtx_a_n, Vector3 vtx_b_n, Vector3 vtx_c_n, Matrix4 invMat, 
+            Matrix3 normMat);
 private:
 
     
