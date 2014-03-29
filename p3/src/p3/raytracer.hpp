@@ -84,10 +84,6 @@ private:
 };
 
 struct ColorInfo {
-    //Geometry* const* geometries;
-    //Color3 ambient_light;
-    //real_t refractive_index;
-    //const SphereLight* sphere_light;
     const Scene* scene;
     Vector3 p;
     Color3 tp;
