@@ -139,8 +139,7 @@ void Raytracer::initialize_intsec_info(IntersectInfo& intsec)
     intsec.t_hit = -1;
 }
 
-Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth,
-    real_t curr_refrac_index)
+Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
 {
     if (depth <= 0) {
         return Color3::Black();
@@ -163,22 +162,46 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth,
             Ray reflection_r = Ray(colinf.p, 
                 intsec.d-(2.0*dot(intsec.d, intsec.n_hit)*intsec.n_hit));
             Color3 reflection_col = recursive_raytrace(scene, reflection_r, 
-                (depth-1), refrac_index)
+                (depth-1))
                 * geometries[intsec.geom_index]->get_specular(intsec) 
                 * colinf.tp;
-            if (refrac_index== 0) {
+            if (refrac_index == 0.0) {
                 //opaque, phong illumination + reflection
                 Color3 phong_col = 
                     geometries[intsec.geom_index]->compute_color(intsec, colinf);
                 return phong_col + reflection_col;
             } else {
                 //transparent, refraction + reflection
-                //Ray refraction_r = Ray(colinf.p); 
-                //Color3 refrac_col = recursive_raytrace(scene, refraction_r, (depth-1));
-                Color3 refrac_col = Color3::Black();
-                //Color3 cp = (R*reflection_col) + ((1 - R)*refrac_col);
+                real_t d_dot_n = dot(intsec.n_hit, intsec.d);
+                real_t nt, n;
                 
-                return refrac_col + reflection_col;
+                if (d_dot_n < 0) {
+                    //entering
+                    n = scene->refractive_index;
+                    nt = refrac_index;
+                } else {
+                    //leaving
+                    d_dot_n = -d_dot_n;
+                    n = refrac_index;
+                    nt = scene->refractive_index;
+                }
+
+                real_t sqrt_term = 1.0-(((n*n)*(1.0-(d_dot_n*d_dot_n)))/(nt*nt));
+                if (sqrt_term <= 0) {
+                    //total internal reflection
+                    return reflection_col;
+                } else {
+                    Vector3 t_dir = 
+                        (n*(intsec.d-(intsec.n_hit*d_dot_n))/nt)
+                        - (intsec.n_hit*(sqrt(sqrt_term)));
+                    Ray transmission_r = Ray(colinf.p, t_dir);
+                    Color3 refraction_col = 
+                        recursive_raytrace(scene, transmission_r, (depth-1)); 
+                    real_t R0 = ((nt-1.0)/(nt+1.0))*((nt-1.0)/(nt+1.0));
+                    real_t R = R0 + (1.0-R0)*(pow(1.0-fabs(d_dot_n),5));
+                    Color3 cp = (R*reflection_col) + ((1.0-R)*refraction_col);
+                    return cp;
+                }
             }
         } else { //intersection not found
             return scene->background_color; 
@@ -220,8 +243,7 @@ Color3 Raytracer::trace_pixel(const Scene* scene,
 
         Ray r = Ray(scene->camera.get_position(), Ray::get_pixel_dir(i, j));
 
-        res += clamp(recursive_raytrace(scene, r, RECURSE_DEPTH, 
-            scene->refractive_index), 0.0, 1.0);
+        res += clamp(recursive_raytrace(scene, r, RECURSE_DEPTH), 0.0, 1.0);
         // TODO return the color of the given pixel
         // you don't have to use this stub function if you prefer to
         // write your own version ofeRaytracer::raytrace.
