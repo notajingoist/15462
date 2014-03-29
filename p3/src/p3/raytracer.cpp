@@ -174,13 +174,16 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
                 //transparent, refraction + reflection
                 real_t d_dot_n = dot(intsec.n_hit, intsec.d);
                 real_t nt, n;
-                
+                Vector3 refrac_norm;
+
                 if (d_dot_n < 0) {
                     //entering
                     n = scene->refractive_index;
                     nt = refrac_index;
+                    refrac_norm = intsec.n_hit;
                 } else {
                     //leaving
+                    refrac_norm = -intsec.n_hit;
                     d_dot_n = -d_dot_n;
                     n = refrac_index;
                     nt = scene->refractive_index;
@@ -192,8 +195,8 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
                     return reflection_col;
                 } else {
                     Vector3 t_dir = 
-                        (n*(intsec.d-(intsec.n_hit*d_dot_n))/nt)
-                        - (intsec.n_hit*(sqrt(sqrt_term)));
+                        (n*(intsec.d-(refrac_norm*d_dot_n))/nt)
+                        - (refrac_norm*(sqrt(sqrt_term)));
                     Ray transmission_r = Ray(colinf.p, t_dir);
                     Color3 refraction_col = 
                         recursive_raytrace(scene, transmission_r, (depth-1)); 
