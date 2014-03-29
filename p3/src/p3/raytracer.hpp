@@ -63,7 +63,8 @@ public:
 private:
 
     
-    Color3 recursive_raytrace(const Scene* scene, Ray r, size_t depth);
+    Color3 recursive_raytrace(const Scene* scene, Ray r, size_t depth,
+        real_t curr_refrac_index);
 
     Color3 trace_pixel(const Scene* scene,
 		       size_t x,
@@ -92,6 +93,7 @@ struct ColorInfo {
     Vector3 p;
     Color3 tp;
     Color3 kd;
+    size_t num_samples;
 };
 
 

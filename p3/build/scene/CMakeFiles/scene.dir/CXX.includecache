@@ -126,6 +126,10 @@ string
 vector
 -
 
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene.cpp
+scene/scene.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/scene.hpp
+
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene.hpp
 math/vector.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/math/vector.hpp
@@ -149,16 +153,6 @@ vector
 -
 cfloat
 -
-
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/triangle.cpp
-scene/triangle.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/triangle.hpp
-application/opengl.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/application/opengl.hpp
-
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/triangle.hpp
-scene/scene.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p3/src/scene/scene/scene.hpp
 
 /usr/include/SDL/SDL_config-i386.h
 SDL_platform.h
