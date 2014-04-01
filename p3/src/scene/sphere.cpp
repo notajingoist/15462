@@ -171,7 +171,8 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
         t_hit = (t1 < t2) ? t1 : t2;
     }
 
-    Vector3 n_hit = normMat*(normalize(trans_e + t_hit*trans_d));
+    Vector3 n_hit = 
+        normalize(normMat*(normalize(trans_e + t_hit*trans_d)));
     if (!intsec.intersection_found || (t_hit < intsec.t_hit)) {
         intsec.e = r.e;
         intsec.d = r.d;

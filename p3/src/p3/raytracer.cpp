@@ -119,7 +119,7 @@ void Raytracer::intersects_tri_vertices(Ray r, IntersectInfo& intsec,
     real_t alpha = 1.0 - gamma - beta;
     Vector3 pre_n = (alpha*vtx_a_n) + (beta*vtx_b_n) 
         + (gamma*vtx_c_n);
-    Vector3 n = normMat*(normalize(pre_n));
+    Vector3 n = normalize(normMat*(normalize(pre_n)));
     if (!intsec.intersection_found || (t < intsec.t_hit)) {
         intsec.e = r.e;
         intsec.d = r.d;
