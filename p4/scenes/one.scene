@@ -1,0 +1,46 @@
+
+<scene>
+    <camera>
+        <fov v=".785"/>
+        <near_clip v=".01"/>
+        <far_clip v="200.0"/>
+        <position x="0.0" y="0.0" z="5.0"/>
+        <orientation a="0.0" x="1.0" y="0.0" z="0.0"/>
+    </camera>
+
+    <background_color r="0.043" g="0.349" b="0.867"/>
+
+    <refractive_index v="1.0"/>
+
+    <ambient_light r="0.4" g="0.4" b="0.4"/>
+
+    <point_light>
+        <position x="12.0" y="10.0" z="8.0"/>
+        <color r="1.0" g="1.0" b="1.0"/>
+    </point_light>
+
+    <material name="default">
+        <ambient r="0.043" g="0.349" b="0.867"/>
+        <diffuse r="0.043" g="0.349" b="0.867"/>
+        <specular r="0.568" g="0.478" b="0.753"/>
+        <shininess v="100.0"/>
+    </material> 
+ 
+    <sphere material="default">
+        <position x="2.0" y="0.0" z="0.0"/>
+        <radius v="1.0"/>
+    </sphere>
+
+    <sphere material="default">
+        <position x="-2.0" y="0.0" z="0.0"/>
+        <radius v="1.0"/>
+    </sphere>
+    
+    <sphere material="default">
+        <position x="0.0" y="2.0" z="0.0"/>
+        <radius v="1.0"/>
+    </sphere>
+
+
+</scene>
+

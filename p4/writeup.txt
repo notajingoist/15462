@@ -1,0 +1,45 @@
+
+Describe the required features you have implemented, and which you have not.
+if you have missing features, be sure to explain how much you accomplished.
+Describe any major design decisions and descriptions of your algorithms.
+You should detail anything you think we need to know to understand your code.
+
+/**
+ * 15-462 Project 3: Raytracing - Write-Up 
+ * Author: Jing Xiao 
+ * AndrewID: jingxiao
+ */
+
+IMPLEMENTATION DETAILS:
+Overview:
+-Files edited: raytracer.cpp/hpp, scene.cpp/hpp, triangle.cpp/hpp, model.cpp/hpp, sphere.cpp/hpp
+-I used the math formulas from the handout and the Shirley textbook to perform the intersection tests, compute colors, calculate refraction and reflection, etc.  
+-I did not use bounding boxes or any special spatial optimization
+-I made use of virtual functions so I could accomplish tasks on different kinds of geometries without having to cast or use switch statements.  
+-I used structs (IntersectInfo, ColorInfo) to pass intersection and color information around. This allowed me to take advantage of using virtual functions, as it gave me the flexibility to selectively store and pass certain values whose relevance depended on the geometry type. 
+
+RAY CASTING & INTERSECTION TESTS:
+Overview:
+-Each intersection test loops through all the geometries and stores information about the one with the minimum t.  
+-I used instancing, as described in the handout and book, to transform e and d before performing the calculations in each intersection test. I also used instancing to find the normal. 
+Spheres:
+-Ho hum, nothing special.
+Triangles:
+-Because I didn't want extraneous, redundant code, I created a static function in Raytracer that could be called within both triangles and models. This static function takes in vertex position and normal information and performs the triangle intersection test. As such, triangle's virtual intersects_ray function that overrides the one defined for geometry simply calls this static function.
+-Extra intersection information stored in my struct includes alpha, beta, and gamma, which need to be calculated in order to perform the intersection test, but also need to be retained for later use in computing the color.
+Models:
+-Loops through all the triangles in the mesh, and calls the static function in Raytracer to perform the triangle intersection test
+-Extra intersection information stored in my struct includes the minimal intersected triangle's index into the mesh triangle list.
+
+COMPUTING COLORS:
+Overview:
+-I created a recursive function that gets called in trace_pixel for the first time. If the depth is not 0, I perform the intersection test for the given ray. If an intersection is found, I compute the color based on the refraction index. If the object is transparent, I perform the reflection and refraction calculations; if it is opaque, I perform the direct illumination and reflection calculations. I perform the texture computation for both cases. Otherwise I return the background color. 
+Textures:
+-I created a virtual function, compute_tp, to obtain the texture color. Sphere, Triangle, and Model all override this function with their own specific computations. Model in particular creates a Triangle from its mesh triangle so it can call Triangle's compute_tp function.
+Direct Illumination & Soft Shadows:
+-I wrote one function shared by all types of geometries, compute_all_lights, that computes the summed term.
+-I used the provided random gaussian function to sample the spherical light sources and produce the soft shadows.
+Reflection & Refraction:
+-Algorithms lifted from Shirley. 
+
+
