@@ -107,11 +107,7 @@ real_t Bbox::sum_left_right_volumes(std::vector< size_t > indices)
 
 real_t Bbox::get_volume()
 {
-    /*real_t volume = 0.0;
-    for (size_t i = 0; i < geom_indices.size(); i++) {
-        volume += geometry_list[indices[i]]->get_volume(); 
-    }*/
-
+    
     return (bx_max - bx_min) * (by_max - by_min) * (bz_max - bz_min);
 }
 
@@ -124,7 +120,6 @@ std::vector< size_t > Bbox::sort_geom_indices(size_t axis)
 
 void Bbox::set_bounds()
 {
-
     bool first_geom = true;
     real_t x_min, x_max, y_min, y_max, z_min, z_max;
     for (size_t i = 0; i < geom_indices.size(); i++) {
@@ -223,32 +218,14 @@ void Bbox::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
     //else doesn't hit box, then no intersection found
 
     if (hits_bbox(r)) {
-        //intsec.intersection_found = true;
-        
         if (left != NULL && right != NULL) {
-            IntersectInfo right_intsec, left_intsec;
-            initialize_intsec_info(right_intsec);
-            initialize_intsec_info(left_intsec);
-            
-            //dummy geom_index value = 0
-            left->intersects_ray(r, left_intsec, 0);
-            right->intersects_ray(r, right_intsec, 0);
-
-            if (left_intsec.intersection_found &&
-                right_intsec.intersection_found) {
-                intsec = (left_intsec.t_hit < right_intsec.t_hit) 
-                    ? left_intsec : right_intsec;
-            } if (left_intsec.intersection_found) {
-                intsec = left_intsec;    
-            } else {
-                intsec = right_intsec;
-            }
-            
+            left->intersects_ray(r, intsec, 0);
+            right->intersects_ray(r, intsec, 0);
         } else if (left != NULL) {
             left->intersects_ray(r, intsec, 0);
         } else if (right != NULL) {
             right->intersects_ray(r, intsec, 0);
-        } else {
+        }else {
             //leaf node, so there should only be 1 geometry index in geom_indices
             for (size_t i = 0; i < geom_indices.size(); i++) {
                  geometry_list[geom_indices[i]]->intersects_ray(r, intsec,
@@ -257,7 +234,7 @@ void Bbox::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
         }
     } else {
         //already false
-        intsec.intersection_found = false;
+        //intsec.intersection_found = false;
     }
     
 }

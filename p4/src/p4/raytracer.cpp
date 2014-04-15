@@ -95,7 +95,7 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
         intsec.intersection_found = false;
         intsec.t_hit = -1;
        
-        //dumy geom_index value of 0;
+        //dummy geom_index value of 0;
         root_bbox->intersects_ray(r, intsec, 0);
         //scene->shoot_ray(r, intsec);
       

@@ -147,9 +147,20 @@ void Sphere::find_min_max(real_t& x_min, real_t& x_max, real_t& y_min,
     real_t& y_max, real_t& z_min, real_t& z_max) const 
 {
     //should I multiply scale.blah by radius?
-    real_t max_scale_component = get_max(scale.x, scale.y, scale.z);
+    //printf("%f, %f, %f\n", scale.x, scale.y, scale.z);
+    //printf("%f\n", radius);
+
+    
+    real_t max_scale_component = get_max((scale.x*radius), (scale.y*radius), 
+        (scale.z*radius));
+  
+  /*
+    if ((scale.x == 1.0) && (scale.y == 1.0) && (scale.z == 1.0)) {
+        max_scale_component = radius;
+    }*/
+    /*
     max_scale_component = (radius > max_scale_component) 
-        ? radius : max_scale_component;
+        ? radius : max_scale_component; */
     x_min = position.x - max_scale_component;
     x_max = position.x + max_scale_component;
     y_min = position.y - max_scale_component;
@@ -195,6 +206,8 @@ void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) con
         intsec.t_hit = t_hit;
         intsec.n_hit = n_hit;
         intsec.geom_index = geom_index;
+
+        //printf("intersection found for sphere with radius: %f\n", radius);
     }
 }
 

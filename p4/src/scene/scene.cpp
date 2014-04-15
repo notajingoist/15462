@@ -36,7 +36,6 @@ void Geometry::initialize_intsec_info(IntersectInfo& intsec)
     intsec.t_hit = -1;
 }
 
-
 void Geometry::intersects_tri_vertices(Ray r, IntersectInfo& intsec, 
     size_t geom_index, Vector3 vtx_a_pos, Vector3 vtx_b_pos, Vector3 vtx_c_pos,
     Vector3 vtx_a_n, Vector3 vtx_b_n, Vector3 vtx_c_n, Matrix4 invMat, 
