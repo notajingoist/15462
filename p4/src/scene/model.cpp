@@ -109,9 +109,9 @@ void Model::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) cons
         Vector3 vtx_c_n = vtx_c.normal;
         
         IntersectInfo tri_intsec;
-        Raytracer::initialize_intsec_info(tri_intsec);
+        initialize_intsec_info(tri_intsec);
         
-        Raytracer::intersects_tri_vertices(r, tri_intsec, i, vtx_a_pos, 
+        intersects_tri_vertices(r, tri_intsec, i, vtx_a_pos, 
             vtx_b_pos, vtx_c_pos, vtx_a_n, vtx_b_n, vtx_c_n, invMat, normMat);
    
         if (tri_intsec.intersection_found && (!intsec.intersection_found 

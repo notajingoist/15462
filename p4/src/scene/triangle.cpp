@@ -170,7 +170,7 @@ void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) c
     Vector3 vtx_b_n = vtx_b.normal;
     Vector3 vtx_c_n = vtx_c.normal;
 
-    Raytracer::intersects_tri_vertices(r, intsec, geom_index, vtx_a_pos, vtx_b_pos, 
+    intersects_tri_vertices(r, intsec, geom_index, vtx_a_pos, vtx_b_pos, 
         vtx_c_pos, vtx_a_n, vtx_b_n, vtx_c_n, invMat, normMat);
    
 }

@@ -12,34 +12,18 @@
 #define _462_RAYTRACER_HPP_
 
 #define MAX_DEPTH 5
-#define SLOP 0.001
 
 #include "math/color.hpp"
 #include "math/random462.hpp"
 #include "math/vector.hpp"
 #include "scene/material.hpp"
 #include "math/matrix.hpp"
+#include "scene/scene.hpp"
+#include "scene/bbox.hpp"
+
 namespace _462 {
 
-struct IntersectInfo {
-    Vector3 e;
-    Vector3 d;
-
-    size_t geom_index;
-    size_t tri_index;
-    
-    real_t t_hit;
-    Vector3 n_hit;
-    
-    bool intersection_found;
-    
-    real_t alpha;
-    real_t beta;
-    real_t gamma;
-
-    //Geometry* const* geometry_list;
-};
-struct ColorInfo;
+//struct ColorInfo;
 class Scene;
 class Ray;
 struct Intersection;
@@ -56,12 +40,6 @@ public:
 
     bool raytrace(unsigned char* buffer, real_t* max_time);
 
-    static void initialize_intsec_info(IntersectInfo& intsec);
-
-    static void intersects_tri_vertices(Ray r, IntersectInfo&, 
-        size_t geom_index, Vector3 vtx_a_pos, Vector3 vtx_b_pos, Vector3 vtx_c_pos, 
-            Vector3 vtx_a_n, Vector3 vtx_b_n, Vector3 vtx_c_n, Matrix4 invMat, 
-            Matrix3 normMat);
 private:
 
     
@@ -83,15 +61,11 @@ private:
     size_t current_row;
 
     unsigned int num_samples;
+
+    Bbox root_bbox;
 };
 
-struct ColorInfo {
-    const Scene* scene;
-    Vector3 p;
-    Color3 tp;
-    Color3 kd;
-    size_t num_samples;
-};
+
 
 
 

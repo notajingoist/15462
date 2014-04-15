@@ -98,7 +98,6 @@ application/CMakeFiles/application.dir/scene_loader.cpp.o: /afs/andrew.cmu.edu/u
 application/CMakeFiles/application.dir/scene_loader.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/quaternion.hpp
 application/CMakeFiles/application.dir/scene_loader.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/random462.hpp
 application/CMakeFiles/application.dir/scene_loader.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/vector.hpp
-application/CMakeFiles/application.dir/scene_loader.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.hpp
 application/CMakeFiles/application.dir/scene_loader.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
 application/CMakeFiles/application.dir/scene_loader.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/mesh.hpp
 application/CMakeFiles/application.dir/scene_loader.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/model.hpp

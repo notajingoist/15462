@@ -30,6 +30,72 @@ bool Geometry::initialize()
 	return true;
 }
 
+void Geometry::initialize_intsec_info(IntersectInfo& intsec)
+{
+    intsec.intersection_found = false;
+    intsec.t_hit = -1;
+}
+
+
+void Geometry::intersects_tri_vertices(Ray r, IntersectInfo& intsec, 
+    size_t geom_index, Vector3 vtx_a_pos, Vector3 vtx_b_pos, Vector3 vtx_c_pos,
+    Vector3 vtx_a_n, Vector3 vtx_b_n, Vector3 vtx_c_n, Matrix4 invMat, 
+    Matrix3 normMat)
+{
+    Vector3 trans_e = invMat.transform_point(r.e); 
+    Vector3 trans_d = invMat.transform_vector(r.d);
+    
+    real_t a = vtx_a_pos.x - vtx_b_pos.x; //xa - xb
+    real_t b = vtx_a_pos.y - vtx_b_pos.y; //ya - yb
+    real_t c = vtx_a_pos.z - vtx_b_pos.z; //za - zb
+    real_t d = vtx_a_pos.x - vtx_c_pos.x; //xa - xc
+    real_t e = vtx_a_pos.y - vtx_c_pos.y; //ya - yc
+    real_t f = vtx_a_pos.z - vtx_c_pos.z; //za - zc
+    real_t g = trans_d.x; //xd
+    real_t h = trans_d.y; //yd
+    real_t i = trans_d.z; //zd
+    real_t j = vtx_a_pos.x - trans_e.x; //xa - xe
+    real_t k = vtx_a_pos.y - trans_e.y; //ya - ye
+    real_t l = vtx_a_pos.z - trans_e.z; //za - ze
+
+    real_t M = a*(e*i - h*f) + b*(g*f - d*i) + c*(d*h - e*g);
+    if (M == 0.0) {
+        return;
+    }
+
+    real_t t = (-1.0)*(f*(a*k - j*b) + e*(j*c - a*l) + d*(b*l - k*c))/M;
+    if (t <= SLOP) { //<= ? 
+        return;
+    }
+
+    real_t gamma = (i*(a*k - j*b) + h*(j*c - a*l) + g*(b*l - k*c))/M; 
+    if ((gamma < 0.0) || (gamma > 1.0)) {
+        return;
+    }
+
+    real_t beta = (j*(e*i - h*f) + k*(g*f - d*i) + l*(d*h - e*g))/M;
+    if ((beta < 0.0) || (beta > (1.0 - gamma))) {
+        return;
+    }
+
+    real_t alpha = 1.0 - gamma - beta;
+    Vector3 pre_n = (alpha*vtx_a_n) + (beta*vtx_b_n) 
+        + (gamma*vtx_c_n);
+    Vector3 n = normalize(normMat*(normalize(pre_n)));
+    if (!intsec.intersection_found || (t < intsec.t_hit)) {
+        intsec.e = r.e;
+        intsec.d = r.d;
+        intsec.intersection_found = true;
+        intsec.t_hit = t;
+        intsec.n_hit = n;
+        intsec.geom_index = geom_index;
+        intsec.gamma = gamma;
+        intsec.beta = beta;
+        intsec.alpha = alpha;
+    }
+}
+
+
 Color3 Geometry::compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     Color3 c_all_lights = Color3::Black();
@@ -55,7 +121,7 @@ Color3 Geometry::compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf) 
             
             real_t b = 1;
             IntersectInfo b_intsec;
-            Raytracer::initialize_intsec_info(b_intsec);
+            initialize_intsec_info(b_intsec);
             colinf.scene->shoot_ray(shadow_r, b_intsec);
             if (b_intsec.intersection_found) {
                 Vector3 obj_pos = colinf.p + (b_intsec.t_hit * light_dir);

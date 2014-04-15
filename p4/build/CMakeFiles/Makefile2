@@ -221,10 +221,10 @@ p4/preinstall:
 # Target rules for target p4/CMakeFiles/p4.dir
 
 # All Build rule for target.
-p4/CMakeFiles/p4.dir/all: application/CMakeFiles/application.dir/all
 p4/CMakeFiles/p4.dir/all: glew/CMakeFiles/glew.dir/all
-p4/CMakeFiles/p4.dir/all: scene/CMakeFiles/scene.dir/all
+p4/CMakeFiles/p4.dir/all: application/CMakeFiles/application.dir/all
 p4/CMakeFiles/p4.dir/all: math/CMakeFiles/math.dir/all
+p4/CMakeFiles/p4.dir/all: scene/CMakeFiles/scene.dir/all
 p4/CMakeFiles/p4.dir/all: tinyxml/CMakeFiles/tinyxml.dir/all
 	$(MAKE) -f p4/CMakeFiles/p4.dir/build.make p4/CMakeFiles/p4.dir/depend
 	$(MAKE) -f p4/CMakeFiles/p4.dir/build.make p4/CMakeFiles/p4.dir/build

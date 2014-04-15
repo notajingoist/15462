@@ -10,7 +10,6 @@ scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/privat
 scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/quaternion.hpp
 scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/random462.hpp
 scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/vector.hpp
-scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.hpp
 scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.cpp
 scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.hpp
 scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
@@ -58,7 +57,6 @@ scene/CMakeFiles/scene.dir/model.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/priva
 scene/CMakeFiles/scene.dir/model.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/quaternion.hpp
 scene/CMakeFiles/scene.dir/model.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/random462.hpp
 scene/CMakeFiles/scene.dir/model.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/vector.hpp
-scene/CMakeFiles/scene.dir/model.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.hpp
 scene/CMakeFiles/scene.dir/model.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
 scene/CMakeFiles/scene.dir/model.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/mesh.hpp
 scene/CMakeFiles/scene.dir/model.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/model.cpp
@@ -99,7 +97,6 @@ scene/CMakeFiles/scene.dir/scene.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/priva
 scene/CMakeFiles/scene.dir/scene.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/quaternion.hpp
 scene/CMakeFiles/scene.dir/scene.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/random462.hpp
 scene/CMakeFiles/scene.dir/scene.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/vector.hpp
-scene/CMakeFiles/scene.dir/scene.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.hpp
 scene/CMakeFiles/scene.dir/scene.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
 scene/CMakeFiles/scene.dir/scene.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/mesh.hpp
 scene/CMakeFiles/scene.dir/scene.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/ray.hpp
@@ -120,7 +117,6 @@ scene/CMakeFiles/scene.dir/sphere.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/priv
 scene/CMakeFiles/scene.dir/sphere.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/quaternion.hpp
 scene/CMakeFiles/scene.dir/sphere.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/random462.hpp
 scene/CMakeFiles/scene.dir/sphere.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/vector.hpp
-scene/CMakeFiles/scene.dir/sphere.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.hpp
 scene/CMakeFiles/scene.dir/sphere.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
 scene/CMakeFiles/scene.dir/sphere.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/mesh.hpp
 scene/CMakeFiles/scene.dir/sphere.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/ray.hpp
@@ -142,7 +138,6 @@ scene/CMakeFiles/scene.dir/triangle.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/pr
 scene/CMakeFiles/scene.dir/triangle.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/quaternion.hpp
 scene/CMakeFiles/scene.dir/triangle.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/random462.hpp
 scene/CMakeFiles/scene.dir/triangle.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/vector.hpp
-scene/CMakeFiles/scene.dir/triangle.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.hpp
 scene/CMakeFiles/scene.dir/triangle.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
 scene/CMakeFiles/scene.dir/triangle.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/mesh.hpp
 scene/CMakeFiles/scene.dir/triangle.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/ray.hpp

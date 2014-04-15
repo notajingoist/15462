@@ -1,6 +1,8 @@
 #include "math/math.hpp"
 #include <random>
 
+#ifndef _462_MATH_RANDOM462_HPP_
+#define _462_MATH_RANDOM462_HPP_
 namespace _462{
 
     /**
@@ -24,3 +26,5 @@ namespace _462{
 
 
 }; // _462
+
+#endif

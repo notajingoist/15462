@@ -234,11 +234,9 @@ void Bbox::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 
         if (left != NULL && right != NULL) {
             IntersectInfo right_intsec, left_intsec;
-            right_intsec.intersection_found = false;
-            left_intsec.intersection_found = false;
-            right_intsec.t_hit = -1;
-            left_intsec.t_hit = -1;
-
+            initialize_intsec_info(right_intsec);
+            initialize_intsec_info(left_intsec);
+            
             //dummy geom_index value = 0
             left->intersects_ray(r, left_intsec, 0);
             right->intersects_ray(r, right_intsec, 0);

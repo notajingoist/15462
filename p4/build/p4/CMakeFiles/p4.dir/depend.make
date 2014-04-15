@@ -16,6 +16,7 @@ p4/CMakeFiles/p4.dir/main.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/1546
 p4/CMakeFiles/p4.dir/main.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/vector.hpp
 p4/CMakeFiles/p4.dir/main.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/main.cpp
 p4/CMakeFiles/p4.dir/main.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.hpp
+p4/CMakeFiles/p4.dir/main.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.hpp
 p4/CMakeFiles/p4.dir/main.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
 p4/CMakeFiles/p4.dir/main.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/mesh.hpp
 p4/CMakeFiles/p4.dir/main.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/ray.hpp
@@ -61,6 +62,7 @@ p4/CMakeFiles/p4.dir/raytracer.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private
 p4/CMakeFiles/p4.dir/raytracer.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/math/vector.hpp
 p4/CMakeFiles/p4.dir/raytracer.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.cpp
 p4/CMakeFiles/p4.dir/raytracer.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/p4/raytracer.hpp
+p4/CMakeFiles/p4.dir/raytracer.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.hpp
 p4/CMakeFiles/p4.dir/raytracer.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
 p4/CMakeFiles/p4.dir/raytracer.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/mesh.hpp
 p4/CMakeFiles/p4.dir/raytracer.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/ray.hpp

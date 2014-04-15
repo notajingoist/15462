@@ -6,14 +6,17 @@
 
 #ifndef _462_SCENE_SCENE_HPP_
 #define _462_SCENE_SCENE_HPP_
+#define SLOP 0.001
 
 #include "math/vector.hpp"
 #include "math/quaternion.hpp"
 #include "math/matrix.hpp"
+#include "math/random462.hpp"
 #include "math/camera.hpp"
 #include "scene/material.hpp"
 #include "scene/mesh.hpp"
-#include "p4/raytracer.hpp"
+//#include "scene/bbox.hpp"
+//#include "p4/raytracer.hpp"
 //#include "scene/bvh.hpp"
 #include "ray.hpp"
 #include <string>
@@ -21,7 +24,33 @@
 #include <cfloat>
 
 namespace _462 {
+class Scene;
+struct IntersectInfo {
+    Vector3 e;
+    Vector3 d;
 
+    size_t geom_index;
+    size_t tri_index;
+    
+    real_t t_hit;
+    Vector3 n_hit;
+    
+    bool intersection_found;
+    
+    real_t alpha;
+    real_t beta;
+    real_t gamma;
+
+    //Geometry* const* geometry_list;
+};
+
+struct ColorInfo {
+    const Scene* scene;
+    Vector3 p;
+    Color3 tp;
+    Color3 kd;
+    size_t num_samples;
+};
 
 //struct ColorInfo;
 class Geometry
@@ -75,6 +104,13 @@ public:
 
     static real_t get_max(real_t a, real_t b, real_t c);
     static real_t get_min(real_t a, real_t b, real_t c);
+
+    static void initialize_intsec_info(IntersectInfo& intsec);
+    static void intersects_tri_vertices(Ray r, IntersectInfo&, 
+        size_t geom_index, Vector3 vtx_a_pos, Vector3 vtx_b_pos, Vector3 vtx_c_pos, 
+            Vector3 vtx_a_n, Vector3 vtx_b_n, Vector3 vtx_c_n, Matrix4 invMat, 
+            Matrix3 normMat);
+
  };
 
 
