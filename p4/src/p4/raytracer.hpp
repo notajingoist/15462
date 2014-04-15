@@ -42,7 +42,7 @@ public:
 
 private:
 
-    
+        
     Color3 recursive_raytrace(const Scene* scene, Ray r, size_t depth);
 
     Color3 trace_pixel(const Scene* scene,
@@ -62,7 +62,7 @@ private:
 
     unsigned int num_samples;
 
-    Bbox root_bbox;
+    Bbox* root_bbox;
 };
 
 

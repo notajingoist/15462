@@ -47,11 +47,9 @@ public:
     
     real_t get_volume();
     bool hits_bbox(Ray r) const;
-    void initialize_bbox(std::vector< size_t > indices);
+    void initialize_bbox(std::vector< size_t > indices, 
+        Geometry* const* geom_list);
     std::vector< size_t > sort_geom_indices(size_t axis);
-    bool sort_x_axis(size_t i, size_t j);
-    bool sort_y_axis(size_t i, size_t j);
-    bool sort_z_axis(size_t i, size_t j);
     real_t sum_left_right_volumes(std::vector< size_t > indices);
     void set_bounds();
     

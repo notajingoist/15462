@@ -14,14 +14,17 @@ Bbox::Bbox() {}
 
 Bbox::~Bbox() {}
 
-void Bbox::initialize_bbox(std::vector< size_t > indices)
+void Bbox::initialize_bbox(std::vector< size_t > indices,
+    Geometry* const* geom_list)
 {
+    geometry_list = geom_list;
     geom_indices = indices;
-
+    
     if (geom_indices.size() <= 1) {
         //left and right remain NULL
         left = NULL;
         right = NULL;
+
     } else {
         //do I need this?
         std::vector< size_t > left_indices;
@@ -71,8 +74,8 @@ void Bbox::initialize_bbox(std::vector< size_t > indices)
             }
         }
 
-        left->initialize_bbox(left_indices);
-        right->initialize_bbox(right_indices);
+        left->initialize_bbox(left_indices, geometry_list);
+        right->initialize_bbox(right_indices, geometry_list);
     }
 
     set_bounds();
@@ -112,21 +115,6 @@ real_t Bbox::get_volume()
     return (bx_max - bx_min) * (by_max - by_min) * (bz_max - bz_min);
 }
 
-bool Bbox::sort_x_axis(size_t i, size_t j) {
-    return (geometry_list[geom_indices[i]]->position.x <
-        geometry_list[geom_indices[j]]->position.x);
-}
-
-bool Bbox::sort_y_axis(size_t i, size_t j) {
-    return (geometry_list[geom_indices[i]]->position.y <
-        geometry_list[geom_indices[j]]->position.y);
-}
-
-bool Bbox::sort_z_axis(size_t i, size_t j) {
-    return (geometry_list[geom_indices[i]]->position.z <
-        geometry_list[geom_indices[j]]->position.z);
-}
-
 std::vector< size_t > Bbox::sort_geom_indices(size_t axis)
 {
     std::vector< size_t > indices = geom_indices;
@@ -136,6 +124,7 @@ std::vector< size_t > Bbox::sort_geom_indices(size_t axis)
 
 void Bbox::set_bounds()
 {
+
     bool first_geom = true;
     real_t x_min, x_max, y_min, y_max, z_min, z_max;
     for (size_t i = 0; i < geom_indices.size(); i++) {
@@ -230,8 +219,8 @@ void Bbox::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
     //else doesn't hit box, then no intersection found
 
     if (hits_bbox(r)) {
-        intsec.intersection_found = true;
-
+        //intsec.intersection_found = true;
+        
         if (left != NULL && right != NULL) {
             IntersectInfo right_intsec, left_intsec;
             initialize_intsec_info(right_intsec);
@@ -241,9 +230,16 @@ void Bbox::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
             left->intersects_ray(r, left_intsec, 0);
             right->intersects_ray(r, right_intsec, 0);
 
-            intsec = (left_intsec.t_hit < right_intsec.t_hit) 
-                ? left_intsec : right_intsec;
-        
+            if (left_intsec.intersection_found &&
+                right_intsec.intersection_found) {
+                intsec = (left_intsec.t_hit < right_intsec.t_hit) 
+                    ? left_intsec : right_intsec;
+            } if (left_intsec.intersection_found) {
+                intsec = left_intsec;    
+            } else {
+                intsec = right_intsec;
+            }
+            
         } else if (left != NULL) {
             left->intersects_ray(r, intsec, 0);
         } else if (right != NULL) {

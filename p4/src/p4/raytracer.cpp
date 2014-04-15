@@ -72,6 +72,15 @@ bool Raytracer::initialize(Scene* scene, size_t num_samples,
 
     // TODO any initialization or precompuation before the trace
 
+    root_bbox = new Bbox();
+    std::vector< size_t > indices;
+    for (size_t i = 0; i < scene->num_geometries(); i++) {
+        indices.push_back(i);
+    }
+
+    printf("hihi\n");
+    root_bbox->initialize_bbox(indices, scene->get_geometries());
+    printf("byebye\n");
     return true;
 }
 
@@ -85,7 +94,10 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
         IntersectInfo intsec;
         intsec.intersection_found = false;
         intsec.t_hit = -1;
-        scene->shoot_ray(r, intsec);
+       
+        //dumy geom_index value of 0;
+        root_bbox->intersects_ray(r, intsec, 0);
+        //scene->shoot_ray(r, intsec);
       
         if (intsec.intersection_found) {
             ColorInfo colinf;
