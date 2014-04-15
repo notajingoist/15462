@@ -4,6 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
+  "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.cpp" "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build/scene/CMakeFiles/scene.dir/bbox.cpp.o"
   "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.cpp" "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build/scene/CMakeFiles/scene.dir/material.cpp.o"
   "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/mesh.cpp" "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build/scene/CMakeFiles/scene.dir/mesh.cpp.o"
   "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/model.cpp" "/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build/scene/CMakeFiles/scene.dir/model.cpp.o"

@@ -36,6 +36,8 @@ struct IntersectInfo {
     real_t alpha;
     real_t beta;
     real_t gamma;
+
+    //Geometry* const* geometry_list;
 };
 struct ColorInfo;
 class Scene;

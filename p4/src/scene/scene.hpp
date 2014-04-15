@@ -52,12 +52,19 @@ public:
     // Normal transformation matrix
 	Matrix3 normMat;
 
+    //local to world
+    Matrix4 mat;
+
     /**
      * Renders this geometry using OpenGL in the local coordinate space.
      */
     virtual void render() const = 0;
 
-    virtual void intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const;
+    virtual void intersects_ray(Ray r, IntersectInfo& intsec, 
+        size_t geom_index) const;
+    virtual void find_min_max(real_t& x_min, real_t& x_max, real_t& y_min, 
+        real_t& y_max, real_t& z_min, real_t& z_max) const;
+    
     virtual Color3 compute_color(IntersectInfo& intsec, ColorInfo& colinf) const;
     
     Color3 compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf) const;
@@ -65,7 +72,10 @@ public:
     virtual Color3 get_specular(IntersectInfo& intsec) const;
     virtual real_t get_refractive_index(IntersectInfo& intsec) const;
 	bool initialize();
-};
+
+    static real_t get_max(real_t a, real_t b, real_t c);
+    static real_t get_min(real_t a, real_t b, real_t c);
+ };
 
 
 struct SphereLight

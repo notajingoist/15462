@@ -63,6 +63,36 @@ Color3 Model::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
     return tri.compute_tp(intsec, colinf);
 }
 
+void Model::find_min_max(real_t& x_min, real_t& x_max, real_t& y_min,
+        real_t& y_max, real_t& z_min, real_t& z_max) const
+{
+    bool first_tri = true; 
+    real_t trix_min, trix_max, triy_min, triy_max, triz_min, triz_max;
+    for (size_t i = 0; i < mesh->num_triangles(); i++) {
+        Triangle tri = Triangle();
+        tri.from_mesh(mesh, i, material);
+        tri.find_min_max(trix_min, trix_max, triy_min, triy_max, 
+            triz_min, triz_max);
+        
+        if (first_tri) {
+            x_min = trix_min;
+            x_max = trix_max;
+            y_min = triy_min;
+            y_max = triy_max;
+            z_min = triz_min;
+            z_max = triz_max;
+        } else {
+            x_min = std::min(x_min, trix_min);
+            x_max = std::max(x_max, trix_max);
+            y_min = std::min(y_min, triy_min);
+            y_max = std::max(y_max, triy_max);
+            z_min = std::min(z_min, triz_min);
+            z_max = std::max(z_max, triz_max);
+        }
+        first_tri = false;
+    }
+}
+
 void Model::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const 
 {
     for (size_t i = 0; i < mesh->num_triangles(); i++) {

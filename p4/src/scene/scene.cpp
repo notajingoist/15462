@@ -24,7 +24,6 @@ Geometry::~Geometry() { }
 bool Geometry::initialize()
 {
 	make_inverse_transformation_matrix(&invMat, position, orientation, scale);
-	Matrix4 mat;
 	make_transformation_matrix(&mat, position, orientation, scale);
 	make_normal_matrix(&normMat, mat);
 
@@ -85,6 +84,35 @@ Color3 Geometry::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
 Color3 Geometry::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     return Color3::Black();
+}
+
+real_t Geometry::get_max(real_t a, real_t b, real_t c)
+{
+    real_t max = a;
+    if (b > max) {
+        max = b;
+    }
+    if (c > max) {
+        max = c;
+    }
+    return max;
+}
+
+real_t Geometry::get_min(real_t a, real_t b, real_t c)
+{
+    real_t min = a;
+    if (b < min) {
+        min = b;
+    }
+    if (c < min) {
+        min = c;
+    }
+    return min;
+}
+
+void Geometry::find_min_max(real_t& x_min, real_t& x_max, real_t& y_min, 
+    real_t& y_max, real_t& z_min, real_t& z_max) const 
+{
 }
 
 void Geometry::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const

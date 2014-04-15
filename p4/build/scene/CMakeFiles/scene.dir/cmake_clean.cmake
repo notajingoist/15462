@@ -6,6 +6,7 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/scene.dir/sphere.cpp.o"
   "CMakeFiles/scene.dir/triangle.cpp.o"
   "CMakeFiles/scene.dir/ray.cpp.o"
+  "CMakeFiles/scene.dir/bbox.cpp.o"
   "libscene.pdb"
   "libscene.a"
 )

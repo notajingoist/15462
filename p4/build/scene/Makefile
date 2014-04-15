@@ -153,6 +153,30 @@ scene/fast:
 	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build && $(MAKE) -f scene/CMakeFiles/scene.dir/build.make scene/CMakeFiles/scene.dir/build
 .PHONY : scene/fast
 
+bbox.o: bbox.cpp.o
+.PHONY : bbox.o
+
+# target to build an object file
+bbox.cpp.o:
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build && $(MAKE) -f scene/CMakeFiles/scene.dir/build.make scene/CMakeFiles/scene.dir/bbox.cpp.o
+.PHONY : bbox.cpp.o
+
+bbox.i: bbox.cpp.i
+.PHONY : bbox.i
+
+# target to preprocess a source file
+bbox.cpp.i:
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build && $(MAKE) -f scene/CMakeFiles/scene.dir/build.make scene/CMakeFiles/scene.dir/bbox.cpp.i
+.PHONY : bbox.cpp.i
+
+bbox.s: bbox.cpp.s
+.PHONY : bbox.s
+
+# target to generate assembly for a file
+bbox.cpp.s:
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build && $(MAKE) -f scene/CMakeFiles/scene.dir/build.make scene/CMakeFiles/scene.dir/bbox.cpp.s
+.PHONY : bbox.cpp.s
+
 material.o: material.cpp.o
 .PHONY : material.o
 
@@ -334,6 +358,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... scene"
+	@echo "... bbox.o"
+	@echo "... bbox.i"
+	@echo "... bbox.s"
 	@echo "... material.o"
 	@echo "... material.i"
 	@echo "... material.s"

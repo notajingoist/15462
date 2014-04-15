@@ -210,6 +210,29 @@ scene/CMakeFiles/scene.dir/ray.cpp.o.provides: scene/CMakeFiles/scene.dir/ray.cp
 
 scene/CMakeFiles/scene.dir/ray.cpp.o.provides.build: scene/CMakeFiles/scene.dir/ray.cpp.o
 
+scene/CMakeFiles/scene.dir/bbox.cpp.o: scene/CMakeFiles/scene.dir/flags.make
+scene/CMakeFiles/scene.dir/bbox.cpp.o: /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object scene/CMakeFiles/scene.dir/bbox.cpp.o"
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build/scene && /usr/local/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/scene.dir/bbox.cpp.o -c /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.cpp
+
+scene/CMakeFiles/scene.dir/bbox.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/scene.dir/bbox.cpp.i"
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build/scene && /usr/local/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.cpp > CMakeFiles/scene.dir/bbox.cpp.i
+
+scene/CMakeFiles/scene.dir/bbox.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/scene.dir/bbox.cpp.s"
+	cd /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/build/scene && /usr/local/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.cpp -o CMakeFiles/scene.dir/bbox.cpp.s
+
+scene/CMakeFiles/scene.dir/bbox.cpp.o.requires:
+.PHONY : scene/CMakeFiles/scene.dir/bbox.cpp.o.requires
+
+scene/CMakeFiles/scene.dir/bbox.cpp.o.provides: scene/CMakeFiles/scene.dir/bbox.cpp.o.requires
+	$(MAKE) -f scene/CMakeFiles/scene.dir/build.make scene/CMakeFiles/scene.dir/bbox.cpp.o.provides.build
+.PHONY : scene/CMakeFiles/scene.dir/bbox.cpp.o.provides
+
+scene/CMakeFiles/scene.dir/bbox.cpp.o.provides.build: scene/CMakeFiles/scene.dir/bbox.cpp.o
+
 # Object files for target scene
 scene_OBJECTS = \
 "CMakeFiles/scene.dir/material.cpp.o" \
@@ -218,7 +241,8 @@ scene_OBJECTS = \
 "CMakeFiles/scene.dir/scene.cpp.o" \
 "CMakeFiles/scene.dir/sphere.cpp.o" \
 "CMakeFiles/scene.dir/triangle.cpp.o" \
-"CMakeFiles/scene.dir/ray.cpp.o"
+"CMakeFiles/scene.dir/ray.cpp.o" \
+"CMakeFiles/scene.dir/bbox.cpp.o"
 
 # External object files for target scene
 scene_EXTERNAL_OBJECTS =
@@ -230,6 +254,7 @@ scene/libscene.a: scene/CMakeFiles/scene.dir/scene.cpp.o
 scene/libscene.a: scene/CMakeFiles/scene.dir/sphere.cpp.o
 scene/libscene.a: scene/CMakeFiles/scene.dir/triangle.cpp.o
 scene/libscene.a: scene/CMakeFiles/scene.dir/ray.cpp.o
+scene/libscene.a: scene/CMakeFiles/scene.dir/bbox.cpp.o
 scene/libscene.a: scene/CMakeFiles/scene.dir/build.make
 scene/libscene.a: scene/CMakeFiles/scene.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX static library libscene.a"
@@ -247,6 +272,7 @@ scene/CMakeFiles/scene.dir/requires: scene/CMakeFiles/scene.dir/scene.cpp.o.requ
 scene/CMakeFiles/scene.dir/requires: scene/CMakeFiles/scene.dir/sphere.cpp.o.requires
 scene/CMakeFiles/scene.dir/requires: scene/CMakeFiles/scene.dir/triangle.cpp.o.requires
 scene/CMakeFiles/scene.dir/requires: scene/CMakeFiles/scene.dir/ray.cpp.o.requires
+scene/CMakeFiles/scene.dir/requires: scene/CMakeFiles/scene.dir/bbox.cpp.o.requires
 .PHONY : scene/CMakeFiles/scene.dir/requires
 
 scene/CMakeFiles/scene.dir/clean:

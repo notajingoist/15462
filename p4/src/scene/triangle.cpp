@@ -137,6 +137,25 @@ Color3 Triangle::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
     return tp;
 }
 
+void Triangle::find_min_max(real_t& x_min, real_t& x_max, real_t& y_min, 
+    real_t& y_max, real_t& z_min, real_t& z_max) const
+{
+    Vertex vtx_a = vertices[0];
+    Vertex vtx_b = vertices[1];
+    Vertex vtx_c = vertices[2];
+
+    Vector3 vtx_a_pos = mat.transform_point(vtx_a.position);
+    Vector3 vtx_b_pos = mat.transform_point(vtx_b.position);
+    Vector3 vtx_c_pos = mat.transform_point(vtx_c.position);
+
+    x_min = get_min(vtx_a_pos.x, vtx_b_pos.x, vtx_c_pos.x);
+    x_max = get_max(vtx_a_pos.x, vtx_b_pos.x, vtx_c_pos.x);
+    y_min = get_min(vtx_a_pos.y, vtx_b_pos.y, vtx_c_pos.y);
+    y_max = get_max(vtx_a_pos.y, vtx_b_pos.y, vtx_c_pos.y);
+    z_min = get_min(vtx_a_pos.z, vtx_b_pos.z, vtx_c_pos.z);
+    z_max = get_max(vtx_a_pos.z, vtx_b_pos.z, vtx_c_pos.z);
+}
+
 void Triangle::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
     Vertex vtx_a = vertices[0];

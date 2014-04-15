@@ -143,6 +143,18 @@ Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
     return cp;
 }
 
+void Sphere::find_min_max(real_t& x_min, real_t& x_max, real_t& y_min, 
+    real_t& y_max, real_t& z_min, real_t& z_max) const 
+{
+    real_t max_scale_component = get_max(scale.x, scale.y, scale.z);
+    x_min = position.x - max_scale_component;
+    x_max = position.x + max_scale_component;
+    y_min = position.y - max_scale_component;
+    y_max = position.y + max_scale_component;
+    z_min = position.z - max_scale_component;
+    z_max = position.z + max_scale_component;
+}
+
 void Sphere::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
 {
     Vector3 trans_e = invMat.transform_point(r.e); 
