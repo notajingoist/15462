@@ -166,7 +166,7 @@ bool Bbox::hits_bbox(Ray r) const
         tx_max = (bx_min - r.e.x) * recip_xd;
     }
     
-    if (r.d.y >= 0) {
+    if (recip_yd >= 0) {
         ty_min = (by_min - r.e.y) * recip_yd;
         ty_max = (by_max - r.e.y) * recip_yd;
     } else {
@@ -188,7 +188,7 @@ bool Bbox::hits_bbox(Ray r) const
         t_max = ty_max;
     }
 
-    if (r.d.z >= 0) {
+    if (recip_zd >= 0) {
         tz_min = (bz_min - r.e.z) * recip_zd;
         tz_max = (bz_max - r.e.z) * recip_zd;
     } else {
@@ -207,6 +207,10 @@ bool Bbox::hits_bbox(Ray r) const
         t_max = tz_max;
     }
     
+    //if ((tx_min > ty_max) || (ty_min > tx_max)) {
+    //    return false;
+    //}
+
     return true;
 }
 
@@ -246,8 +250,10 @@ void Bbox::intersects_ray(Ray r, IntersectInfo& intsec, size_t geom_index) const
             right->intersects_ray(r, intsec, 0);
         } else {
             //leaf node, so there should only be 1 geometry index in geom_indices
-            geometry_list[geom_indices[0]]->intersects_ray(r, intsec,
-                geom_indices[0]);
+            for (size_t i = 0; i < geom_indices.size(); i++) {
+                 geometry_list[geom_indices[i]]->intersects_ray(r, intsec,
+                    geom_indices[i]);
+            }
         }
     } else {
         //already false
