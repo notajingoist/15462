@@ -146,7 +146,10 @@ Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
 void Sphere::find_min_max(real_t& x_min, real_t& x_max, real_t& y_min, 
     real_t& y_max, real_t& z_min, real_t& z_max) const 
 {
+    //should I multiply scale.blah by radius?
     real_t max_scale_component = get_max(scale.x, scale.y, scale.z);
+    max_scale_component = (radius > max_scale_component) 
+        ? radius : max_scale_component;
     x_min = position.x - max_scale_component;
     x_max = position.x + max_scale_component;
     y_min = position.y - max_scale_component;
