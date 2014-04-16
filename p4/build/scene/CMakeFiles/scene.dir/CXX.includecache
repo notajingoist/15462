@@ -78,16 +78,6 @@ cmath
 iostream
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.cpp
-scene/bbox.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/scene/bbox.hpp
-application/opengl.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/application/opengl.hpp
-
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/bbox.hpp
-scene/scene.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/scene/scene.hpp
-
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/material.hpp
 math/color.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/math/color.hpp
@@ -150,10 +140,6 @@ string
 vector
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/scene.cpp
-scene/scene.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/scene/scene.hpp
-
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/scene.hpp
 math/vector.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/math/vector.hpp
@@ -177,22 +163,6 @@ vector
 -
 cfloat
 -
-
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/sphere.cpp
-scene/sphere.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/scene/sphere.hpp
-application/opengl.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/application/opengl.hpp
-
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/sphere.hpp
-scene/scene.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/scene/scene.hpp
-
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/triangle.cpp
-scene/triangle.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/scene/triangle.hpp
-application/opengl.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/application/opengl.hpp
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p4/src/scene/triangle.hpp
 scene/scene.hpp

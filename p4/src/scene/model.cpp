@@ -70,10 +70,25 @@ void Model::find_min_max(real_t& x_min, real_t& x_max, real_t& y_min,
     bool first_tri = true; 
     real_t trix_min, trix_max, triy_min, triy_max, triz_min, triz_max;
     for (size_t i = 0; i < mesh->num_triangles(); i++) {
-        Triangle tri = Triangle();
+        MeshVertex vtx_a = mesh->get_vertices()[mesh->get_triangles()[i].vertices[0]];
+        MeshVertex vtx_b = mesh->get_vertices()[mesh->get_triangles()[i].vertices[1]];
+        MeshVertex vtx_c = mesh->get_vertices()[mesh->get_triangles()[i].vertices[2]];
+
+        Vector3 vtx_a_pos = mat.transform_point(vtx_a.position);
+        Vector3 vtx_b_pos = mat.transform_point(vtx_b.position);
+        Vector3 vtx_c_pos = mat.transform_point(vtx_c.position);
+
+        trix_min = get_min(vtx_a_pos.x, vtx_b_pos.x, vtx_c_pos.x);
+        trix_max = get_max(vtx_a_pos.x, vtx_b_pos.x, vtx_c_pos.x);
+        triy_min = get_min(vtx_a_pos.y, vtx_b_pos.y, vtx_c_pos.y);
+        triy_max = get_max(vtx_a_pos.y, vtx_b_pos.y, vtx_c_pos.y);
+        triz_min = get_min(vtx_a_pos.z, vtx_b_pos.z, vtx_c_pos.z);
+        triz_max = get_max(vtx_a_pos.z, vtx_b_pos.z, vtx_c_pos.z);
+        
+        /*Triangle tri = Triangle();
         tri.from_mesh(mesh, i, material);
         tri.find_min_max(trix_min, trix_max, triy_min, triy_max, 
-            triz_min, triz_max);
+            triz_min, triz_max);*/
         
         if (first_tri) {
             x_min = trix_min;

@@ -92,7 +92,7 @@ Color3 Raytracer::compute_subrays_color(IntersectInfo& intsec, ColorInfo& colinf
     IntersectInfo sub_intsec;
     sub_intsec.intersection_found = false;
     sub_intsec.t_hit = -1;
-    scene->shoot_ray(subray, sub_intsec);
+    root_bbox->intersects_ray(subray, sub_intsec, 0);
    
     if (sub_intsec.intersection_found) {
         ColorInfo sub_colinf;
@@ -150,8 +150,9 @@ Color3 Raytracer::compute_bd(IntersectInfo& intsec, ColorInfo& colinf)
         IntersectInfo backward_intsec;
         backward_intsec.intersection_found = false;
         backward_intsec.t_hit = -1;
-        scene->shoot_ray(initial_backward_subray, backward_intsec);
-        
+        root_bbox->intersects_ray(initial_backward_subray, backward_intsec, 0);
+
+
         if (backward_intsec.intersection_found) {
             ColorInfo backward_colinf;
             backward_colinf.p = backward_intsec.e + (backward_intsec.t_hit 
@@ -184,8 +185,8 @@ Color3 Raytracer::compute_bd(IntersectInfo& intsec, ColorInfo& colinf)
             real_t forward_backward_dist = distance(forward_p, backward_p);
             Vector3 forward_to_backward_dir = normalize(backward_p - forward_p);
             Ray forward_to_backward_ray = Ray(forward_p, forward_to_backward_dir);
-            scene->shoot_ray(forward_to_backward_ray, actual_intsec);
-            
+            root_bbox->intersects_ray(forward_to_backward_ray, actual_intsec, 0);
+
             if (actual_intsec.intersection_found) {
             
                 Vector3 actual_p = actual_intsec.e + (actual_intsec.t_hit * 
@@ -234,7 +235,8 @@ Color3 Raytracer::compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf)
             b_intsec.intersection_found = false;
             b_intsec.t_hit = -1;
 
-            scene->shoot_ray(shadow_r, b_intsec);
+            root_bbox->intersects_ray(shadow_r, b_intsec, 0);
+
             if (b_intsec.intersection_found) {
                 Vector3 obj_pos = colinf.p + (b_intsec.t_hit * light_dir);
                 real_t obj_dist = distance(colinf.p, obj_pos);
