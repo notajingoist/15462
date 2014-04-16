@@ -98,17 +98,19 @@ real_t Bbox::sum_left_right_volumes(std::vector< size_t > indices)
     left->geom_indices = left_indices;
     right->geom_indices = right_indices;
 
-    real_t left_vol = left->get_volume();
-    real_t right_vol = right->get_volume();
+    real_t left_vol = left->get_sa();
+    real_t right_vol = right->get_sa();
 
     return left_vol + right_vol;
 }
 
 
-real_t Bbox::get_volume()
+real_t Bbox::get_sa()
 {
-    
-    return (bx_max - bx_min) * (by_max - by_min) * (bz_max - bz_min);
+    real_t width = bx_max - bx_min;
+    real_t height = by_max - by_min;
+    real_t length = bz_max - bz_min;
+    return 2.0 * ((width * length) + (height * length) + (height * width));
 }
 
 std::vector< size_t > Bbox::sort_geom_indices(size_t axis)

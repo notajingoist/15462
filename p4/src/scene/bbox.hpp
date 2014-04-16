@@ -45,7 +45,7 @@ public:
     virtual void intersects_ray(Ray r, IntersectInfo& intsec, 
         size_t geom_index) const;
     
-    real_t get_volume();
+    real_t get_sa();
     bool hits_bbox(Ray r) const;
     void initialize_bbox(std::vector< size_t > indices, 
         Geometry* const* geom_list);

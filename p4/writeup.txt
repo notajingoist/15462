@@ -5,41 +5,67 @@ Describe any major design decisions and descriptions of your algorithms.
 You should detail anything you think we need to know to understand your code.
 
 /**
- * 15-462 Project 3: Raytracing - Write-Up 
+ * 15-462 Project 4: Path Tracing - Write-Up 
  * Author: Jing Xiao 
  * AndrewID: jingxiao
  */
 
 IMPLEMENTATION DETAILS:
+
 Overview:
--Files edited: raytracer.cpp/hpp, scene.cpp/hpp, triangle.cpp/hpp, model.cpp/hpp, sphere.cpp/hpp
--I used the math formulas from the handout and the Shirley textbook to perform the intersection tests, compute colors, calculate refraction and reflection, etc.  
--I did not use bounding boxes or any special spatial optimization
--I made use of virtual functions so I could accomplish tasks on different kinds of geometries without having to cast or use switch statements.  
--I used structs (IntersectInfo, ColorInfo) to pass intersection and color information around. This allowed me to take advantage of using virtual functions, as it gave me the flexibility to selectively store and pass certain values whose relevance depended on the geometry type. 
+-Files edited: raytracer.cpp/hpp, scene.cpp/hpp, triangle.cpp/hpp,
+model.cpp/hpp, sphere.cpp/hpp
+-Files created: bbox.cpp/hpp
 
-RAY CASTING & INTERSECTION TESTS:
-Overview:
--Each intersection test loops through all the geometries and stores information about the one with the minimum t.  
--I used instancing, as described in the handout and book, to transform e and d before performing the calculations in each intersection test. I also used instancing to find the normal. 
-Spheres:
--Ho hum, nothing special.
-Triangles:
--Because I didn't want extraneous, redundant code, I created a static function in Raytracer that could be called within both triangles and models. This static function takes in vertex position and normal information and performs the triangle intersection test. As such, triangle's virtual intersects_ray function that overrides the one defined for geometry simply calls this static function.
--Extra intersection information stored in my struct includes alpha, beta, and gamma, which need to be calculated in order to perform the intersection test, but also need to be retained for later use in computing the color.
-Models:
--Loops through all the triangles in the mesh, and calls the static function in Raytracer to perform the triangle intersection test
--Extra intersection information stored in my struct includes the minimal intersected triangle's index into the mesh triangle list.
-
-COMPUTING COLORS:
-Overview:
--I created a recursive function that gets called in trace_pixel for the first time. If the depth is not 0, I perform the intersection test for the given ray. If an intersection is found, I compute the color based on the refraction index. If the object is transparent, I perform the reflection and refraction calculations; if it is opaque, I perform the direct illumination and reflection calculations. I perform the texture computation for both cases. Otherwise I return the background color. 
-Textures:
--I created a virtual function, compute_tp, to obtain the texture color. Sphere, Triangle, and Model all override this function with their own specific computations. Model in particular creates a Triangle from its mesh triangle so it can call Triangle's compute_tp function.
-Direct Illumination & Soft Shadows:
--I wrote one function shared by all types of geometries, compute_all_lights, that computes the summed term.
--I used the provided random gaussian function to sample the spherical light sources and produce the soft shadows.
-Reflection & Refraction:
--Algorithms lifted from Shirley. 
+PATH TRACING:
+-In place of the constant ambient term I calculated a "bd" term for every
+intersection found
+-To calculate this, I shot a subray (in a random cos_weighted_hemi(normal))
+direction from the intersection, and recursively shot more subrays from those
+new intersection points up to a randomly selected depth
+-For each light source, I also shot a subray from the light source in a random
+direction (the first subray used random_gaussian for the direction) and
+recursively shot more subrays from those new intersection points up to a
+randomly selected depth
+-Along the way, I accumulated the colors by multiplying the diffuse and
+texture colors at each intersection
+-Finally, I connected the final intersection points for both the forward and
+backward paths, and if there was no obstruction, I multiplied the forward and
+backward color terms together, along with the light source color. Together,
+this was the "bd" term
+-I did not treat transparent and non-transparent objects differently; I simply
+sampled the texture and colors for both kinds of objects in calculating bd
 
 
+SPATIAL DATA STRUCTURES:
+-I implemented bounding volume hierarchies with bounding boxes (Bbox) only (no
+bounding spheres)
+-A Bbox is a Geometry that contains a list of geometry indices, a list of all
+the geometries in the scene, a left Bbox pointer, a right Bbox pointer, and
+min and max x, y, and z bounding values
+-Initializing a Bbox involves applying the surface area heuristic to split the
+root Bbox into child Bbox nodes. I sort through the geometry indices based on
+the geometry orderings given a particular axis, and then sum the bounding box
+volumes of the left and right children. The axis that yields the smallest
+volume is used to order the geometry indices. 
+-Also, given the geometry indices, the Bbox's bounds were set by finding the 
+minimum/maximum x, y, and z for all the geometries. This find_min_max function 
+was a virtual function that all the geometry types implemented. For triangles,
+I simply converted the vertices from local to world space and took the min and
+max of the 3 vertices. (Similar for models; looped through the triangles.) For
+spheres, I multiplied the radius by the scale, and took the largest
+radius*scale component as the offset from the sphere's center position to
+calculate the min and maxes.
+-Since Bbox is a Geometry, it also implements the virtual intersects_ray
+function. Its implementation checks whether the ray hits the box, in which
+case it then recursively checks its children. If the Bbox is a leaf, it holds
+only one geometry, in which case that geometry's intersects_ray function gets
+called to provide the intersection information that gets propogated back up to
+where the ray was first cast. If the ray does not hit the box, no further
+checks are made with this ray.
+-The check for whether the ray hits the box was taken partly from the textbook
+and partly from this source:
+http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-7-intersecting-simple-shapes/ray-box-intersection/
+
+Apologies:
+-I didn't have time to take screenshots, sigh.
