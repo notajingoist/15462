@@ -25,6 +25,7 @@ namespace _462 {
 // max number of threads OpenMP can use. Change this if you like.
 #define MAX_THREADS 8
 #define RECURSE_DEPTH 5
+#define MAX_SUBPATH_LENGTH 4
 
 static const unsigned STEP_SIZE = 8;
 
@@ -78,10 +79,181 @@ bool Raytracer::initialize(Scene* scene, size_t num_samples,
         indices.push_back(i);
     }
 
-    printf("hihi\n");
     root_bbox->initialize_bbox(indices, scene->get_geometries());
-    printf("byebye\n");
     return true;
+}
+
+Color3 Raytracer::compute_subrays_color(IntersectInfo& intsec, ColorInfo& colinf,
+    size_t curr_depth, size_t max_depth, IntersectInfo& final_intsec)
+{   
+    Vector3 random_dir = cos_weighted_hemi(intsec.n_hit);
+    Ray subray = Ray(colinf.p, random_dir);
+    
+    IntersectInfo sub_intsec;
+    sub_intsec.intersection_found = false;
+    sub_intsec.t_hit = -1;
+    scene->shoot_ray(subray, sub_intsec);
+   
+    if (sub_intsec.intersection_found) {
+        ColorInfo sub_colinf;
+        sub_colinf.p = sub_intsec.e + (sub_intsec.t_hit * sub_intsec.d);
+
+        sub_colinf.tp = 
+            scene->get_geometries()[sub_intsec.geom_index]->compute_tp(sub_intsec,
+                sub_colinf);
+        sub_colinf.kd = 
+            scene->get_geometries()[sub_intsec.geom_index]->compute_kd(sub_intsec,
+                sub_colinf);
+
+        if (curr_depth < max_depth) {
+            Color3 rest_of_subrays_color = 
+                compute_subrays_color(sub_intsec, sub_colinf, curr_depth + 1,
+                    max_depth, final_intsec);
+            return (sub_colinf.tp * sub_colinf.kd) * rest_of_subrays_color;
+        } else {
+            final_intsec = sub_intsec;
+            return (sub_colinf.tp * sub_colinf.kd); 
+        }
+    } else {
+        return Color3::Black();
+    }
+}
+
+Color3 Raytracer::compute_bd(IntersectInfo& intsec, ColorInfo& colinf)
+{
+    Color3 bd = Color3::Black();
+    for (size_t i = 0; i < scene->num_lights(); i++) {           
+
+        IntersectInfo final_forward_intsec, final_backward_intsec;
+        final_forward_intsec.intersection_found = false;
+        final_forward_intsec.t_hit = -1;
+        final_backward_intsec.intersection_found = false;
+        final_backward_intsec.t_hit = -1;
+
+        size_t max_forward_depth = rand() % MAX_SUBPATH_LENGTH + 1;
+        size_t max_backward_depth = rand() % MAX_SUBPATH_LENGTH + 1;
+        
+        Color3 forward_color = compute_subrays_color(intsec, colinf, 0, 
+            max_forward_depth, final_forward_intsec);
+
+
+        Color3 backward_color;
+        real_t x = random_gaussian();
+        real_t y = random_gaussian();
+        real_t z = random_gaussian();
+        
+        Vector3 initial_backward_random_dir = normalize(Vector3(x, y, z));
+        Vector3 light_pos = scene->get_lights()[i].position;
+        Ray initial_backward_subray = Ray(light_pos, 
+            initial_backward_random_dir);
+        
+        IntersectInfo backward_intsec;
+        backward_intsec.intersection_found = false;
+        backward_intsec.t_hit = -1;
+        scene->shoot_ray(initial_backward_subray, backward_intsec);
+        
+        if (backward_intsec.intersection_found) {
+            ColorInfo backward_colinf;
+            backward_colinf.p = backward_intsec.e + (backward_intsec.t_hit 
+                * backward_intsec.d);
+
+            Color3 light_col = scene->get_lights()[i].color;
+            //Vector3 light_dir = normalize(light_pos - colinf.p); //L
+            real_t light_dist = distance(colinf.p, light_pos); //d
+
+            backward_color = light_col * 
+                compute_subrays_color(backward_intsec, backward_colinf, 0, 
+                max_backward_depth, final_backward_intsec);
+        } else {
+            backward_color = Color3::Black();
+        }
+            
+
+        if (final_forward_intsec.intersection_found &&
+            final_backward_intsec.intersection_found) {
+
+            Vector3 forward_p = final_forward_intsec.e 
+                + (final_forward_intsec.t_hit * final_forward_intsec.d);
+            Vector3 backward_p = final_backward_intsec.e 
+                + (final_backward_intsec.t_hit * final_backward_intsec.d);
+
+            IntersectInfo actual_intsec;
+            actual_intsec.intersection_found = false;
+            actual_intsec.t_hit = -1;
+
+            real_t forward_backward_dist = distance(forward_p, backward_p);
+            Vector3 forward_to_backward_dir = normalize(backward_p - forward_p);
+            Ray forward_to_backward_ray = Ray(forward_p, forward_to_backward_dir);
+            scene->shoot_ray(forward_to_backward_ray, actual_intsec);
+            
+            if (actual_intsec.intersection_found) {
+            
+                Vector3 actual_p = actual_intsec.e + (actual_intsec.t_hit * 
+                    actual_intsec.d);
+                real_t actual_dist = distance(forward_p, actual_p);       
+ 
+                if (actual_dist < forward_backward_dist) {
+                    bd += forward_color * backward_color;
+                }
+            } else {
+                return bd;
+            }
+        } else {
+            return bd;
+        }
+    }
+ 
+    return bd; 
+}
+
+Color3 Raytracer::compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf)
+{
+    Color3 c_all_lights = Color3::Black();
+    for (size_t i = 0; i < scene->num_lights(); i++) {
+        for (size_t iter = 0; iter < num_samples; iter++) {
+            real_t x = random_gaussian();
+            real_t y = random_gaussian();
+            real_t z = random_gaussian();
+            
+            Vector3 random_p = normalize(Vector3(x, y, z));
+            Vector3 light_pos = (scene->get_lights()[i].radius*random_p) 
+                + (scene->get_lights()[i].position);
+
+            Color3 c = scene->get_lights()[i].color;
+            real_t ac = scene->get_lights()[i].attenuation.constant;
+            real_t al = scene->get_lights()[i].attenuation.linear;
+            real_t aq = scene->get_lights()[i].attenuation.quadratic;
+
+            //Vector3 light_pos = colinf.scene->get_lights()[i].position;
+            Vector3 light_dir = normalize(light_pos - colinf.p); //L
+            real_t light_dist = distance(colinf.p, light_pos); //d
+            Ray shadow_r = Ray(colinf.p, light_dir);
+            
+            real_t b = 1;
+            IntersectInfo b_intsec;
+            b_intsec.intersection_found = false;
+            b_intsec.t_hit = -1;
+
+            scene->shoot_ray(shadow_r, b_intsec);
+            if (b_intsec.intersection_found) {
+                Vector3 obj_pos = colinf.p + (b_intsec.t_hit * light_dir);
+                real_t obj_dist = distance(colinf.p, obj_pos);
+                if (obj_dist <= light_dist) {
+                    b = 0;
+                }
+            } 
+
+            real_t n_dot_l = dot(intsec.n_hit, light_dir);
+            real_t max_n_dot_l = (n_dot_l > 0) ? n_dot_l : 0;
+
+            Color3 ci = c*(1.0/(ac + (light_dist*al) + (light_dist*light_dist*aq)));
+
+            Color3 diffuse = b*ci*max_n_dot_l;
+            Color3 bd = compute_bd(intsec, colinf);
+            c_all_lights += colinf.kd*(diffuse + bd); 
+        }
+    }
+    return c_all_lights*(real_t(1)/num_samples);
 }
 
 Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
@@ -116,9 +288,18 @@ Color3 Raytracer::recursive_raytrace(const Scene* scene, Ray r, size_t depth)
                 * colinf.tp;
             if (refrac_index == 0.0) {
                 //opaque, phong illumination + reflection
-                Color3 phong_col = 
-                    geometries[intsec.geom_index]->compute_color(intsec, colinf);
+                colinf.kd = 
+                    geometries[intsec.geom_index]->compute_kd(intsec, colinf);
+                //Color3 bd = compute_bd();
+                //Color3 diffuse = compute_diffuse(intsec, colinf);
+                Color3 c_all_lights = compute_lights_color(intsec, colinf);
+                Color3 phong_col = colinf.tp * c_all_lights; 
+                //kd * (diffuse + bd);
                 return phong_col + reflection_col;
+
+                //Color3 phong_col = 
+                //    geometries[intsec.geom_index]->compute_color(intsec, colinf);
+                //return phong_col + reflection_col;
             } else {
                 //transparent, refraction + reflection
                 real_t d_dot_n = dot(intsec.n_hit, intsec.d);

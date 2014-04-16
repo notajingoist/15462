@@ -27,6 +27,37 @@ namespace _462 {
 class Scene;
 class Ray;
 struct Intersection;
+
+static Vector3 cos_weighted_hemi(const Vector3& n)
+{
+    real_t Xi1 = random();
+    real_t Xi2 = random();
+
+    real_t theta = std::acos(std::sqrt(1.0-Xi1));
+    real_t phi = 2.0 * M_PI * Xi2; 
+ 
+    real_t xs = sin(theta) * cos(phi);
+    real_t ys = cos(theta);
+    real_t zs = sin(theta) * sin(phi);
+ 
+    Vector3 y(n.x, n.y, n.z);
+    Vector3 h = y;
+    if (fabs(h.x) <= fabs(h.y) && fabs(h.x) <= fabs(h.z)) {
+        h.x= 1.0;
+    } else if (fabs(h.y) <= fabs(h.x) && fabs(h.y) <= fabs(h.z)) {
+        h.y= 1.0;
+    } else {
+        h.z= 1.0;
+    }
+ 
+    Vector3 x = normalize(cross(h, y));
+    Vector3 z = normalize(cross(x, y));
+    
+    Vector3 dir = xs * x + ys * y + zs * z;
+    return normalize(dir);
+}
+
+
 class Raytracer
 {
 public:
@@ -42,6 +73,10 @@ public:
 
 private:
 
+    Color3 compute_subrays_color(IntersectInfo& intsec, ColorInfo& colinf,
+        size_t curr_depth, size_t max_depth, IntersectInfo& final_intsec);
+    Color3 compute_bd(IntersectInfo& intsec, ColorInfo& colinf);
+    Color3 compute_lights_color(IntersectInfo& intsec, ColorInfo& colinf);
         
     Color3 recursive_raytrace(const Scene* scene, Ray r, size_t depth);
 

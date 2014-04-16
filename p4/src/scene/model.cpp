@@ -43,17 +43,18 @@ real_t Model::get_refractive_index(IntersectInfo& intsec) const
     return material->refractive_index;
 }
 
-Color3 Model::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
+Color3 Model::compute_kd(IntersectInfo& intsec, ColorInfo& colinf) const
 {
-    Color3 ca = colinf.scene->ambient_light;
-    Color3 ka = material->ambient;
+    //Color3 ca = colinf.scene->ambient_light;
+    //Color3 ka = material->ambient;
     Color3 kd = material->diffuse; 
     colinf.kd = kd;
 
-    Color3 c_all_lights = compute_lights_color(intsec, colinf);
-    Color3 cp = colinf.tp*((ca*ka) + c_all_lights);
+   /* Color3 c_all_lights = compute_lights_color(intsec, colinf);
+    Color3 cp = colinf.tp*(c_all_lights);
    
-    return cp;
+    return cp;*/
+    return kd;
 }
 
 Color3 Model::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const

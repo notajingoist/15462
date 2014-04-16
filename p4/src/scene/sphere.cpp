@@ -123,24 +123,25 @@ Color3 Sphere::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
     return material->get_texture_pixel(u, v); 
 }
 
-Color3 Sphere::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
+Color3 Sphere::compute_kd(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     //ambient color of light
-    Color3 ca = colinf.scene->ambient_light;
+   // Color3 ca = colinf.scene->ambient_light;
     //material's ambient color
-    Color3 ka = material->ambient;
+   // Color3 ka = material->ambient;
     //material's diffuse color
     Color3 kd = material->diffuse;
 
     colinf.kd = kd;
+    return kd;
     //colinf.ca = ca;
     //colinf.ka = ka;
     //colinf.kd = kd;
     
-    Color3 c_all_lights = compute_lights_color(intsec, colinf);
-    Color3 cp = colinf.tp*((ca*ka) + c_all_lights);
+   // Color3 c_all_lights = compute_lights_color(intsec, colinf);
+    //Color3 cp = colinf.tp*(c_all_lights);
 
-    return cp;
+    //return cp;
 }
 
 void Sphere::find_min_max(real_t& x_min, real_t& x_max, real_t& y_min, 

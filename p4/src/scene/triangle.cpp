@@ -84,25 +84,26 @@ real_t Triangle::get_refractive_index(IntersectInfo& intsec) const
     return refractive_index;
 }
 
-Color3 Triangle::compute_color(IntersectInfo& intsec, ColorInfo& colinf) const
+Color3 Triangle::compute_kd(IntersectInfo& intsec, ColorInfo& colinf) const
 {
     Vertex vtx_a = vertices[0];
     Vertex vtx_b = vertices[1];
     Vertex vtx_c = vertices[2];
     
-    Color3 ca = colinf.scene->ambient_light;
+    /*Color3 ca = colinf.scene->ambient_light;
     Color3 ka = (intsec.alpha*vtx_a.material->ambient)
         + (intsec.beta*vtx_b.material->ambient)
-        + (intsec.gamma*vtx_c.material->ambient);
+        + (intsec.gamma*vtx_c.material->ambient);*/
     Color3 kd = (intsec.alpha*vtx_a.material->diffuse)
         + (intsec.beta*vtx_b.material->diffuse)
         + (intsec.gamma*vtx_c.material->diffuse);
     colinf.kd = kd;
-
+/*
     Color3 c_all_lights = compute_lights_color(intsec, colinf);
-    Color3 cp = colinf.tp*((ca*ka) + c_all_lights);
-   
-    return cp;
+    Color3 cp = colinf.tp*(c_all_lights);
+   */
+    //return cp;
+    return kd;
 }
 
 Color3 Triangle::compute_tp(IntersectInfo& intsec, ColorInfo& colinf) const
