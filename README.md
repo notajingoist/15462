@@ -60,3 +60,37 @@ cd ..
 ./p3 scenes/spheres.scene
 ```
 ---
+
+#####Project 4
+
+```
+cd p4
+cd build && rm -rf * && cmake ../src && make install
+cd ..
+./p4 scenes/cylinder.scene
+```
+
+```
+cd p4
+cd build && make install
+cd ..
+./p4 scenes/cylinder.scene
+```
+---
+
+#####Project 5
+
+```
+cd p5
+cd build && rm -rf * && cmake ../src && make install
+cd ..
+./p5 scenes/collision.scene
+```
+
+```
+cd p5
+cd build && make install
+cd ..
+./p5 scenes/collision.scene
+```
+---
