@@ -24,7 +24,6 @@ SphereBody::SphereBody( Sphere* geom )
 
 Vector3 SphereBody::get_acceleration() 
 {
-    //printf("%lf, %lf, %lf \n", force.x/mass, force.y/mass, force.z/mass);
     return force / mass;
 }
 
@@ -44,12 +43,12 @@ Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
     // programming RK4, you should add more functions to help you or change the
     // scheme
     // TODO return the delta in position dt in the future
-    //Vector3 acceleration = force / mass;
-   /* Vector3 dx = velocity * dt;
+    /*Vector3 acceleration = force / mass;
+    Vector3 dx = velocity * dt;
     Vector3 dv = acceleration * dt; 
     position += dx; 
-    velocity += dv;
-    return dx;*/
+    velocity += dv;*/
+    
     //position = state.x;
     //velocity = state.v;
 
@@ -79,7 +78,7 @@ void SphereBody::apply_force( const Vector3& f, const Vector3& offset )
     
     Vector3 off_cross_f = cross(offset, f);
     if (offset == Vector3::Zero() || off_cross_f == Vector3::Zero()) {
-        //linear force, f = gravity = a
+        //linear force, f = gravity
         Vector3 linear_force = mass * f;
         force = linear_force;
         //Vector3 acceleration = force/mass;

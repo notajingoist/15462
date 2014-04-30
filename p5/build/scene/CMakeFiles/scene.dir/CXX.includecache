@@ -91,6 +91,8 @@ p5/trianglebody.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/trianglebody.hpp
 p5/planebody.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/planebody.hpp
+stdio.h
+-
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/physics.hpp
 math/math.hpp

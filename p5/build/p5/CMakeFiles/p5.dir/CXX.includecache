@@ -40,14 +40,6 @@ algorithm
 cmath
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/matrix.hpp
-math/math.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/math/math.hpp
-math/vector.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/math/vector.hpp
-cassert
--
-
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/quaternion.hpp
 math/math.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/math/math.hpp
@@ -76,29 +68,45 @@ exception
 iostream
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/spherebody.cpp
-p5/spherebody.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/spherebody.hpp
-math/vector.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/vector.hpp
-math/matrix.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/matrix.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/collisions.cpp
+p5/collisions.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/collisions.hpp
+
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/collisions.hpp
 scene/sphere.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/scene/sphere.hpp
-iostream
--
+p5/spherebody.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/spherebody.hpp
+p5/trianglebody.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/trianglebody.hpp
+p5/planebody.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/planebody.hpp
 stdio.h
 -
-exception
--
-algorithm
--
+
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/planebody.hpp
+p5/body.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/body.hpp
+math/vector.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/vector.hpp
+math/quaternion.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/quaternion.hpp
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/spherebody.hpp
 scene/sphere.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/scene/sphere.hpp
 p5/body.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/body.hpp
+
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/trianglebody.hpp
+scene/triangle.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/scene/triangle.hpp
+p5/body.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/body.hpp
+p5/spherebody.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/spherebody.hpp
+math/vector.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/vector.hpp
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/scene/geometry.hpp
 math/vector.hpp
@@ -119,6 +127,12 @@ string
 -
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/scene/sphere.hpp
+scene/material.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/scene/scene/material.hpp
+scene/geometry.hpp
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/scene/scene/geometry.hpp
+
+/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/scene/triangle.hpp
 scene/material.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/scene/scene/material.hpp
 scene/geometry.hpp

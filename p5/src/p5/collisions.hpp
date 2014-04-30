@@ -5,7 +5,7 @@
 #include "p5/spherebody.hpp"
 #include "p5/trianglebody.hpp"
 #include "p5/planebody.hpp"
-
+#include <stdio.h>
 namespace _462 {
 
 bool collides( SphereBody& body1, SphereBody& body2, real_t collision_damping );
