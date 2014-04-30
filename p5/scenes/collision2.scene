@@ -1,0 +1,94 @@
+
+<scene>
+    <camera>
+        <fov v=".785"/>
+        <near_clip v=".01"/>
+        <far_clip v="200.0"/>
+        <position x="0.0" y="6.0" z="22.0"/>
+        <orientation a="0.0" x="0.0" y="-1.0" z="0.0"/>
+    </camera>
+
+    <background_color r="0.4" g="0.4" b="0.4"/>
+
+    <refractive_index v="1.0"/>
+
+    <ambient_light r="0.2" g="0.2" b="0.2"/>
+
+    <point_light>
+        <position x="1.0" y="3.0" z="12.0"/>
+        <color r="1.0" g="1.0" b="1.0"/>
+    </point_light>
+
+    <material name="red">
+        <ambient r="1.0" g="0.0" b="0.0"/>
+        <diffuse r="1.0" g="0.0" b="0.0"/>
+        <specular r="0.0" g="0.0" b="0.0"/>
+        <refractive_index v="0.0"/>
+    </material>
+
+    <material name="sred">
+        <ambient r="1.0" g="0.0" b="0.0"/>
+        <diffuse r="1.0" g="0.0" b="0.0"/>
+        <specular r="1.0" g="1.0" b="1.0"/>
+        <refractive_index v="0.0"/>
+    </material>
+
+    <material name="green">
+        <ambient r="0.0" g="1.0" b="0.0"/>
+        <diffuse r="0.0" g="1.0" b="0.0"/>
+        <specular r="0.0" g="0.0" b="0.0"/>
+        <refractive_index v="0.0"/>
+    </material>
+
+    <material name="sgreen">
+        <ambient r="0.0" g="1.0" b="0.0"/>
+        <diffuse r="0.0" g="1.0" b="0.0"/>
+        <specular r="1.0" g="1.0" b="1.0"/>
+        <refractive_index v="0.0"/>
+    </material>
+
+    <material name="blue">
+        <ambient r="0.0" g="0.0" b="1.0"/>
+        <diffuse r="0.0" g="0.0" b="1.0"/>
+        <specular r="0.0" g="0.0" b="0.0"/>
+        <refractive_index v="0.0"/>
+    </material>
+
+    <material name="sblue">
+        <ambient r="0.0" g="0.0" b="1.0"/>
+        <diffuse r="0.0" g="0.0" b="1.0"/>
+        <specular r="0.0" g="1.0" b="1.0"/>
+        <refractive_index v="0.0"/>
+    </material>
+
+
+    <sphere material="sblue">
+        <position x="-2.0" y="0.0" z="0.0"/>
+        <radius v="1.0"/>
+        <body>
+            <id i="4"/>
+            <velocity x="1.0" y="0.0" z="0.0"/>
+            <mass v="1.0"/>
+        </body>
+    </sphere>
+
+    <sphere material="sgreen">
+        <position x="1.0" y="0.0" z="0.0"/>
+        <radius v="1.0"/>
+        <body>
+            <id i="5"/>
+            <velocity x="-2.0" y="0.0" z="0.0"/>
+            <mass v="1.0"/>
+        </body>
+    </sphere>
+
+        
+
+
+    <plane_body>
+        <id i="15"/>
+        <position x="0.0" y="0.0" z="8.0"/>
+        <normal x="0.0" y="0.0" z="-1.0"/>
+    </plane_body>
+</scene>
+

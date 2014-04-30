@@ -53,6 +53,14 @@ Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
     //velocity = state.v;
 
     //return velocity;
+/*
+    Vector3 dx = velocity * dt;
+    Vector3 dv = acceleration * dt;
+
+    position += dx;
+    velocity += dv;
+
+    return dx;*/
 
     return Vector3::Zero();
 }

@@ -16,7 +16,7 @@ void Physics::f(State& initial_state, Derivative& input, Derivative& output,
     real_t dt_step) {
     State state; 
     state.x = initial_state.x + (dt_step * input.dx); //necessary?
-    state.v = initial_state.v + (dt_step * input.dv);
+    state.v = initial_state.v + (dt_step * input.dv); 
     output.dx = state.v;
     output.dv = initial_state.a;
     //printf("x: %lf, y: %lf, z: %lf accel\n", output.dv.x, output.dv.y, output.dv.z);
@@ -32,6 +32,8 @@ void Physics::RK4(State& state, real_t dt) {
     f(state, k1, k2, dt * 0.5);
     f(state, k2, k3, dt * 0.5);
     f(state, k3, k4, dt * 1.0);
+
+
     
     state.x += dt * (1.0/6.0) * (k1.dx + (2.0 * (k2.dx + k3.dx)) + k4.dx);
     state.v += dt * (1.0/6.0) * (k1.dv + (2.0 * (k2.dv + k3.dv)) + k4.dv);
@@ -46,6 +48,21 @@ void Physics::step( real_t dt )
     for (size_t i = 0; i < num_spheres(); i++) {
         //add gravity
         spheres[i]->apply_force(gravity, Vector3::Zero());
+       
+
+        for (size_t j = 0; j < num_spheres(); j++) {
+            if (i != j) {
+                collides(*(spheres[i]), *(spheres[j]), collision_damping);
+            }
+        }
+
+        for (size_t j = 0; j < num_planes(); j++) {
+            collides(*(spheres[i]), *(planes[j]), collision_damping);
+        }
+        
+        for (size_t j = 0; j < num_triangles(); j++) {
+            collides(*(spheres[i]), *(triangles[j]), collision_damping);
+        }
         
         State state;
         state.x = spheres[i]->position;
