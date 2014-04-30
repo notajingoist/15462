@@ -10,20 +10,34 @@
 #include "p5/planebody.hpp"
 #include "p5/spring.hpp"
 #include "p5/collisions.hpp"
-
+#include <stdio.h>
 #include <vector>
 
 namespace _462 {
+
+struct State {
+    Vector3 x; //position
+    Vector3 v; //velocity
+    Vector3 a; //acceleration
+};
+
+struct Derivative {
+    Vector3 dx; //change in position, dx/dt = velocity
+    Vector3 dv; //change in velocity, dv/dt = acceleration
+};
 
 class Physics
 {
 public:
     Vector3 gravity;
 	real_t collision_damping;
-
+    
     Physics();
     ~Physics();
 
+    void RK4(State& initial_state, real_t dt);
+    void f(State& initial_state, Derivative &input, Derivative &output, 
+        real_t dt_step);
     void step( real_t dt );
     void add_sphere( SphereBody* s );
     size_t num_spheres() const;
