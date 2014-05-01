@@ -15,11 +15,6 @@
 
 namespace _462 {
 
-struct State {
-    Vector3 x; //position
-    Vector3 v; //velocity
-    Vector3 a; //acceleration
-};
 
 struct Derivative {
     Vector3 dx; //change in position, dx/dt = velocity
@@ -35,9 +30,8 @@ public:
     Physics();
     ~Physics();
 
-    void RK4(State& initial_state, real_t dt);
-    void f(State& initial_state, Derivative &input, Derivative &output, 
-        real_t dt_step);
+    void RK4(SphereBody& s, real_t dt);
+    void detect_collisions(size_t i);
     void step( real_t dt );
     void add_sphere( SphereBody* s );
     size_t num_spheres() const;

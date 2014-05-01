@@ -27,14 +27,15 @@ Vector3 SphereBody::get_acceleration()
     return force / mass;
 }
 
-void SphereBody::update(Vector3 updated_velocity, Vector3 updated_position)
+Vector3 SphereBody::get_angular_acceleration()
 {
-    //internal
-    velocity = updated_velocity;
-    position = updated_position;
+    return torque / mass;
+}
 
-    //graphical
-    sphere->position = updated_position; 
+void SphereBody::update_graphics() 
+{
+    sphere->position = position;
+    sphere->orientation = orientation;
 }
 
 Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
@@ -43,26 +44,14 @@ Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
     // programming RK4, you should add more functions to help you or change the
     // scheme
     // TODO return the delta in position dt in the future
-    /*Vector3 acceleration = force / mass;
-    Vector3 dx = velocity * dt;
-    Vector3 dv = acceleration * dt; 
-    position += dx; 
-    velocity += dv;*/
-    
-    //position = state.x;
-    //velocity = state.v;
 
-    //return velocity;
-/*
-    Vector3 dx = velocity * dt;
-    Vector3 dv = acceleration * dt;
+    Vector3 dx = velocity * dt; //input.dx * dt
+    Vector3 dv = get_acceleration() * dt; //input.dv * dt
 
-    position += dx;
-    velocity += dv;
+    position += dx; //state.x 
+    velocity += dv; //state.v = output.dx -> input.dx
 
-    return dx;*/
-
-    return Vector3::Zero();
+    return dx;
 }
 
 Vector3 SphereBody::step_orientation( real_t dt, real_t motion_damping )
@@ -75,9 +64,26 @@ Vector3 SphereBody::step_orientation( real_t dt, real_t motion_damping )
     // vec.y = rotation along y axis
     // vec.z = rotation along z axis
     
+    /*Vector dax = angular_velocity * dt;
+    Vector3 dav = get_angular_acceleration() * dt; 
 
     
-    return Vector3::Zero();
+    Vector3 axes[3];
+    orientation.to_axes(&axes);
+
+    Vector3 axis;
+    Vector3 angle;
+    orientation.to_axis_angle(&axis, &angle);
+
+    angular_velocity += dav;
+
+    pitch();
+    roll();
+    yaw();*/
+
+    Vector3 dax = Vector3::Zero();
+
+    return dax;
 }
 
 void SphereBody::apply_force( const Vector3& f, const Vector3& offset )
