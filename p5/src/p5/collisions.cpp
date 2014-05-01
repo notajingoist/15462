@@ -17,19 +17,12 @@ bool collides( SphereBody& body1, SphereBody& body2, real_t collision_damping )
     Vector3 unit_relative_dir = normalize(relative_dir);
     bool headed_towards = dot(relative_vel, unit_relative_dir) > 0.0;
 
-
-    //Vector3 unit_v1_v2 = normalize(v1 - v2);
-    //real_t proj_v1_v1v2 = dot(v1, unit_v1_v2);
-    //real_t relative_velocity = length(v1) - length(v2);
-
-    /*if (proj_v1_v1v2 > 0.0) {
-        printf("truee\n");
-    }*/
-
-    //bool headed_towards = (relative_velocity > 0.0) && (proj_v1_v2 > 0.0);
-    //bool headed_towards = proj_v1_v1v2;//true;//relative_velocity > 0.0;
     // TODO detect collision. If there is one, update velocity
-    if (headed_towards && (distance(p1, p2) < (body1.radius + body2.radius))) {
+    if (!headed_towards) {
+        return false;
+    }
+
+    if (distance(p1, p2) < (body1.radius + body2.radius)) {
         //collision
         Vector3 v1_p = v1 - v2;
         Vector3 v2_p = Vector3::Zero();
@@ -40,15 +33,13 @@ bool collides( SphereBody& body1, SphereBody& body2, real_t collision_damping )
         Vector3 u2 = v2 + v2_pp;
         Vector3 u1 = ((m1 * v1) + (m2 * v2) - (m2 * u2)) / m1;
 
-        body1.velocity = u1;
-        body2.velocity = u2;
+        body1.velocity = compute_damped_velocity(u1, collision_damping);
+        body2.velocity = compute_damped_velocity(u2, collision_damping);
 
         printf("sphere collision occurred\n");
         return true;
-    } else {
-        return false;
-        //return false;
     }
+    return false;
 }
 
 bool collides( SphereBody& body1, TriangleBody& body2, real_t collision_damping )
@@ -61,11 +52,13 @@ bool collides( SphereBody& body1, TriangleBody& body2, real_t collision_damping 
     Vector3 vtx_b = body2.vertices[1];
     Vector3 vtx_c = body2.vertices[2];
 
-    
     Vector3 n =  normalize(cross(vtx_b - vtx_a, vtx_c - vtx_a));
-    
     n = (dot(p1 - vtx_a, n) > 0.0) ? n : -n;
-
+    bool headed_towards = dot(v1, n) < 0.0;
+    if (!headed_towards) {
+        return false;
+    }
+    
     Vector3 a = p1 - p2;
     real_t d = dot(a, n);
     Vector3 p_p = p1 - (d * n);
@@ -80,21 +73,14 @@ bool collides( SphereBody& body1, TriangleBody& body2, real_t collision_damping 
     real_t beta = dot(unnormalized_n, n_b) / n_squared;
     real_t gamma = dot(unnormalized_n, n_c) / n_squared;
 
-    bool headed_towards = dot(v1, n) < 0.0;
-
-    if (!headed_towards) {
-        return false;
-    }
-
     bool point_within = (0.0 < alpha && alpha < 1.0) 
         && (0.0 < beta && beta < 1.0)
         && (0.0 < gamma && gamma < 1.0);
 
-
     if (point_within) {
         if (distance(p_p, p1) < body1.radius) {
-            Vector3 u = v1 - (2.0 * (dot(v1, n)) * n);
-            body1.velocity = u;
+            /*Vector3 u = v1 - (2.0 * (dot(v1, n)) * n);*/
+            body1.velocity = compute_new_velocity(v1, n, collision_damping);
             printf("triangle collision occurred\n");
             return true;
         }
@@ -107,17 +93,34 @@ bool collides( SphereBody& body1, TriangleBody& body2, real_t collision_damping 
         Vector3 p_p1 = (dot(p_p - vtx_a, norm_b_a) * norm_b_a) + vtx_a;
         Vector3 p_p2 = (dot(p_p - vtx_b, norm_c_a) * norm_c_a) + vtx_a;
         Vector3 p_p3 = (dot(p_p - vtx_b, norm_c_b) * norm_c_b) + vtx_b;
+        
         if (distance(p_p1, p1) < body1.radius
             || distance(p_p2, p1) < body1.radius
             || distance(p_p3, p1) < body1.radius) {
-            Vector3 u = v1 - (2.0 * (dot(v1, n)) * n);
-            body1.velocity = u;
+            //Vector3 u = v1 - (2.0 * (dot(v1, n)) * n);
+            body1.velocity = compute_new_velocity(v1, n, collision_damping);
             printf("special triangle collision occurred\n");
             return true;
         } 
     }
     return false;
 }
+
+Vector3 compute_new_velocity(Vector3 old_velocity, Vector3 normal, 
+    real_t collision_damping)
+{
+    Vector3 new_velocity = old_velocity - (2.0 * (dot(old_velocity, normal)) 
+        * normal);
+    return compute_damped_velocity(new_velocity, collision_damping);
+}
+
+Vector3 compute_damped_velocity(Vector3 v, real_t collision_damping) 
+{
+    Vector3 damped_velocity = v - (collision_damping * v);
+    return (length(damped_velocity) > EPSILON) ? damped_velocity 
+        : Vector3::Zero();
+}
+
 
 bool collides( SphereBody& body1, PlaneBody& body2, real_t collision_damping )
 {
