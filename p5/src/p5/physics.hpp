@@ -36,7 +36,7 @@ public:
     Physics();
     ~Physics();
 
-    void RK4(State& initial_state, SphereBody& s, real_t dt);
+    void RK4(Body& s, real_t dt);
     void detect_collisions(size_t i);
     void step( real_t dt );
     void add_sphere( SphereBody* s );

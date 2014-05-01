@@ -23,7 +23,7 @@ Physics::~Physics()
 
 }*/
 
-void Physics::RK4(State& initial_state, SphereBody& s, real_t dt) {
+void Physics::RK4(Body& b, real_t dt) {
     /*Derivative k0, k1, k2, k3, k4;
     k0.dx = Vector3::Zero();
     k0.dv = Vector3::Zero();
@@ -34,18 +34,24 @@ void Physics::RK4(State& initial_state, SphereBody& s, real_t dt) {
     f(state, k3, k4, dt * 1.0);*/
 
     Derivative k1, k2, k3, k4;
-    k1.dx = s.step_position(dt * 0.0, collision_damping);
-    k2.dx = s.step_position(dt * 0.5, collision_damping);
-    k3.dx = s.step_position(dt * 0.5, collision_damping);
-    k4.dx = s.step_position(dt * 1.0, collision_damping);
+    k1.dx = b.step_position(dt * 0.0, collision_damping);
+    //apply force
+    k2.dx = b.step_position(dt * 0.5, collision_damping);
+    k3.dx = b.step_position(dt * 0.5, collision_damping);
+    k4.dx = b.step_position(dt * 1.0, collision_damping);
 
-    k1.dv = s.get_acceleration();
-    k2.dv = s.get_acceleration();
-    k3.dv = s.get_acceleration();
-    k4.dv = s.get_acceleration();
+    /*k1.dv = b.force / b.mass;
+    k2.dv = b.force / b.mass;
+    k3.dv = b.force / b.mass;
+    k4.dv = b.force / b.mass;*/
 
-    s.position += dt * (1.0/6.0) * (k1.dx + (2.0 * (k2.dx + k3.dx)) + k4.dx);
-    s.velocity += dt * (1.0/6.0) * (k1.dv + (2.0 * (k2.dv + k3.dv)) + k4.dv);
+    k1.dv = b.get_acceleration();
+    k2.dv = b.get_acceleration();
+    k3.dv = b.get_acceleration();
+    k4.dv = b.get_acceleration();
+
+    b.position += dt * (1.0/6.0) * (k1.dx + (2.0 * (k2.dx + k3.dx)) + k4.dx);
+    b.velocity += dt * (1.0/6.0) * (k1.dv + (2.0 * (k2.dv + k3.dv)) + k4.dv);
 
     /*k1.dax = s.step_orientation(dt * 0.0, collision_damping);
     k2.dax = s.step_orientation(dt * 0.5, collision_damping);
@@ -91,19 +97,40 @@ void Physics::detect_collisions(size_t i)
 void Physics::step( real_t dt )
 {
 
+    for (size_t i = 0; i < num_springs(); i++) {
+        Vector3 b1_initial_position = springs[i]->body1->position;
+        Vector3 b1_initial_velocity = springs[i]->body1->velocity;
+        Quaternion b1_initial_orientation = springs[i]->body1->orientation;
+        Vector3 b1_initial_angular_velocity = 
+            springs[i]->body1->angular_velocity;
+
+        Vector3 b2_initial_position = springs[i]->body2->position;
+        Vector3 b2_initial_velocity = springs[i]->body2->velocity;
+        Quaternion b2_initial_orientation = springs[i]->body2->orientation;
+        Vector3 b2_initial_angular_velocity = 
+            springs[i]->body2->angular_velocity;
+
+        //springs[i]->apply_force();
+        //springs[i].step(dt);
+        //RK4(*(springs[i]->body1), dt);
+        //RK4(*(springs[i]->body2), dt);
+        
+        //springs[i]->body1->apply_force();
+        //springs[i]->body2->apply_force();
+    }
+
     for (size_t i = 0; i < num_spheres(); i++) {
+        //reset force
+        //spheres[i]->force = Vector3::Zero();
         //add gravity
         spheres[i]->apply_force(gravity, Vector3::Zero());
 
-        State initial_state;
-        initial_state.initial_position = spheres[i]->position;
-        initial_state.initial_velocity = spheres[i]->velocity;
-        initial_state.initial_orientation = spheres[i]->orientation;
-        initial_state.initial_angular_velocity = spheres[i]->angular_velocity;
-        
-        RK4(initial_state, *(spheres[i]), dt);
         detect_collisions(i);
+        RK4(*(spheres[i]), dt);
         spheres[i]->update_graphics();   
+
+        //reset force
+        spheres[i]->force = Vector3::Zero();
         
         /*State state;
         state.x = spheres[i]->position;
@@ -114,10 +141,6 @@ void Physics::step( real_t dt )
         //spheres[i]->step_position(dt, collision_damping);
     }
 
-    /*for (size_t i = 0; i < num_springs(); i++) {
-        springs[i]->apply_force();
-
-    }*/
     
     // TODO step the world forward by dt. Need to detect collisions, apply
     // forces, and integrate positions and orientations.

@@ -13,6 +13,11 @@ TriangleBody::TriangleBody( Triangle* geom )
     velocity = Vector3::Zero();
 }
 
+Vector3 TriangleBody::get_acceleration() 
+{
+    return Vector3::Zero();
+}
+
 Vector3 TriangleBody::step_position( real_t dt, real_t motion_damping )
 {
     return Vector3::Zero();

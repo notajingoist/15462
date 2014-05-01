@@ -94,7 +94,7 @@ void SphereBody::apply_force( const Vector3& f, const Vector3& offset )
     if (offset == Vector3::Zero() || off_cross_f == Vector3::Zero()) {
         //linear force, f = gravity
         Vector3 linear_force = mass * f;
-        force = linear_force;
+        force += linear_force;
         //Vector3 acceleration = force/mass;
         //velocity += acceleration * dt;
         //position += velocity * dt;
@@ -103,14 +103,15 @@ void SphereBody::apply_force( const Vector3& f, const Vector3& offset )
         //printf("%lf, %lf, %lf \n", force.x, force.y, force.z);
     } else {
         //linear force and angular force
-        torque = off_cross_f;
+        torque = off_cross_f; //or += ??
         real_t I = (2.0/5.0) * mass * (radius * radius);
         Vector3 angular_accel = torque / I;
         Vector3 angular_force = mass * angular_accel;
 
         Vector3 unit_offset = normalize(offset); 
-        Vector3 linear_force = offset * (dot(f, offset) / length(offset));
-        force = linear_force + angular_force;
+        Vector3 linear_force = unit_offset * (dot(f, unit_offset));
+        // / length(offset));
+        force += linear_force + angular_force;
     }
 }
 

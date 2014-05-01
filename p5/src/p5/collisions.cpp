@@ -61,9 +61,11 @@ bool collides( SphereBody& body1, TriangleBody& body2, real_t collision_damping 
     Vector3 vtx_b = body2.vertices[1];
     Vector3 vtx_c = body2.vertices[2];
 
-    Vector3 n =  normalize(cross(vtx_b - vtx_a, vtx_c - vtx_a));
-    //is n normalized?
     
+    Vector3 n =  normalize(cross(vtx_b - vtx_a, vtx_c - vtx_a));
+    
+    n = (dot(p1 - vtx_a, n) > 0.0) ? n : -n;
+
     Vector3 a = p1 - p2;
     real_t d = dot(a, n);
     Vector3 p_p = p1 - (d * n);
@@ -72,24 +74,32 @@ bool collides( SphereBody& body1, TriangleBody& body2, real_t collision_damping 
     Vector3 n_b = normalize(cross(vtx_a - vtx_c, p_p - vtx_c));
     Vector3 n_c = normalize(cross(vtx_b - vtx_a, p_p - vtx_a));
 
-    real_t n_squared = squared_length(n);
-    real_t alpha = dot(n, n_a) / n_squared;
-    real_t beta = dot(n, n_b) / n_squared;
-    real_t gamma = dot(n, n_c) / n_squared;
+    Vector3 unnormalized_n = cross(vtx_b - vtx_a, vtx_c - vtx_a);
+    real_t n_squared = squared_length(unnormalized_n);
+    real_t alpha = dot(unnormalized_n, n_a) / n_squared;
+    real_t beta = dot(unnormalized_n, n_b) / n_squared;
+    real_t gamma = dot(unnormalized_n, n_c) / n_squared;
 
-    bool headed_towards = dot(v1, -n) > 0.0;
+    bool headed_towards = dot(v1, n) < 0.0;
 
-    bool point_within = (0 < alpha && alpha < 1) && (0 < beta && beta < 1)
-        && (0 < gamma && gamma < 1);
+    if (!headed_towards) {
+        return false;
+    }
 
-    if (headed_towards && point_within) {
+    bool point_within = (0.0 < alpha && alpha < 1.0) 
+        && (0.0 < beta && beta < 1.0)
+        && (0.0 < gamma && gamma < 1.0);
+
+
+    if (point_within) {
         if (distance(p_p, p1) < body1.radius) {
-            Vector3 u = body1.velocity - (2.0 * (dot(body1.velocity, n)) * n);
+            Vector3 u = v1 - (2.0 * (dot(v1, n)) * n);
             body1.velocity = u;
             printf("triangle collision occurred\n");
             return true;
         }
-    } else if (headed_towards) {
+    } else {
+        //return false;
         //p_p is not in triangle
         Vector3 norm_b_a = normalize(vtx_b - vtx_a);
         Vector3 norm_c_a = normalize(vtx_c - vtx_a);
@@ -100,9 +110,9 @@ bool collides( SphereBody& body1, TriangleBody& body2, real_t collision_damping 
         if (distance(p_p1, p1) < body1.radius
             || distance(p_p2, p1) < body1.radius
             || distance(p_p3, p1) < body1.radius) {
-            Vector3 u = body1.velocity - (2.0 * (dot(body1.velocity, n)) * n);
+            Vector3 u = v1 - (2.0 * (dot(v1, n)) * n);
             body1.velocity = u;
-            printf("triangle collision occurred\n");
+            printf("special triangle collision occurred\n");
             return true;
         } 
     }
