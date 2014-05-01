@@ -10,6 +10,8 @@ class Sphere;
 struct State {
     Vector3 dx; //change in position, dx/dt = velocity
     Vector3 dv; //change in velocity, dv/dt = acceleration
+    Vector3 dax; //change in orientation, dax/dt = angular velocity
+    Vector3 dav; //change in angular velocity, dv/dt = angular acceleration
 };
 
 class SphereBody : public Body
@@ -20,8 +22,12 @@ public:
     real_t mass;
     Vector3 force;
     Vector3 torque;
+
     Vector3 initial_velocity;
     Vector3 initial_position;
+    Vector3 initial_angular_velocity;
+    Quaternion initial_orientation;
+
     State state;
 
     SphereBody( Sphere* geom );

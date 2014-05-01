@@ -30,6 +30,11 @@ void Physics::RK4_step(real_t dt_fraction, real_t weight) {
             spheres[i]->step_position(dt_fraction, collision_damping);
         spheres[i]->state.dv += 
             spheres[i]->get_acceleration();
+
+        spheres[i]->state.dax += 
+            spheres[i]->step_orientation(dt_fraction, collision_damping);
+        spheres[i]->state.dav +=
+            spheres[i]->get_angular_acceleration();
     }
 }
 
@@ -141,6 +146,8 @@ void Physics::save_initial_states()
     for (size_t i = 0; i < num_spheres(); i++) {
         spheres[i]->initial_velocity = spheres[i]->velocity;
         spheres[i]->initial_position = spheres[i]->position;
+        spheres[i]->initial_angular_velocity = spheres[i]->angular_velocity;
+        spheres[i]->initial_orientation = spheres[i]->orientation;
     }
 }
 
@@ -153,7 +160,17 @@ void Physics::update_graphics()
 
 void Physics::step( real_t dt )
 {
-
+    // step the world forward by dt. Need to detect collisions, apply
+    // forces, and integrate positions and orientations.
+    //
+    // Note: put RK4 here, not in any of the physics bodies
+    //
+    // Must use the functions that you implemented
+    //
+    // Note, when you change the position/orientation of a physics object,
+    // change the position/orientation of the graphical object that represents
+    // it
+    
     //for (size_t i = 0; i < num_springs(); i++) {
         /*Vector3 b1_initial_position = springs[i]->body1->position;
         Vector3 b1_initial_velocity = springs[i]->body1->velocity;
@@ -209,16 +226,7 @@ void Physics::step( real_t dt )
     }*/
 
     
-    // TODO step the world forward by dt. Need to detect collisions, apply
-    // forces, and integrate positions and orientations.
-    //
-    // Note: put RK4 here, not in any of the physics bodies
-    //
-    // Must use the functions that you implemented
-    //
-    // Note, when you change the position/orientation of a physics object,
-    // change the position/orientation of the graphical object that represents
-    // it
+
 }
 
 void Physics::add_sphere( SphereBody* b )

@@ -17,9 +17,13 @@ SphereBody::SphereBody( Sphere* geom )
     orientation = sphere->orientation;
     mass = 0.0;
     velocity = Vector3::Zero();
+    angular_velocity = Vector3::Zero();
+    
     initial_position = position;
     initial_velocity = velocity;
-    angular_velocity = Vector3::Zero();
+    initial_orientation = orientation;
+    initial_angular_velocity = angular_velocity;
+    
     force = Vector3::Zero();
     torque = Vector3::Zero();
 }
@@ -41,6 +45,8 @@ void SphereBody::update_graphics()
     
     initial_velocity = velocity;
     initial_position = position;
+    initial_angular_velocity = angular_velocity;
+    initial_orientation = orientation;
 }
 
 Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
@@ -86,7 +92,21 @@ Vector3 SphereBody::step_orientation( real_t dt, real_t motion_damping )
     roll();
     yaw();*/
 
-    Vector3 dax = Vector3::Zero();
+    Vector3 dax = angular_velocity * dt;
+    Vector3 dav = get_angular_acceleration() * dt;
+
+    real_t x_radians = dax.x; //rotation around x axis
+    real_t y_radians = dax.y; //rotation around y axis
+    real_t z_radians = dax.z; //rotation around z axis
+
+    Quaternion qx = Quaternion(Vector3::UnitX(), x_radians);
+    Quaternion qy = Quaternion(Vector3::UnitY(), y_radians);
+    Quaternion qz = Quaternion(Vector3::UnitZ(), z_radians);
+
+    orientation = normalize(initial_orientation * qz); //roll
+    orientation = normalize(orientation * qx); //pitch
+    orientation = normalize(orientation * qy); //yaw
+    angular_velocity = initial_angular_velocity + dav;
 
     return dax;
 }
