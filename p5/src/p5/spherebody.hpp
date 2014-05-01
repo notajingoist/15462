@@ -16,6 +16,7 @@ public:
     real_t mass;
     Vector3 force;
     Vector3 torque;
+    Vector3 initial_velocity;
 
     SphereBody( Sphere* geom );
     virtual ~SphereBody() { }

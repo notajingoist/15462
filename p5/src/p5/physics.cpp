@@ -126,11 +126,14 @@ void Physics::step( real_t dt )
         spheres[i]->apply_force(gravity, Vector3::Zero());
 
         detect_collisions(i);
+        spheres[i]->initial_velocity = spheres[i]->velocity;
+
         RK4(*(spheres[i]), dt);
         spheres[i]->update_graphics();   
 
         //reset force
         spheres[i]->force = Vector3::Zero();
+
         
         /*State state;
         state.x = spheres[i]->position;
