@@ -23,7 +23,17 @@ Physics::~Physics()
 
 }*/
 
-void Physics::RK4(Body& b, real_t dt) {
+void Physics::RK4_step(real_t dt_fraction, real_t weight) {
+    set_forces(dt_fraction); //param actually unnecessary?
+    for (size_t i = 0; i < num_spheres(); i++) {
+        spheres[i]->state.dx +=
+            spheres[i]->step_position(dt_fraction, collision_damping);
+        spheres[i]->state.dv += 
+            spheres[i]->get_acceleration();
+    }
+}
+
+void Physics::RK4(real_t dt) {
     /*Derivative k0, k1, k2, k3, k4;
     k0.dx = Vector3::Zero();
     k0.dv = Vector3::Zero();
@@ -33,25 +43,41 @@ void Physics::RK4(Body& b, real_t dt) {
     f(state, k2, k3, dt * 0.5);
     f(state, k3, k4, dt * 1.0);*/
 
-    Derivative k1, k2, k3, k4;
-    k1.dx = b.step_position(dt * 0.0, collision_damping);
+    //reset states and derivatives
+    for (size_t i = 0; i < num_spheres(); i++) {
+        spheres[i]->state.dx = Vector3::Zero();
+        spheres[i]->state.dv = Vector3::Zero();
+    }
+
+    RK4_step(dt * 0.0, 1.0/6.0);
+    RK4_step(dt * 0.5, 1.0/3.0);
+    RK4_step(dt * 0.5, 1.0/3.0);
+    RK4_step(dt * 1.0, 1.0/6.0);
+
+  /*  k1.dx = b.step_position(dt * 0.0, collision_damping);
     //apply force
     k2.dx = b.step_position(dt * 0.5, collision_damping);
     k3.dx = b.step_position(dt * 0.5, collision_damping);
-    k4.dx = b.step_position(dt * 1.0, collision_damping);
+    k4.dx = b.step_position(dt * 1.0, collision_damping);*/
 
     /*k1.dv = b.force / b.mass;
     k2.dv = b.force / b.mass;
     k3.dv = b.force / b.mass;
     k4.dv = b.force / b.mass;*/
 
-    k1.dv = b.get_acceleration();
+    /*k1.dv = b.get_acceleration();
     k2.dv = b.get_acceleration();
     k3.dv = b.get_acceleration();
-    k4.dv = b.get_acceleration();
+    k4.dv = b.get_acceleration();*/
 
+    for (size_t i = 0; i < num_spheres(); i++) {
+        spheres[i]->position += dt * spheres[i]->state.dx;
+        spheres[i]->velocity += dt * spheres[i]->state.dv;
+    }
+
+    /*
     b.position += dt * (1.0/6.0) * (k1.dx + (2.0 * (k2.dx + k3.dx)) + k4.dx);
-    b.velocity += dt * (1.0/6.0) * (k1.dv + (2.0 * (k2.dv + k3.dv)) + k4.dv);
+    b.velocity += dt * (1.0/6.0) * (k1.dv + (2.0 * (k2.dv + k3.dv)) + k4.dv);*/
 
     /*k1.dax = s.step_orientation(dt * 0.0, collision_damping);
     k2.dax = s.step_orientation(dt * 0.5, collision_damping);
@@ -77,28 +103,59 @@ void Physics::RK4(Body& b, real_t dt) {
     output.dv = calculate_acceleration(initial_state);*/
 }
 
-void Physics::detect_collisions(size_t i)
+void Physics::detect_collisions()
 {   
-    for (size_t j = 0; j < num_spheres(); j++) {
-        if (i != j) {
-            collides(*(spheres[i]), *(spheres[j]), collision_damping);
+    for (size_t i = 0; i < num_spheres(); i++) {
+        for (size_t j = 0; j < num_spheres(); j++) {
+            if (i != j) {
+                collides(*(spheres[i]), *(spheres[j]), collision_damping);
+            }
+        }
+
+        for (size_t j = 0; j < num_planes(); j++) {
+            collides(*(spheres[i]), *(planes[j]), collision_damping);
+        }
+        
+        for (size_t j = 0; j < num_triangles(); j++) {
+            collides(*(spheres[i]), *(triangles[j]), collision_damping);
         }
     }
+}
 
-    for (size_t j = 0; j < num_planes(); j++) {
-        collides(*(spheres[i]), *(planes[j]), collision_damping);
+void Physics::set_forces(real_t dt) 
+{
+    //reset force and apply gravity
+    for (size_t i = 0; i < num_spheres(); i++) {
+        spheres[i]->force = Vector3::Zero();
+        spheres[i]->apply_force(gravity, Vector3::Zero());
     }
-    
-    for (size_t j = 0; j < num_triangles(); j++) {
-        collides(*(spheres[i]), *(triangles[j]), collision_damping);
+
+    //apply spring forces
+    for (size_t i = 0; i < num_springs(); i++) {
+        springs[i]->step(dt);
+    }
+}
+
+void Physics::save_initial_states() 
+{
+    for (size_t i = 0; i < num_spheres(); i++) {
+        spheres[i]->initial_velocity = spheres[i]->velocity;
+        spheres[i]->initial_position = spheres[i]->position;
+    }
+}
+
+void Physics::update_graphics()
+{
+    for (size_t i = 0; i < num_spheres(); i++) {
+        spheres[i]->update_graphics(); 
     }
 }
 
 void Physics::step( real_t dt )
 {
 
-    for (size_t i = 0; i < num_springs(); i++) {
-        Vector3 b1_initial_position = springs[i]->body1->position;
+    //for (size_t i = 0; i < num_springs(); i++) {
+        /*Vector3 b1_initial_position = springs[i]->body1->position;
         Vector3 b1_initial_velocity = springs[i]->body1->velocity;
         Quaternion b1_initial_orientation = springs[i]->body1->orientation;
         Vector3 b1_initial_angular_velocity = 
@@ -108,7 +165,7 @@ void Physics::step( real_t dt )
         Vector3 b2_initial_velocity = springs[i]->body2->velocity;
         Quaternion b2_initial_orientation = springs[i]->body2->orientation;
         Vector3 b2_initial_angular_velocity = 
-            springs[i]->body2->angular_velocity;
+            springs[i]->body2->angular_velocity;*/
 
         //springs[i]->apply_force();
         //springs[i].step(dt);
@@ -117,9 +174,15 @@ void Physics::step( real_t dt )
         
         //springs[i]->body1->apply_force();
         //springs[i]->body2->apply_force();
-    }
+    //}
+    
+    
+    detect_collisions();
+    save_initial_states(); //save initial state after changing it in collisions
+    RK4(dt);
+    update_graphics();
 
-    for (size_t i = 0; i < num_spheres(); i++) {
+    /*for (size_t i = 0; i < num_spheres(); i++) {
         //reset force
         //spheres[i]->force = Vector3::Zero();
         //add gravity
@@ -127,6 +190,7 @@ void Physics::step( real_t dt )
 
         detect_collisions(i);
         spheres[i]->initial_velocity = spheres[i]->velocity;
+        spheres[i]->initial_position = spheres[i]->position;
 
         RK4(*(spheres[i]), dt);
         spheres[i]->update_graphics();   
@@ -135,14 +199,14 @@ void Physics::step( real_t dt )
         spheres[i]->force = Vector3::Zero();
 
         
-        /*State state;
-        state.x = spheres[i]->position;
-        state.v = spheres[i]->velocity; 
-        state.a = spheres[i]->get_acceleration();*/
+        //State state;
+        //state.x = spheres[i]->position;
+        //state.v = spheres[i]->velocity; 
+        //state.a = spheres[i]->get_acceleration();
                 //spheres[i]->update(state.v, state.x);
         //printf("x: %lf, y: %lf, z: %lf vel\n", state.v.x, state.v.y, state.v.z);
         //spheres[i]->step_position(dt, collision_damping);
-    }
+    }*/
 
     
     // TODO step the world forward by dt. Need to detect collisions, apply
@@ -216,7 +280,7 @@ void Physics::reset()
     planes.clear();
     triangles.clear();
     springs.clear();
-    
+
     gravity = Vector3::Zero();
 	collision_damping = 0.0;
 }

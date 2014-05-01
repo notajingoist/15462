@@ -7,6 +7,10 @@
 namespace _462 {
 
 class Sphere;
+struct State {
+    Vector3 dx; //change in position, dx/dt = velocity
+    Vector3 dv; //change in velocity, dv/dt = acceleration
+};
 
 class SphereBody : public Body
 {
@@ -17,6 +21,8 @@ public:
     Vector3 force;
     Vector3 torque;
     Vector3 initial_velocity;
+    Vector3 initial_position;
+    State state;
 
     SphereBody( Sphere* geom );
     virtual ~SphereBody() { }

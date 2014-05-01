@@ -17,6 +17,7 @@ SphereBody::SphereBody( Sphere* geom )
     orientation = sphere->orientation;
     mass = 0.0;
     velocity = Vector3::Zero();
+    initial_position = position;
     initial_velocity = velocity;
     angular_velocity = Vector3::Zero();
     force = Vector3::Zero();
@@ -37,7 +38,9 @@ void SphereBody::update_graphics()
 {
     sphere->position = position;
     sphere->orientation = orientation;
+    
     initial_velocity = velocity;
+    initial_position = position;
 }
 
 Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
@@ -50,7 +53,7 @@ Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
     Vector3 dx = velocity * dt; //input.dx * dt
     Vector3 dv = get_acceleration() * dt; //input.dv * dt
 
-    position = sphere->position + dx; //state.x 
+    position = initial_position + dx; //state.x 
     velocity = initial_velocity + dv; //state.v = output.dx -> input.dx
 
     return dx;

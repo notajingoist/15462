@@ -15,17 +15,14 @@
 
 namespace _462 {
 
-struct State {
+/*struct State {
     Vector3 initial_position;
     Vector3 initial_velocity;
     Quaternion initial_orientation;
     Vector3 initial_angular_velocity;
-};
+};*/
 
-struct Derivative {
-    Vector3 dx; //change in position, dx/dt = velocity
-    Vector3 dv; //change in velocity, dv/dt = acceleration
-};
+struct State;
 
 class Physics
 {
@@ -36,8 +33,12 @@ public:
     Physics();
     ~Physics();
 
-    void RK4(Body& s, real_t dt);
-    void detect_collisions(size_t i);
+    void RK4(real_t dt);
+    void RK4_step(real_t dt_fraction, real_t weight);
+    void detect_collisions();
+    void set_forces(real_t dt);
+    void save_initial_states();
+    void update_graphics();
     void step( real_t dt );
     void add_sphere( SphereBody* s );
     size_t num_spheres() const;
@@ -55,11 +56,22 @@ private:
     typedef std::vector< SphereBody* > SphereList;
     typedef std::vector< PlaneBody* > PlaneList;
     typedef std::vector< TriangleBody* > TriangleList;
+    /*typedef std::vector< Derivative* > DerivativeList;
+    typedef std::vector< DerivativeList > StateList;*/
 
     SpringList springs;
     SphereList spheres;
     PlaneList planes;
     TriangleList triangles;
+    /*DerivativeList k1_derivs;
+    DerivativeList k2_derivs;
+    DerivativeList k3_derivs;
+    DerivativeList k4_derivs;
+    StateList states;
+    states.push_back(k1_derivs);
+    states.push_back(k2_derivs);
+    states.push_back(k3_derivs);
+    states.push_back(k4_derivs);*/
 };
 
 }
