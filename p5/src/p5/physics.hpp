@@ -15,6 +15,12 @@
 
 namespace _462 {
 
+struct State {
+    Vector3 initial_position;
+    Vector3 initial_velocity;
+    Quaternion initial_orientation;
+    Vector3 initial_angular_velocity;
+};
 
 struct Derivative {
     Vector3 dx; //change in position, dx/dt = velocity
@@ -30,7 +36,7 @@ public:
     Physics();
     ~Physics();
 
-    void RK4(SphereBody& s, real_t dt);
+    void RK4(State& initial_state, SphereBody& s, real_t dt);
     void detect_collisions(size_t i);
     void step( real_t dt );
     void add_sphere( SphereBody* s );

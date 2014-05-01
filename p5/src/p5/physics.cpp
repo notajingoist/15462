@@ -23,7 +23,7 @@ Physics::~Physics()
 
 }*/
 
-void Physics::RK4(SphereBody& s, real_t dt) {
+void Physics::RK4(State& initial_state, SphereBody& s, real_t dt) {
     /*Derivative k0, k1, k2, k3, k4;
     k0.dx = Vector3::Zero();
     k0.dv = Vector3::Zero();
@@ -94,7 +94,14 @@ void Physics::step( real_t dt )
     for (size_t i = 0; i < num_spheres(); i++) {
         //add gravity
         spheres[i]->apply_force(gravity, Vector3::Zero());
-        RK4(*(spheres[i]), dt);
+
+        State initial_state;
+        initial_state.initial_position = spheres[i]->position;
+        initial_state.initial_velocity = spheres[i]->velocity;
+        initial_state.initial_orientation = spheres[i]->orientation;
+        initial_state.initial_angular_velocity = spheres[i]->angular_velocity;
+        
+        RK4(initial_state, *(spheres[i]), dt);
         detect_collisions(i);
         spheres[i]->update_graphics();   
         
@@ -106,6 +113,11 @@ void Physics::step( real_t dt )
         //printf("x: %lf, y: %lf, z: %lf vel\n", state.v.x, state.v.y, state.v.z);
         //spheres[i]->step_position(dt, collision_damping);
     }
+
+    /*for (size_t i = 0; i < num_springs(); i++) {
+        springs[i]->apply_force();
+
+    }*/
     
     // TODO step the world forward by dt. Need to detect collisions, apply
     // forces, and integrate positions and orientations.
