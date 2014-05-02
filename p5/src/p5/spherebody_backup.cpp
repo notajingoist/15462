@@ -50,7 +50,8 @@ void SphereBody::update_graphics()
     initial_orientation = orientation;*/
 }
 
-Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
+Vector3 SphereBody::step_position( real_t frac, 
+    real_t dt, real_t motion_damping )
 {
     // Note: This function is here as a hint for an approach to take towards
     // programming RK4, you should add more functions to help you or change the
@@ -60,8 +61,8 @@ Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
     Vector3 dx = velocity * dt; //input.dx * dt
     Vector3 dv = get_acceleration() * dt; //input.dv * dt
 
-    position = initial_position + dx; //state.x 
-    velocity = initial_velocity + dv; //state.v = output.dx -> input.dx
+    position = initial_position + (dx * frac); //state.x 
+    velocity = initial_velocity + (dv * frac); //state.v = output.dx -> input.dx
 
     return dx;
 }
@@ -118,13 +119,25 @@ void SphereBody::apply_force( const Vector3& f, const Vector3& offset )
     
     Vector3 off_cross_f = cross(offset, f);
     if (offset == Vector3::Zero() || off_cross_f == Vector3::Zero()) {
+        //linear force, f = gravity
+        //Vector3 linear_force = mass * f;
         force += f;
+        //Vector3 acceleration = force/mass;
+        //velocity += acceleration * dt;
+        //position += velocity * dt;
+
+        //printf("mass: %lf \n", mass);
+        //printf("%lf, %lf, %lf \n", force.x, force.y, force.z);
     } else {
         //linear force and angular force
         torque += off_cross_f; //or += ??
         
+        //Vector3 angular_accel = torque / I;
+        //Vector3 angular_force = mass * angular_accel;
+
         Vector3 unit_offset = normalize(offset); 
         Vector3 linear_force = unit_offset * (dot(f, unit_offset));
+        // / length(offset));
         force += linear_force;
     }
 }

@@ -12,18 +12,31 @@ Physics::~Physics()
     reset();
 }
 
-void Physics::RK4_step(real_t dt_fraction, real_t weight) {
-    set_forces(dt_fraction); //param actually unnecessary?
+/*void Physics::f(State& initial_state, Derivative& input, Derivative& output, 
+    real_t dt_step) {
+    State state; 
+    state.x = initial_state.x + (dt_step * input.dx); //necessary?
+    state.v = initial_state.v + (dt_step * input.dv); 
+    output.dx = state.v;
+    output.dv = initial_state.a;
+    //printf("x: %lf, y: %lf, z: %lf accel\n", output.dv.x, output.dv.y, output.dv.z);
+
+}*/
+
+void Physics::RK4_step(real_t frac, real_t dt, real_t weight) {
+    set_forces(dt); //param actually unnecessary?
     for (size_t i = 0; i < num_spheres(); i++) {
         spheres[i]->state.dx +=
-            weight * spheres[i]->step_position(dt_fraction, collision_damping);
+            weight * spheres[i]->step_position(frac, dt,
+                collision_damping);
         spheres[i]->state.dv += 
-            weight * dt_fraction * spheres[i]->get_acceleration();
+            weight * dt * spheres[i]->get_acceleration();
 
         spheres[i]->state.dax += 
-            weight * spheres[i]->step_orientation(dt_fraction, collision_damping);
+            weight * spheres[i]->step_orientation(dt, 
+                collision_damping);
         spheres[i]->state.dav +=
-            weight * dt_fraction * spheres[i]->get_angular_acceleration();
+            weight * dt * spheres[i]->get_angular_acceleration();
     }
 }
 
@@ -32,40 +45,21 @@ void Physics::RK4(real_t dt) {
     for (size_t i = 0; i < num_spheres(); i++) {
         spheres[i]->state.dx = Vector3::Zero();
         spheres[i]->state.dv = Vector3::Zero();
-        spheres[i]->state.dax = Vector3::Zero();
-        spheres[i]->state.dav = Vector3::Zero();
     }
 
-    RK4_step(dt * 0.0, 1.0/6.0);
-    RK4_step(dt * 0.5, 1.0/3.0);
-    RK4_step(dt * 0.5, 1.0/3.0);
-    RK4_step(dt * 1.0, 1.0/6.0);
-
+    RK4_step(0.5, dt, 1.0/6.0);
+    RK4_step(0.5, dt, 1.0/3.0);
+    RK4_step(1.0, dt, 1.0/3.0);
+    RK4_step(0.0, dt, 1.0/6.0); //dummy fraction 
 
     for (size_t i = 0; i < num_spheres(); i++) {
-        spheres[i]->position += dt * spheres[i]->state.dx;
-        spheres[i]->velocity += dt * spheres[i]->state.dv;
-        Vector3 dax = dt * spheres[i]->state.dax;
-
-        real_t x_radians = dax.x; //rotation around x axis
-        real_t y_radians = dax.y; //rotation around y axis
-        real_t z_radians = dax.z; //rotation around z axis
-
-        Quaternion qx = Quaternion(Vector3::UnitX(), x_radians);
-        Quaternion qy = Quaternion(Vector3::UnitY(), y_radians);
-        Quaternion qz = Quaternion(Vector3::UnitZ(), z_radians);
-
-        spheres[i]->orientation = 
-            normalize(spheres[i]->initial_orientation * qz); //roll
-        spheres[i]->orientation = 
-            normalize(spheres[i]->orientation * qx); //pitch
-        spheres[i]->orientation = 
-            normalize(spheres[i]->orientation * qy); //yaw
-        
-        spheres[i]->angular_velocity += dt * spheres[i]->state.dav;
+        spheres[i]->position = spheres[i]->initial_position 
+            + spheres[i]->state.dx;
+        spheres[i]->velocity += spheres[i]->initial_velocity
+            + spheres[i]->state.dv;
     }
 
-    }
+}
 
 void Physics::detect_collisions()
 {   
@@ -91,8 +85,8 @@ void Physics::set_forces(real_t dt)
     //reset force and apply gravity
     for (size_t i = 0; i < num_spheres(); i++) {
         spheres[i]->force = Vector3::Zero();
-        spheres[i]->apply_force(gravity * 
-            spheres[i]->mass, Vector3::Zero());
+        spheres[i]->apply_force(gravity * spheres[i]->mass, 
+            Vector3::Zero());
     }
 
     //apply spring forces
@@ -106,7 +100,8 @@ void Physics::save_initial_states()
     for (size_t i = 0; i < num_spheres(); i++) {
         spheres[i]->initial_velocity = spheres[i]->velocity;
         spheres[i]->initial_position = spheres[i]->position;
-        spheres[i]->initial_angular_velocity = spheres[i]->angular_velocity;
+        spheres[i]->initial_angular_velocity = 
+            spheres[i]->angular_velocity;
         spheres[i]->initial_orientation = spheres[i]->orientation;
     }
 }
@@ -130,12 +125,12 @@ void Physics::step( real_t dt )
     // Note, when you change the position/orientation of a physics object,
     // change the position/orientation of the graphical object that represents
     // it
-      
+    
     detect_collisions();
-    save_initial_states(); //save initial state after changing it in collisions
+    //save initial state after changing it in collisions
+    save_initial_states();
     RK4(dt);
     update_graphics();
-
 }
 
 void Physics::add_sphere( SphereBody* b )
