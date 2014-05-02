@@ -43,14 +43,11 @@ void SphereBody::update_graphics()
 {
     sphere->position = position;
     sphere->orientation = orientation;
-    
-    /*initial_velocity = velocity;
-    initial_position = position;
-    initial_angular_velocity = angular_velocity;
-    initial_orientation = orientation;*/
+
 }
 
-Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
+Vector3 SphereBody::step_position( real_t dt, real_t fraction, 
+    real_t motion_damping )
 {
     // Note: This function is here as a hint for an approach to take towards
     // programming RK4, you should add more functions to help you or change the
@@ -60,13 +57,14 @@ Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
     Vector3 dx = velocity * dt; //input.dx * dt
     Vector3 dv = get_acceleration() * dt; //input.dv * dt
 
-    position = initial_position + dx; //state.x 
-    velocity = initial_velocity + dv; //state.v = output.dx -> input.dx
+    position = initial_position + (dx * fraction); //state.x 
+    velocity = initial_velocity + (dv * fraction); //state.v = output.dx -> input.dx
 
     return dx;
 }
 
-Vector3 SphereBody::step_orientation( real_t dt, real_t motion_damping )
+Vector3 SphereBody::step_orientation( real_t dt, real_t fraction, 
+    real_t motion_damping )
 {
     // Note: This function is here as a hint for an approach to take towards
     // programming RK4, you should add more functions to help you or change the
@@ -76,29 +74,12 @@ Vector3 SphereBody::step_orientation( real_t dt, real_t motion_damping )
     // vec.y = rotation along y axis
     // vec.z = rotation along z axis
     
-    /*Vector dax = angular_velocity * dt;
-    Vector3 dav = get_angular_acceleration() * dt; 
-
-    
-    Vector3 axes[3];
-    orientation.to_axes(&axes);
-
-    Vector3 axis;
-    Vector3 angle;
-    orientation.to_axis_angle(&axis, &angle);
-
-    angular_velocity += dav;
-
-    pitch();
-    roll();
-    yaw();*/
-
     Vector3 dax = angular_velocity * dt;
     Vector3 dav = get_angular_acceleration() * dt;
 
-    real_t x_radians = dax.x; //rotation around x axis
-    real_t y_radians = dax.y; //rotation around y axis
-    real_t z_radians = dax.z; //rotation around z axis
+    real_t x_radians = fraction * dax.x; //rotation around x axis
+    real_t y_radians = fraction * dax.y; //rotation around y axis
+    real_t z_radians = fraction * dax.z; //rotation around z axis
 
     Quaternion qx = Quaternion(Vector3::UnitX(), x_radians);
     Quaternion qy = Quaternion(Vector3::UnitY(), y_radians);
@@ -107,7 +88,7 @@ Vector3 SphereBody::step_orientation( real_t dt, real_t motion_damping )
     orientation = normalize(initial_orientation * qz); //roll
     orientation = normalize(orientation * qx); //pitch
     orientation = normalize(orientation * qy); //yaw
-    angular_velocity = initial_angular_velocity + dav;
+    angular_velocity = initial_angular_velocity + (dav * fraction);
 
     return dax;
 }

@@ -15,8 +15,10 @@ class TriangleBody : public Body
 public:
     TriangleBody( Triangle* geom );
     virtual ~TriangleBody() { }
-    virtual Vector3 step_position( real_t dt, real_t motion_damping );
-    virtual Vector3 step_orientation( real_t dt, real_t motion_damping );
+    virtual Vector3 step_position( real_t dt, real_t fraction, 
+        real_t motion_damping );
+    virtual Vector3 step_orientation( real_t dt, real_t fraction, 
+        real_t motion_damping );
     virtual void apply_force( const Vector3& f, const Vector3& offset );
     virtual Vector3 get_acceleration();
     Vector3 vertices[3];
