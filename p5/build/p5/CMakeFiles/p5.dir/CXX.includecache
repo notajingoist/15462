@@ -40,14 +40,6 @@ algorithm
 cmath
 -
 
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/matrix.hpp
-math/math.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/math/math.hpp
-math/vector.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/math/vector.hpp
-cassert
--
-
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/quaternion.hpp
 math/math.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/math/math/math.hpp
@@ -123,24 +115,6 @@ math/vector.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/vector.hpp
 math/quaternion.hpp
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/quaternion.hpp
-
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/spherebody.cpp
-p5/spherebody.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/p5/spherebody.hpp
-math/vector.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/vector.hpp
-math/matrix.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/math/matrix.hpp
-scene/sphere.hpp
-/afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/scene/sphere.hpp
-iostream
--
-stdio.h
--
-exception
--
-algorithm
--
 
 /afs/andrew.cmu.edu/usr13/jingxiao/private/15462/p5/src/p5/spherebody.hpp
 scene/sphere.hpp

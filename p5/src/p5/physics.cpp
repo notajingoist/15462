@@ -12,17 +12,17 @@ Physics::~Physics()
     reset();
 }
 
-void Physics::RK4_step(real_t dt, real_t dt_fraction, real_t weight) {
+void Physics::RK4_step(real_t dt_fraction, real_t weight) {
     set_forces(dt_fraction); //param actually unnecessary?
     for (size_t i = 0; i < num_spheres(); i++) {
-        spheres[i]->state.dx += weight * dt 
+        spheres[i]->state.dx += weight 
             * spheres[i]->step_position(dt_fraction, collision_damping);
-        spheres[i]->state.dv += weight * dt 
+        spheres[i]->state.dv += weight * dt_fraction
             * spheres[i]->get_acceleration();
 
-        spheres[i]->state.dax += weight * dt 
+        spheres[i]->state.dax += weight
             * spheres[i]->step_orientation(dt_fraction, collision_damping);
-        spheres[i]->state.dav += weight * dt 
+        spheres[i]->state.dav += weight * dt_fraction
             * spheres[i]->get_angular_acceleration();
     }
 }
@@ -36,15 +36,16 @@ void Physics::RK4(real_t dt) {
         spheres[i]->state.dav = Vector3::Zero();
     }
 
-    RK4_step(dt, dt * 0.5, 1.0/6.0);
-    RK4_step(dt, dt * 0.5, 1.0/3.0);
-    RK4_step(dt, dt * 1.0, 1.0/3.0);
-    RK4_step(dt, dt * 1.0, 1.0/6.0);
+    RK4_step(dt * 0.0, 1.0/6.0);
+    RK4_step(dt * 0.5, 1.0/3.0);
+    RK4_step(dt * 0.5, 1.0/3.0);
+    RK4_step(dt * 1.0, 1.0/6.0);
 
 
-    for (size_t i = 0; i < num_spheres(); i++) {
+    for (size_t i = 0; i < num_spheres(); i++) { 
         spheres[i]->position += dt * spheres[i]->state.dx;
         spheres[i]->velocity += dt * spheres[i]->state.dv;
+        
         Vector3 dax = dt * spheres[i]->state.dax;
 
         real_t x_radians = dax.x; //rotation around x axis
@@ -56,13 +57,16 @@ void Physics::RK4(real_t dt) {
         Quaternion qz = Quaternion(Vector3::UnitZ(), z_radians);
 
         spheres[i]->orientation = 
-            normalize(spheres[i]->initial_orientation * qz); //roll
+            normalize(spheres[i]->orientation * qz); //roll
         spheres[i]->orientation = 
             normalize(spheres[i]->orientation * qx); //pitch
         spheres[i]->orientation = 
             normalize(spheres[i]->orientation * qy); //yaw
         
-        spheres[i]->angular_velocity += dt * spheres[i]->state.dav;
+        spheres[i]->angular_velocity = 
+            spheres[i]->initial_angular_velocity + 
+            dt * spheres[i]->state.dav;
+        //printf("%lf, %lf, %lf\n", spheres[i]->angular_velocity);
     }
 
     }

@@ -34,7 +34,7 @@ public:
     ~Physics();
 
     void RK4(real_t dt);
-    void RK4_step(real_t dt, real_t dt_fraction, real_t weight);
+    void RK4_step(real_t dt_fraction, real_t weight);
     void detect_collisions();
     void set_forces(real_t dt);
     void save_initial_states();
