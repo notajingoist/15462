@@ -56,8 +56,8 @@ void Spring::step( real_t dt )
     body1->apply_force(f1, rotated_b1_offset);
     body2->apply_force(-f1, rotated_b2_offset);
 
-    printf("f1: %lf, %lf, %lf\n", f1.x, f1.y, f1.z);
-    printf("f2: %lf, %lf, %lf\n", f2.x, f2.y, f2.z);
+    //printf("f1: %lf, %lf, %lf\n", f1.x, f1.y, f1.z);
+    //printf("f2: %lf, %lf, %lf\n", f2.x, f2.y, f2.z);
 }
 
 

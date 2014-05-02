@@ -44,10 +44,10 @@ void SphereBody::update_graphics()
     sphere->position = position;
     sphere->orientation = orientation;
     
-    initial_velocity = velocity;
+    /*initial_velocity = velocity;
     initial_position = position;
     initial_angular_velocity = angular_velocity;
-    initial_orientation = orientation;
+    initial_orientation = orientation;*/
 }
 
 Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
