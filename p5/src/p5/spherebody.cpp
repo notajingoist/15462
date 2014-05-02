@@ -63,7 +63,7 @@ Vector3 SphereBody::step_position( real_t dt, real_t motion_damping )
     position = initial_position + dx; //state.x 
     velocity = initial_velocity + dv; //state.v = output.dx -> input.dx
 
-    return dx;
+    return velocity;
 }
 
 Vector3 SphereBody::step_orientation( real_t dt, real_t motion_damping )
