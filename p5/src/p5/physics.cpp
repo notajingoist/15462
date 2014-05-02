@@ -27,14 +27,14 @@ void Physics::RK4_step(real_t dt_fraction, real_t weight) {
     set_forces(dt_fraction); //param actually unnecessary?
     for (size_t i = 0; i < num_spheres(); i++) {
         spheres[i]->state.dx +=
-            spheres[i]->step_position(dt_fraction, collision_damping);
+            weight * spheres[i]->step_position(dt_fraction, collision_damping);
         spheres[i]->state.dv += 
-            spheres[i]->get_acceleration();
+            weight * dt_fraction * spheres[i]->get_acceleration();
 
         spheres[i]->state.dax += 
-            spheres[i]->step_orientation(dt_fraction, collision_damping);
+            weight * spheres[i]->step_orientation(dt_fraction, collision_damping);
         spheres[i]->state.dav +=
-            spheres[i]->get_angular_acceleration();
+            weight * dt_fraction * spheres[i]->get_angular_acceleration();
     }
 }
 
